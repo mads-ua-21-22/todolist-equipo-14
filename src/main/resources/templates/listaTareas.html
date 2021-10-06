@@ -15,18 +15,17 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Tareas</a>
+                    <a class="nav-link active" aria-current="page" href="/Tareas">Tareas</a>
                 </li>
             </ul>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <a th:text="${usuario.nombre}"></a>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button">Action</button>
-                <button class="dropdown-item" type="button">Another action</button>
-                <button class="dropdown-item" type="button">Something else here</button>
+                <button class="dropdown-item" type="button">Cuenta</button>
+                <a class="btn dropdown-item" style="color: #ff3820" href="/logout">Cerrar Sesión</a></p>
             </div>
         </div>
     </div>
