@@ -6,14 +6,7 @@
 </head>
 
 <body>
-<nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})})"></nav>
 <div class="container-fluid">
-
-  <div class="row mt-3">
-    <div class="col">
-      <h2 th:text="'Listado de tareas de ' + ${usuario.nombre}"></h2>
-    </div>
-  </div>
 
   <div class="row mt-3">
     <div class="col">
@@ -21,47 +14,26 @@
         <thead>
         <tr>
           <th>Id</th>
-          <th>Tarea</th>
-          <th>Acción</th>
+          <th>Email</th>
+          <th>Nombre</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="usuario: ${usuarios}">
-          <td th:text="${usuario.getId()}"></td>
-          <td th:text="${usuario.getEmail()}"></td>
+        <tr th:each="user: ${usuarios}">
+          <td th:text="${user.id}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${user.nombre}"></td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="row mt-2">
-    <div class="col">
-      <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensaje)}">
-        <span th:text="${mensaje}"></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 </div>
 
 <div th:replace="fragments::javascript"/>
 
-<!-- Lanzamos una petición DELETE por JavaScript para borrar una tarea -->
-
-<script type="text/javascript">
-  function del(urlBorrar) {
-    if (confirm('¿Estás seguro/a de que quieres borrar la tarea?')) {
-      fetch(urlBorrar, {
-        method: 'DELETE'
-      }).then((res) => location.reload());
-    }
-  }
-</script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

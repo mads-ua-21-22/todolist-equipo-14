@@ -24,17 +24,17 @@ public class UserController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/usuarios/{id}/allusers")
-    public String usuarios(Long idUsuario, Model model, HttpSession session) {
-        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+    @GetMapping("/allusers")
+    public String usuarios(Model model) {
+        /*managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
 
         Usuario usuario = usuarioService.findById(idUsuario);
         if (usuario == null) {
             throw new UsuarioNotFoundException();
         }
-        List <Usuario> usuarios = usuarioService.getUsers();
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("usuarios", usuarios);
+       */List <Usuario> usuarios = usuarioService.getUsers();
+       //model.addAttribute("usuario", usuario);
+       model.addAttribute("usuarios", usuarios);
 
         return "listaUsuarios";
     }
