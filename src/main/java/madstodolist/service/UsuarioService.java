@@ -1,5 +1,5 @@
 package madstodolist.service;
-
+import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
 import madstodolist.model.UsuarioRepository;
 import org.slf4j.Logger;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -59,5 +60,10 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public Usuario findById(Long usuarioId) {
         return usuarioRepository.findById(usuarioId).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List <Usuario> getUsers() {
+        return usuarioRepository.getUsers();
     }
 }
