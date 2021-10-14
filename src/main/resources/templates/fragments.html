@@ -18,6 +18,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="${ruta}">Tareas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/allusers">Usuarios</a>
+                </li>
             </ul>
         </div>
         <div class="btn-group">
@@ -26,7 +29,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <button class="dropdown-item" type="button">Cuenta</button>
-                <a class="btn dropdown-item" style="color: #ff3820" href="/logout">Cerrar Sesión</a></p>
+                <a class="btn dropdown-item" style="color: #ff3820" href="/logout" th:text="'Cerrar Sesión ' + ${usuario}"></a></p>
             </div>
         </div>
     </div>

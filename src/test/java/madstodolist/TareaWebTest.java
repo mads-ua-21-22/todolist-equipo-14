@@ -3,6 +3,7 @@ package madstodolist;
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
+import madstodolist.model.UsuarioRepository;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -108,5 +113,29 @@ public class TareaWebTest {
         // añadir una tarea con los parámetros correctos
 
         verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS");
+    }
+
+    @Test
+    public void getListaUsuarios() throws Exception {
+
+        Usuario usuario = new Usuario("Usuario@ua");
+        usuario.setId(1L);
+        //Añado nombre para que no de error el navbar por usuario.nombre = null;
+        usuario.setNombre("Usuario");
+
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+        usuario.setId(2L);
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        usuarios.add(usuario);
+        usuarios.add(usuario1);
+
+        when(usuarioService.getUsers()).thenReturn(usuarios);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/allusers"))
+                .andExpect(content().string(allOf(containsString("Usuario@ua"),
+                        containsString("Usuario1@ua"))));
+
     }
 }
