@@ -6,22 +6,41 @@
 </head>
 
 <body>
-    <div class="mb-3 row" align="center">
-        <label for="iduser" class="col-sm-2 col-form-label">ID</label>
-        <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="iduser" th:text="${usuariodesc.id}">
-        </div>
-        <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-        <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="nombre" th:text="${usuariodesc.nombre}">
-        </div>
-        <label for="email" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="email" th:text="${usuariodesc.email}">
-        </div>
-        <label for="fecha" class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
-        <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="fecha" th:text="${usuariodesc.fechaNacimiento}">
+<!--
+<div class="mb-3 row" align="center">
+    <label for="iduser" class="col-sm-2 col-form-label">ID</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="iduser" th:text="${usuariodesc.id}">
+    </div>
+    <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="nombre" th:text="${usuariodesc.nombre}">
+    </div>
+    <label for="email" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="email" th:text="${usuariodesc.email}">
+    </div>
+    <label for="fecha" class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="fecha" th:text="${usuariodesc.fechaNacimiento}">
+    </div>
+</div>
+-->
+<br>
+    <div align="center" th:marginheight="5px" >
+        <div class="card border-primary mb-3" style="max-width: 95%;">
+            <div class="card-header">Descripción Usuario</div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">ID Usuario: </h5>
+                <p class="card-text" th:text="${usuariodesc.id}"></p>
+                <h5 class="card-title">Nombre Usuario: </h5>
+                <p class="card-text" th:text="${usuariodesc.nombre}"></p>
+                <h5 class="card-title">Email Usuario: </h5>
+                <p class="card-text" th:text="${usuariodesc.email}"></p>
+                <h5 class="card-title">Fecha Nacimiento: </h5>
+                <p class="card-text" th:text="${usuariodesc.fechaNacimiento}"></p>
+            </div>
         </div>
     </div>
+</body>
 </html>
