@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
 
-</body>
+<head th:replace="fragments :: head (titulo='Login')">
+    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})})"></nav>
+</head>
+
+<body>
+    <div class="mb-3 row" align="center">
+        <label for="iduser" class="col-sm-2 col-form-label">ID</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="iduser" th:text="${usuariodesc.id}">
+        </div>
+        <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="nombre" th:text="${usuariodesc.nombre}">
+        </div>
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="email" th:text="${usuariodesc.email}">
+        </div>
+        <label for="fecha" class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="fecha" th:text="${usuariodesc.fechaNacimiento}">
+        </div>
+    </div>
 </html>

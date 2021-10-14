@@ -46,22 +46,20 @@ public class UserController {
     }
 
     @GetMapping("/usuarios/{id}")
-    public String descripcionUsuario(@PathVariable(value="id")
-                                     Model model, RedirectAttributes flash,
-                                     HttpSession session) {
+    public String descripcionUsuario(@PathVariable(value="id") Long idUsuario,
+                                     Model model, HttpSession session) {
 
-        Long idUsuario = managerUserSession.usuarioLogeado(session);
-        Usuario usuario = null;
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuariosession);
 
-        if(idUsuario != null) {
-            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
-            usuario = usuarioService.findById(idUsuario);
-        }
-        else {
-            throw new UsuarioNoLogeadoException();
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+        Usuario usuariodesc = usuarioService.findById(idUsuario);
+        if (usuario == null) {
+            throw new UsuarioNotFoundException();
         }
 
         model.addAttribute("usuario", usuario);
+        model.addAttribute("usuariodesc", usuariodesc);
 
         return "descripcionUsuario";
     }
