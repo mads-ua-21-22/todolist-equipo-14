@@ -44,4 +44,23 @@ public class UserController {
 
         return "listaUsuarios";
     }
+
+    @GetMapping("/usuarios/{id}")
+    public String descripcionUsuario(@PathVariable(value="id") Long idUsuario,
+                                     Model model, HttpSession session) {
+
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuariosession);
+
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+        Usuario usuariodesc = usuarioService.findById(idUsuario);
+        if (usuario == null) {
+            throw new UsuarioNotFoundException();
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuariodesc", usuariodesc);
+
+        return "descripcionUsuario";
+    }
 }

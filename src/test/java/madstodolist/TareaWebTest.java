@@ -14,9 +14,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.verify;
@@ -137,5 +139,38 @@ public class TareaWebTest {
                 .andExpect(content().string(allOf(containsString("Usuario@ua"),
                         containsString("Usuario1@ua"))));
 
+    }
+
+    @Test
+    public void comprobarDescripcionUsuario() throws Exception {
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+
+        usuario.setId(1L);
+        usuario.setNombre("Juan Gutiérrez");
+        usuario.setPassword("123");
+        usuario1.setId(2L);
+        usuario1.setNombre("Carlos");
+        usuario1.setPassword("123");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        usuario.setFechaNacimiento(sdf.parse("1997-02-20"));
+        usuario1.setFechaNacimiento(sdf.parse("1994-02-20"));
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(usuarioService.findById(1L)).thenReturn(usuario1);
+
+        this.mockMvc.perform(get("/usuarios/1"))
+                .andExpect(content().string(allOf(containsString("Usuario1@ua"),
+                        containsString("Carlos"))));
+    }
+
+    @Test
+    public void getDescripcionUsuarioDevuelveNotFoundCuandoNoExisteUsuario() throws Exception {
+
+        when(usuarioService.findById(1L)).thenReturn(null);
+
+        this.mockMvc.perform(get("/usuarios/1"))
+                .andExpect(status().isNotFound());
     }
 }
