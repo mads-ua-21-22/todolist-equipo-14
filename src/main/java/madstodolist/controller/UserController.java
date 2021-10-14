@@ -44,4 +44,25 @@ public class UserController {
 
         return "listaUsuarios";
     }
+
+    @GetMapping("/usuarios/{id}")
+    public String descripcionUsuario(@PathVariable(value="id")
+                                     Model model, RedirectAttributes flash,
+                                     HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+        model.addAttribute("usuario", usuario);
+
+        return "descripcionUsuario";
+    }
 }
