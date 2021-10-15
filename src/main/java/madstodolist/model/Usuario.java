@@ -21,9 +21,13 @@ public class Usuario implements Serializable {
     private String email;
     private String nombre;
     private String password;
+
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+
+    @Column(nullable = true)
+    private boolean adminApproved;
 
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
@@ -82,6 +86,14 @@ public class Usuario implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean getAdminApproved() {
+        return adminApproved;
+    }
+
+    public void setAdminApproved(boolean adminApproved) {
+        this.adminApproved = adminApproved;
     }
 
     public Set<Tarea> getTareas() {
