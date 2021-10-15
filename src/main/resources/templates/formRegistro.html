@@ -39,6 +39,23 @@
                                    placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
                         </div>
 
+                        <script>
+
+                            var el = document.getElementById('content');
+                            var user = 4;
+                            var content;
+
+                            if  (user === 0) {
+                                content = '<h1>there is no user</h1>';
+                            }
+                            else {
+                                content = '<button type="button">Click Me!</button>';
+                            }
+
+                            el.insertAdjacentHTML('afterbegin', content);
+
+                        </script>
+
                         <button type="submit" class="btn btn-primary">Registro</button>
                         <a class="btn btn-link" href="/login">Ir a login</a>
                     </div>
