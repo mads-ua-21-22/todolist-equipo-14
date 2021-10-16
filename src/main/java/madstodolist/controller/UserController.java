@@ -64,9 +64,15 @@ public class UserController {
             throw new UsuarioNotFoundException();
         }
 
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("usuariodesc", usuariodesc);
+        if (usuario.getAdminApproved()){
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("usuariodesc", usuariodesc);
 
-        return "descripcionUsuario";
+            return "descripcionUsuario";
+        } else {
+            throw new UsuarioServiceException("Sólo el administrador tiene permiso para ver los usuarios");
+        }
+
+
     }
 }
