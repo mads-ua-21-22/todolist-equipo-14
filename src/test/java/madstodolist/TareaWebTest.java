@@ -6,12 +6,16 @@ import madstodolist.model.Usuario;
 import madstodolist.model.UsuarioRepository;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
+import madstodolist.service.UsuarioServiceException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.verify;
@@ -44,6 +49,7 @@ public class TareaWebTest {
     // se intenta comprobar si un usuario está logeado
     @MockBean
     private ManagerUserSession managerUserSession;
+    private Object UsuarioServiceException;
 
     @Test
     public void getNuevaTareaDevuelveForm() throws Exception {
@@ -127,6 +133,8 @@ public class TareaWebTest {
 
         Usuario usuario1 = new Usuario("Usuario1@ua");
         usuario.setId(2L);
+        //usuario es admin para poder ver la lista de usuarios.
+        usuario.setAdminApproved(true);
 
         List<Usuario> usuarios = new ArrayList<Usuario>();
         usuarios.add(usuario);
@@ -150,6 +158,8 @@ public class TareaWebTest {
         usuario.setId(1L);
         usuario.setNombre("Juan Gutiérrez");
         usuario.setPassword("123");
+        //usuario es admin para poder ver la descripcion del usuario1.
+        usuario.setAdminApproved(true);
         usuario1.setId(2L);
         usuario1.setNombre("Carlos");
         usuario1.setPassword("123");
@@ -172,5 +182,57 @@ public class TareaWebTest {
 
         this.mockMvc.perform(get("/usuarios/1"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void comprobarDescripcionUsuarioNoAdmin() throws Exception {
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+
+        usuario.setId(1L);
+        usuario.setNombre("Juan Gutiérrez");
+        usuario.setPassword("123");
+        //Igual que el anterior pero sin que el usuario sea admin (tambien se ponia dejar sin poner, es default false)
+        usuario.setAdminApproved(false);
+        usuario1.setId(2L);
+        usuario1.setNombre("Carlos");
+        usuario1.setPassword("123");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        usuario.setFechaNacimiento(sdf.parse("1997-02-20"));
+        usuario1.setFechaNacimiento(sdf.parse("1994-02-20"));
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(usuarioService.findById(1L)).thenReturn(usuario1);
+
+        Assertions.assertThrows(NestedServletException.class, () -> {
+            this.mockMvc.perform(get("/usuarios/1"));
+        });
+    }
+
+    @Test
+    public void getListaUsuariosNoAdmin() throws Exception {
+
+        Usuario usuario = new Usuario("Usuario@ua");
+        usuario.setId(1L);
+        //Añado nombre para que no de error el navbar por usuario.nombre = null;
+        usuario.setNombre("Usuario");
+
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+        usuario.setId(2L);
+
+        usuario.setAdminApproved(false);
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        usuarios.add(usuario);
+        usuarios.add(usuario1);
+
+        when(usuarioService.getUsers()).thenReturn(usuarios);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+        Assertions.assertThrows(NestedServletException.class, () -> {
+            this.mockMvc.perform(get("/allusers"));
+        });
+
     }
 }

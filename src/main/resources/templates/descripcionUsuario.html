@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments :: head (titulo='Login')">
-    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})})"></nav>
+    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
 </head>
 
 <body>

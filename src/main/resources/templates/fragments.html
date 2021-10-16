@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 
-<nav th:fragment="Menu (usuario, ruta)" class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav th:fragment="Menu (usuario, ruta, admin)" class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/about">ToDoList</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,12 +18,12 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="${ruta}">Tareas</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${admin == true}">
                     <a class="nav-link active" aria-current="page" href="/allusers">Usuarios</a>
                 </li>
             </ul>
         </div>
-        <div class="btn-group">
+        <div class="btn-group" >
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <a th:text="${usuario}"></a>
             </button>
