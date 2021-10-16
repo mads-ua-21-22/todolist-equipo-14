@@ -31,6 +31,7 @@ public class UsuarioWebTest {
 
         Usuario anaGarcia = new Usuario("ana.garcia@gmail.com");
         anaGarcia.setId(1L);
+        anaGarcia.setAccess(true);
 
         when(usuarioService.login("ana.garcia@gmail.com", "12345678"))
                 .thenReturn(UsuarioService.LoginStatus.LOGIN_OK);
@@ -88,6 +89,7 @@ public class UsuarioWebTest {
         Usuario anaGarcia = new Usuario("ana.garcia@gmail.com");
         anaGarcia.setId(1L);
         anaGarcia.setAdminApproved(true);
+        anaGarcia.setAccess(true);
 
         when(usuarioService.login("ana.garcia@gmail.com", "12345678"))
                 .thenReturn(UsuarioService.LoginStatus.LOGIN_OK);
