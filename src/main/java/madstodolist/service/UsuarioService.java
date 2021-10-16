@@ -66,4 +66,18 @@ public class UsuarioService {
     public List <Usuario> getUsers() {
         return usuarioRepository.getUsers();
     }
+
+    @Transactional(readOnly = true)
+    public int adminExists() {
+        int admin = 0;
+        int aux = usuarioRepository.getUsers().size();
+
+        for (int i = 0; i < aux; i++){
+            if (usuarioRepository.getUsers().get(i).getAdminApproved() == true){
+                admin = 1;
+            }
+        }
+
+        return admin;
+    }
 }

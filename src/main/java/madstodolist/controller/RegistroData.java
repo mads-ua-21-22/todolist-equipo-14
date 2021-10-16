@@ -46,11 +46,7 @@ public class RegistroData {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public boolean getAdminApproved() {
-        return adminApproved;
-    }
+    public boolean getAdminApproved() { return adminApproved; }
 
-    public void setAdminApproved(boolean adminApproved) {
-        this.adminApproved = adminApproved;
-    }
+    public void setAdminApproved(boolean adminApproved) { this.adminApproved = adminApproved; }
 }
