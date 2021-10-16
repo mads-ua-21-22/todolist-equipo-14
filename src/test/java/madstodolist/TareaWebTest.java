@@ -127,6 +127,8 @@ public class TareaWebTest {
 
         Usuario usuario1 = new Usuario("Usuario1@ua");
         usuario.setId(2L);
+        //usuario es admin para poder ver la lista de usuarios.
+        usuario.setAdminApproved(true);
 
         List<Usuario> usuarios = new ArrayList<Usuario>();
         usuarios.add(usuario);

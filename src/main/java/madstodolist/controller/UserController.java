@@ -8,6 +8,7 @@ import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
+import madstodolist.service.UsuarioServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,16 +34,21 @@ public class UserController {
         if(idUsuario != null) {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
             usuario = usuarioService.findById(idUsuario);
+
+            if (usuario.getAdminApproved()){
+                List <Usuario> usuarios = usuarioService.getUsers();
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("usuarios", usuarios);
+
+                return "listaUsuarios";
+            } else {
+                throw new UsuarioServiceException("Sólo el administrador tiene permiso para ver los usuarios");
+            }
         }
         else {
             throw new UsuarioNoLogeadoException();
         }
 
-       List <Usuario> usuarios = usuarioService.getUsers();
-       model.addAttribute("usuario", usuario);
-       model.addAttribute("usuarios", usuarios);
-
-        return "listaUsuarios";
     }
 
     @GetMapping("/usuarios/{id}")
