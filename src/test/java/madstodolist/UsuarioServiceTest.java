@@ -169,4 +169,17 @@ public class UsuarioServiceTest {
         assertThat(listaUsuarios.get(2).getNombre()).isEqualTo(usuarios.get(2).getNombre());
 
     }
+
+    @Test
+    public void comprobarAdminExistTrue(){
+        Usuario usuario = usuarioService.findByEmail("user@ua");
+        usuario.setAdminApproved(true);
+        assertThat(usuario.getAdminApproved()).isTrue();
+    }
+
+    @Test
+    public void comprobarAdminExistFalse(){
+        Usuario usuario = usuarioService.findByEmail("user@ua");
+        assertThat(usuario.getAdminApproved()).isFalse();
+    }
 }

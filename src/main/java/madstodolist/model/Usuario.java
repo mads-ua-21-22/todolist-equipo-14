@@ -21,9 +21,14 @@ public class Usuario implements Serializable {
     private String email;
     private String nombre;
     private String password;
+
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+
+
+    @Column(columnDefinition="boolean default 'false'")
+    private boolean adminApproved;
 
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
@@ -37,7 +42,8 @@ public class Usuario implements Serializable {
     // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
     // usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar
     // de ser privado.
-    private Usuario() {}
+    private Usuario() {
+    }
 
     // Constructor público con los atributos obligatorios. En este caso el correo electrónico.
     public Usuario(String email) {
@@ -82,6 +88,14 @@ public class Usuario implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean getAdminApproved() {
+        return adminApproved;
+    }
+
+    public void setAdminApproved(boolean adminApproved) {
+        this.adminApproved = adminApproved;
     }
 
     public Set<Tarea> getTareas() {
