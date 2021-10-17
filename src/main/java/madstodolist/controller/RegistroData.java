@@ -13,6 +13,7 @@ public class RegistroData {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
     private boolean adminApproved;
+    private boolean access;
 
     public String geteMail() {
         return eMail;
@@ -49,4 +50,8 @@ public class RegistroData {
     public boolean getAdminApproved() { return adminApproved; }
 
     public void setAdminApproved(boolean adminApproved) { this.adminApproved = adminApproved; }
+
+    public boolean getAccess() { return access; }
+
+    public void setAccess(boolean adminApproved) { this.access = access; }
 }

@@ -80,4 +80,17 @@ public class UsuarioService {
 
         return admin;
     }
+
+    @Transactional
+    public void changeAccess(Long id) {
+
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);;
+
+        if (usuario.getAccess()) {
+            usuario.setAccess(false);
+        } else {
+            usuario.setAccess(true);
+        }
+        usuarioRepository.save(usuario);
+    }
 }

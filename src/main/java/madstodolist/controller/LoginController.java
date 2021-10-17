@@ -66,6 +66,7 @@ public class LoginController {
     @GetMapping("/registro")
     public String registroForm(Model model) {
         int adminApproved = usuarioService.adminExists();
+        model.addAttribute("access", true);
         model.addAttribute("adminApproved", adminApproved);
         model.addAttribute("registroData", new RegistroData());
         return "formRegistro";

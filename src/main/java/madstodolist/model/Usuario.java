@@ -30,8 +30,8 @@ public class Usuario implements Serializable {
     @Column(columnDefinition="boolean default 'false'")
     private boolean adminApproved;
 
-    @Column(columnDefinition="boolean default 'true'")
-    private boolean access;
+    @Column(columnDefinition="boolean default 'TRUE'")
+    private boolean access = true;
 
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
