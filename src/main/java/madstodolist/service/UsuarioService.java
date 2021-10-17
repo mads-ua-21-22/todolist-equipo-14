@@ -16,7 +16,7 @@ public class UsuarioService {
 
     Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
-    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
+    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD, ACCESS_DENIED}
 
     private UsuarioRepository usuarioRepository;
 
@@ -32,7 +32,10 @@ public class UsuarioService {
             return LoginStatus.USER_NOT_FOUND;
         } else if (!usuario.get().getPassword().equals(password)) {
             return LoginStatus.ERROR_PASSWORD;
-        } else {
+        } else if (!usuario.get().getAccess()){
+            return LoginStatus.ACCESS_DENIED;
+        }
+        else {
             return LoginStatus.LOGIN_OK;
         }
     }
@@ -79,5 +82,18 @@ public class UsuarioService {
         }
 
         return admin;
+    }
+
+    @Transactional
+    public void changeAccess(Long id) {
+
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);;
+
+        if (usuario.getAccess()) {
+            usuario.setAccess(false);
+        } else {
+            usuario.setAccess(true);
+        }
+        usuarioRepository.save(usuario);
     }
 }

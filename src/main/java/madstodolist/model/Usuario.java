@@ -30,6 +30,9 @@ public class Usuario implements Serializable {
     @Column(columnDefinition="boolean default 'false'")
     private boolean adminApproved;
 
+    @Column(columnDefinition="boolean default 'TRUE'")
+    private boolean access = true;
+
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
     // toda su lista de tareas
@@ -96,6 +99,14 @@ public class Usuario implements Serializable {
 
     public void setAdminApproved(boolean adminApproved) {
         this.adminApproved = adminApproved;
+    }
+
+    public boolean getAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 
     public Set<Tarea> getTareas() {

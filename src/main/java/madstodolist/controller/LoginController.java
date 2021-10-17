@@ -46,7 +46,7 @@ public class LoginController {
 
             managerUserSession.logearUsuario(session, usuario.getId());
 
-            if (usuario.getAdminApproved() == true)
+            if (usuario.getAdminApproved())
                 return "redirect:/allusers";
             else
                 return "redirect:/usuarios/" + usuario.getId() + "/tareas";
@@ -56,6 +56,9 @@ public class LoginController {
         } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
             model.addAttribute("error", "Contraseña incorrecta");
             return "formLogin";
+        } else if (loginStatus == UsuarioService.LoginStatus.ACCESS_DENIED) {
+            model.addAttribute("error", "El administrador ha denegado tu acceso");
+            return "formLogin";
         }
         return "formLogin";
     }
@@ -63,6 +66,7 @@ public class LoginController {
     @GetMapping("/registro")
     public String registroForm(Model model) {
         int adminApproved = usuarioService.adminExists();
+        model.addAttribute("access", true);
         model.addAttribute("adminApproved", adminApproved);
         model.addAttribute("registroData", new RegistroData());
         return "formRegistro";

@@ -144,8 +144,7 @@ public class TareaWebTest {
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
         this.mockMvc.perform(get("/allusers"))
-                .andExpect(content().string(allOf(containsString("Usuario@ua"),
-                        containsString("Usuario1@ua"))));
+                .andExpect(content().string(allOf(containsString("Usuario1@ua"))));
 
     }
 
@@ -235,4 +234,57 @@ public class TareaWebTest {
         });
 
     }
+
+    @Test
+    public void getListaUsuariosBotonBloquear() throws Exception {
+
+        Usuario usuario = new Usuario("Usuario@ua");
+        usuario.setId(1L);
+        //Añado nombre para que no de error el navbar por usuario.nombre = null;
+        usuario.setNombre("Usuario");
+
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+        usuario.setId(2L);
+        //usuario es admin para poder ver la lista de usuarios.
+        usuario.setAdminApproved(true);
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        usuarios.add(usuario);
+        usuarios.add(usuario1);
+
+        when(usuarioService.getUsers()).thenReturn(usuarios);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/allusers"))
+                .andExpect(content().string(allOf(containsString("Bloquear"))));
+
+    }
+
+    @Test
+    public void getListaUsuariosBotonDesbloquear() throws Exception {
+
+        Usuario usuario = new Usuario("Usuario@ua");
+        usuario.setId(1L);
+        //Añado nombre para que no de error el navbar por usuario.nombre = null;
+        usuario.setNombre("Usuario");
+
+        Usuario usuario1 = new Usuario("Usuario1@ua");
+        usuario.setId(2L);
+        //usuario es admin para poder ver la lista de usuarios.
+        usuario.setAdminApproved(true);
+        //Ponemos el acceso en falso para que aparezca el boton desbloquear
+        usuario1.setAccess(false);
+
+        List<Usuario> usuarios = new ArrayList<Usuario>();
+        usuarios.add(usuario);
+        usuarios.add(usuario1);
+
+        when(usuarioService.getUsers()).thenReturn(usuarios);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/allusers"))
+                .andExpect(content().string(allOf(containsString("Desbloquear"))));
+
+    }
+
 }

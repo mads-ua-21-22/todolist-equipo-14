@@ -72,7 +72,26 @@ public class UserController {
         } else {
             throw new UsuarioServiceException("Sólo el administrador tiene permiso para ver los usuarios");
         }
+    }
 
+
+    @PostMapping("/allusers/{id}")
+    public String accesoUsuario(@PathVariable(value="id") Long idUsuario,
+                                Model model, HttpSession session) {
+
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuariosession);
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+
+        Usuario usuariodesc = usuarioService.findById(idUsuario);
+        if (usuariodesc == null) {
+            throw new UsuarioNotFoundException();
+        }
+
+        usuarioService.changeAccess(idUsuario);
+        model.addAttribute("usuario", usuario);
+
+        return "redirect:/allusers";
 
     }
 }
