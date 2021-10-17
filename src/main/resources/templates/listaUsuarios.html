@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user: ${usuarios}">
+        <tr th:each="user: ${usuarios}" th:if="${!user.getAdminApproved()}">
           <td th:text="${user.id}"></td>
           <td th:text="${user.email}"></td>
           <td th:text="${user.nombre}"></td>
