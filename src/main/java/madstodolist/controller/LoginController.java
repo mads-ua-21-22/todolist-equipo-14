@@ -46,18 +46,18 @@ public class LoginController {
 
             managerUserSession.logearUsuario(session, usuario.getId());
 
-            if (usuario.getAdminApproved() == true && usuario.getAccess())
+            if (usuario.getAdminApproved())
                 return "redirect:/allusers";
-            else if (!usuario.getAdminApproved() && usuario.getAccess())
-                return "redirect:/usuarios/" + usuario.getId() + "/tareas";
             else
-                model.addAttribute("error", "El administrador ha denegado tu acceso");
-            return "formLogin";
+                return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");
             return "formLogin";
         } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
             model.addAttribute("error", "Contraseña incorrecta");
+            return "formLogin";
+        } else if (loginStatus == UsuarioService.LoginStatus.ACCESS_DENIED) {
+            model.addAttribute("error", "El administrador ha denegado tu acceso");
             return "formLogin";
         }
         return "formLogin";

@@ -104,4 +104,22 @@ public class UsuarioWebTest {
                 .andExpect(redirectedUrl("/allusers"));
     }
 
+    @Test
+    public void servicioLoginRedirectAccesoDenegado() throws Exception {
+        this.mockMvc.perform(get("/login")
+                .flashAttr("error", "El administrador ha denegado tu acceso"))
+                .andExpect(content().string(containsString("El administrador ha denegado tu acceso")));
+    }
+
+    @Test
+    public void servicioLoginUsuarioAccessDenied() throws Exception {
+        when(usuarioService.login("ana.garcia@gmail.com", "000"))
+                .thenReturn(UsuarioService.LoginStatus.ACCESS_DENIED);
+
+        this.mockMvc.perform(post("/login")
+                .param("eMail","ana.garcia@gmail.com")
+                .param("password","000"))
+                .andExpect(content().string(containsString("El administrador ha denegado tu acceso")));
+    }
+
 }

@@ -144,8 +144,7 @@ public class TareaWebTest {
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
         this.mockMvc.perform(get("/allusers"))
-                .andExpect(content().string(allOf(containsString("Usuario@ua"),
-                        containsString("Usuario1@ua"))));
+                .andExpect(content().string(allOf(containsString("Usuario1@ua"))));
 
     }
 
