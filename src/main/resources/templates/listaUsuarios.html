@@ -24,7 +24,7 @@
           <td th:text="${user.email}"></td>
           <td th:text="${user.nombre}"></td>
           <td><a class="btn btn-primary btn-xs" th:href="@{/usuarios/{id}(id=${user.id})}"/>Descripción</a>
-          <form method="post" th:action="@{/allusers/{id}(id=${user.id})}">
+          <form method="post" th:action="@{/usuarios/{id}(id=${user.id})}">
             <td>
               <button class="btn btn-danger btn-xs" th:if="${user.getAccess()}" th:text="Bloquear" type="submit"/></a>
               <button class="btn btn-danger btn-xs" th:unless="${user.getAccess()}" th:text="Desbloquear" type="submit"/></a>

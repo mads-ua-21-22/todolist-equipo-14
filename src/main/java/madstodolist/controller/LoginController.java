@@ -47,7 +47,7 @@ public class LoginController {
             managerUserSession.logearUsuario(session, usuario.getId());
 
             if (usuario.getAdminApproved())
-                return "redirect:/allusers";
+                return "redirect:/usuarios";
             else
                 return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {

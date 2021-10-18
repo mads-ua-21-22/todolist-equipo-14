@@ -4,6 +4,12 @@
 <head th:replace="fragments :: head (titulo='Acerca de')"></head>
 
 <body>
+<div th:if="${aux == 0}">
+  <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})" ></nav>
+</div>
+<div th:if="${aux == 1}">
+  <nav th:replace="fragments :: Menu (${null}, @{/login}, ${null})" ></nav>
+</div>
 <div class="container-fluid">
   <div class="container-fluid">
     <h1>ToDoList</h1>

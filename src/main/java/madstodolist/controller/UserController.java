@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/allusers")
+    @GetMapping("/usuarios")
     public String usuarios(Model model, HttpSession session) {
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
@@ -75,7 +75,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/allusers/{id}")
+    @PostMapping("/usuarios/{id}")
     public String accesoUsuario(@PathVariable(value="id") Long idUsuario,
                                 Model model, HttpSession session) {
 
@@ -91,7 +91,7 @@ public class UserController {
         usuarioService.changeAccess(idUsuario);
         model.addAttribute("usuario", usuario);
 
-        return "redirect:/allusers";
+        return "redirect:/usuarios";
 
     }
 }

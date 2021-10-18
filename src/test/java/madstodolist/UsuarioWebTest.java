@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -101,7 +102,7 @@ public class UsuarioWebTest {
                 .param("password", "12345678"))
                 //.andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/allusers"));
+                .andExpect(redirectedUrl("/usuarios"));
     }
 
     @Test
@@ -120,6 +121,14 @@ public class UsuarioWebTest {
                 .param("eMail","ana.garcia@gmail.com")
                 .param("password","000"))
                 .andExpect(content().string(containsString("El administrador ha denegado tu acceso")));
+    }
+
+    @Test
+    public void barraMenuSinRegistro() throws Exception {
+
+        this.mockMvc.perform(get("/about"))
+                .andExpect(content().string(allOf(containsString("/login"),
+                        containsString("ToDoList"))));
     }
 
 }

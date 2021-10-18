@@ -16,14 +16,15 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="${ruta}">Tareas</a>
+                    <a th:if="${usuario != null}" class="nav-link active" aria-current="page" th:href="${ruta}">Tareas</a>
+                    <a th:unless="${usuario != null}" class="nav-link active" aria-current="page" th:href="${ruta}">Login</a>
                 </li>
                 <li class="nav-item" th:if="${admin == true}">
-                    <a class="nav-link active" aria-current="page" href="/allusers">Usuarios</a>
+                    <a class="nav-link active" aria-current="page" href="/usuarios">Usuarios</a>
                 </li>
             </ul>
         </div>
-        <div class="btn-group" >
+        <div th:if="${usuario != null}" class="btn-group" >
             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <a th:text="${usuario}"></a>
             </button>
