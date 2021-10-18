@@ -1,4 +1,4 @@
-# ToDoList (Práctica 2 MADS)
+# ToDoList (Práctica 2 MADS) - Carlos Poveda Cañizares
 
 Repositorio de GitHub:
 - (https://github.com/mads-ua-21-22/mads-todolist-CarlosPC94)
