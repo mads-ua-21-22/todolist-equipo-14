@@ -143,7 +143,7 @@ public class TareaWebTest {
         when(usuarioService.getUsers()).thenReturn(usuarios);
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
-        this.mockMvc.perform(get("/allusers"))
+        this.mockMvc.perform(get("/usuarios"))
                 .andExpect(content().string(allOf(containsString("Usuario1@ua"))));
 
     }
@@ -230,7 +230,7 @@ public class TareaWebTest {
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
         Assertions.assertThrows(NestedServletException.class, () -> {
-            this.mockMvc.perform(get("/allusers"));
+            this.mockMvc.perform(get("/usuarios"));
         });
 
     }
@@ -255,7 +255,7 @@ public class TareaWebTest {
         when(usuarioService.getUsers()).thenReturn(usuarios);
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
-        this.mockMvc.perform(get("/allusers"))
+        this.mockMvc.perform(get("/usuarios"))
                 .andExpect(content().string(allOf(containsString("Bloquear"))));
 
     }
@@ -282,7 +282,7 @@ public class TareaWebTest {
         when(usuarioService.getUsers()).thenReturn(usuarios);
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
-        this.mockMvc.perform(get("/allusers"))
+        this.mockMvc.perform(get("/usuarios"))
                 .andExpect(content().string(allOf(containsString("Desbloquear"))));
 
     }
@@ -307,7 +307,7 @@ public class TareaWebTest {
         when(usuarioService.getUsers()).thenReturn(usuarios);
         when(usuarioService.findById(0L)).thenReturn(usuario);
 
-        this.mockMvc.perform(get("/allusers"))
+        this.mockMvc.perform(get("/usuarios"))
                 .andExpect(content().string(allOf(containsString("Tareas"),
                         containsString("Usuario"), containsString("Cerrar Sesión Usuario"))));
 

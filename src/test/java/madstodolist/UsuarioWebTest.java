@@ -102,7 +102,7 @@ public class UsuarioWebTest {
                 .param("password", "12345678"))
                 //.andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/allusers"));
+                .andExpect(redirectedUrl("/usuarios"));
     }
 
     @Test
