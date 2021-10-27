@@ -127,7 +127,7 @@ public class UsuarioWebTest {
     public void barraMenuSinRegistro() throws Exception {
 
         this.mockMvc.perform(get("/about"))
-                .andExpect(content().string(allOf(containsString("/login"),
+                .andExpect(content().string(allOf(containsString("/logiiiiin"),
                         containsString("ToDoList"))));
     }
 
