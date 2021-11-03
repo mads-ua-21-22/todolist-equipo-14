@@ -6,3 +6,4 @@ INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('juan.gu
 INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('carlos@gmail.com', 'Carlos', '123', '1994-09-20');
 INSERT INTO equipos (nombre) VALUES('Proyecto P1');
 INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
+INSERT INTO equipos (nombre) VALUES('Proyecto A1');
