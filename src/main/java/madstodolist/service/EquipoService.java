@@ -27,4 +27,16 @@ public class EquipoService {
 
         return equipos;
     }
+
+    @Transactional
+    public Equipo findById(Long id) {
+        Equipo equipo = null;
+        List<Equipo> equipos = new ArrayList(equipoRepository.findAll());
+        for ( int i = 0; i < equipos.size(); i++)
+        {
+            if (equipos.get(i).getId() == id)
+                equipo = equipos.get(i);
+        }
+        return equipo;
+    }
 }
