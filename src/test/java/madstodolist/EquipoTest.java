@@ -1,6 +1,7 @@
 package madstodolist;
 
 import madstodolist.model.Equipo;
+import madstodolist.model.EquipoRepository;
 import madstodolist.model.Tarea;
 import madstodolist.model.TareaRepository;
 import madstodolist.model.Usuario;
@@ -22,4 +23,23 @@ public class EquipoTest {
         Equipo equipo = new Equipo("Proyecto P1");
         assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
     }
+
+    @Autowired
+    private EquipoRepository equipoRepository;
+
+    @Test
+    @Transactional
+    public void grabarEquipo() {
+        // GIVEN
+        Equipo equipo = new Equipo("Proyecto P1");
+
+        // WHEN
+        equipoRepository.save(equipo);
+
+        // THEN
+        assertThat(equipo.getId()).isNotNull();
+    }
+
+
 }
+
