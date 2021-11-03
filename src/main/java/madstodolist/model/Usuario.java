@@ -17,6 +17,11 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToMany(mappedBy = "usuarios")
+    Set<Equipo> equipos = new HashSet<>();
+
+
     @NotNull
     private String email;
     private String nombre;
@@ -40,6 +45,7 @@ public class Usuario implements Serializable {
     // que la relación pueda traer a memoria una gran cantidad de entidades
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     Set<Tarea> tareas = new HashSet<>();
+
 
     // Constructor vacío necesario para JPA/Hibernate.
     // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
@@ -116,6 +122,8 @@ public class Usuario implements Serializable {
     public void setTareas(Set<Tarea> tareas) {
         this.tareas = tareas;
     }
+
+    public Set<Equipo> getEquipos() { return equipos; }
 
     @Override
     public boolean equals(Object o) {

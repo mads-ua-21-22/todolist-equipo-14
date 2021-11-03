@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class EquipoTest {
@@ -78,6 +77,27 @@ public class EquipoTest {
         assertThat(equipo).isNotNull();
         assertThat(equipo.getId()).isEqualTo(1L);
         assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
+    }
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Test
+    @Transactional
+    public void comprobarRelacionBaseDatos() {
+        // GIVEN
+        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+
+        // WHEN
+        Equipo equipo = equipoRepository.findById(1L).orElse(null);
+        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+
+        // THEN
+
+        assertThat(equipo.getUsuarios()).hasSize(1);
+        assertThat(equipo.getUsuarios()).contains(usuario);
+        assertThat(usuario.getEquipos()).hasSize(1);
+        assertThat(usuario.getEquipos()).contains(equipo);
     }
 
 
