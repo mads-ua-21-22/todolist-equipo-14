@@ -39,4 +39,11 @@ public class EquipoService {
         }
         return equipo;
     }
+
+    @Transactional
+    public List<Usuario> usuariosEquipo(Long idEquipo) {
+        Equipo equipo = findById(idEquipo);
+        List<Usuario> usuarios = new ArrayList(equipo.getUsuarios());
+        return usuarios;
+    }
 }
