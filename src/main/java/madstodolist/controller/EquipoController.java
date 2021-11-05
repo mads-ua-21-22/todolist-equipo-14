@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Controller
 public class EquipoController {
 
     @Autowired
@@ -50,6 +51,30 @@ public class EquipoController {
                 return "listaEquipos";
         }
         else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
+
+    @GetMapping("/equipos/{id}")
+    public String descripcionUsuario(@PathVariable(value="id") Long idEquipo,
+                                     Model model, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            Equipo equipo = equipoService.findById(idEquipo);
+
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("equipo", equipo);
+
+            return "descripcionEquipo";
+
+        } else {
             throw new UsuarioNoLogeadoException();
         }
 
