@@ -30,23 +30,6 @@ public class EquipoService {
         return equipos;
     }
 
-//    @Transactional
-//    public Equipo findById(Long id) {
-//        Optional<Equipo> equipoDB = equipoRepository.findById(id);
-////        List<Equipo> equipos = new ArrayList(equipoRepository.findAll());
-////        for ( int i = 0; i < equipos.size(); i++)
-////        {
-////            if (equipos.get(i).getId() == id)
-////                equipo = equipos.get(i);
-////        }
-//        if (equipoDB.isPresent())
-//        {
-//            Equipo equipo = new Equipo(equipoDB);
-//            return equipo;
-//        }
-//
-//    }
-
     @Transactional
     public List<Usuario> usuariosEquipo(Long idEquipo) {
         Equipo equipo = findById(idEquipo);
