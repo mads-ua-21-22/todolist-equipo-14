@@ -9,10 +9,26 @@
 <br>
 <div align="center" th:marginheight="5px" >
     <div class="card border-primary mb-3" style="max-width: 95%;">
-        <div class="card-header" th:text="${equipo.nombre}"></div>
         <div class="card-body text-primary">
-            <h5 class="card-title">ID Equipo: </h5>
-            <p class="card-text" th:text="${equipo.id}"></p>
+            <h5 class="card-title" th:text="${equipo.nombre}"></h5>
+            <br>
+            <h6 class="card-subtitle mb-2">Integrantes: </h6>
+            <table class="table table-striped" >
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${equipo.getUsuarios()}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.nombre}"></td>
+                    <td th:text="${user.email}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
