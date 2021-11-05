@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')">
+    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
+</head>
+
+<body>
+<br>
+<div align="center" th:marginheight="5px" >
+    <div class="card border-primary mb-3" style="max-width: 95%;">
+        <div class="card-header" th:text="${equipo.nombre}"></div>
+        <div class="card-body text-primary">
+            <h5 class="card-title">ID Equipo: </h5>
+            <p class="card-text" th:text="${equipo.id}"></p>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments::javascript"/>
+</body>
+</html>
