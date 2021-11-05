@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface EquipoRepository extends CrudRepository<Equipo, Long> {
     public List<Equipo> findAll();
+    @Override
+    Optional<Equipo> findById(Long aLong);
+
 }
