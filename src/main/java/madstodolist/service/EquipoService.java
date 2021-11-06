@@ -24,9 +24,7 @@ public class EquipoService {
 
     @Transactional
     public List<Equipo> findAllOrderedByName() {
-        List<Equipo> equipos = new ArrayList(equipoRepository.findAll());
-        Collections.sort(equipos, (a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
-
+        List<Equipo> equipos = new ArrayList(equipoRepository.findAllByOrderByNombre());
         return equipos;
     }
 
