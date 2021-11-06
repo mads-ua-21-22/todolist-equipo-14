@@ -10,4 +10,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
     @Query(value="select * from usuarios", nativeQuery=true)
     List<Usuario> getUsers();
+
+    @Query(value="select * from usuarios where adminapproved = true ", nativeQuery=true)
+    Usuario adminExist();
 }

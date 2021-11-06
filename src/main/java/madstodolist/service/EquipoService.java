@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EquipoService {
@@ -20,24 +17,15 @@ public class EquipoService {
         this.equipoRepository = equipoRepository;
     }
 
-    @Transactional
-    public List<Equipo> findAllOrderedByName() {
-        List<Equipo> equipos = new ArrayList(equipoRepository.findAll());
-        Collections.sort(equipos, (a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
-
-        return equipos;
+    @Transactional(readOnly = true)
+    public Equipo findById(Long EquipoId) {
+        return equipoRepository.findById(EquipoId).orElse(null);
     }
 
     @Transactional
-    public Equipo findById(Long id) {
-        Equipo equipo = null;
-        List<Equipo> equipos = new ArrayList(equipoRepository.findAll());
-        for ( int i = 0; i < equipos.size(); i++)
-        {
-            if (equipos.get(i).getId() == id)
-                equipo = equipos.get(i);
-        }
-        return equipo;
+    public List<Equipo> findAllOrderedByName() {
+        List<Equipo> equipos = new ArrayList(equipoRepository.findAllByOrderByNombre());
+        return equipos;
     }
 
     @Transactional
