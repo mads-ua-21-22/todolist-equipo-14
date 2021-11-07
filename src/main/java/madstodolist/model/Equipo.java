@@ -52,6 +52,8 @@ public class Equipo implements Serializable {
 
     public Set<Usuario> getUsuarios() { return usuarios; }
 
+    public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

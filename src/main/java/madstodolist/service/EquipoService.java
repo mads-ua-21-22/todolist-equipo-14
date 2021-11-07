@@ -11,9 +11,11 @@ import java.util.*;
 public class EquipoService {
 
     private EquipoRepository equipoRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
-    public EquipoService(EquipoRepository equipoRepository) {
+    public EquipoService(UsuarioRepository usuarioRepository, EquipoRepository equipoRepository) {
+        this.usuarioRepository = usuarioRepository;
         this.equipoRepository = equipoRepository;
     }
 
@@ -33,5 +35,20 @@ public class EquipoService {
         Equipo equipo = findById(idEquipo);
         List<Usuario> usuarios = new ArrayList(equipo.getUsuarios());
         return usuarios;
+    }
+
+    @Transactional
+    public Equipo añadirUsuarioEquipo(Long idEquipo, Long idUser) {
+        Equipo equipo = findById(idEquipo);
+        Usuario user = usuarioRepository.findById(idUser).orElse(null);
+        Set <Usuario> usuarios = new HashSet<Usuario>(equipo.getUsuarios());
+        usuarios.add(user);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>(user.getEquipos());
+        equipos.add(equipo);
+        user.setEquipos(equipos);
+        equipoRepository.save(equipo);
+        usuarioRepository.save(user);
+        return equipo;
     }
 }
