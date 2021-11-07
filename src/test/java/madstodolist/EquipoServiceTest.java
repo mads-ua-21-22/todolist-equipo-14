@@ -107,4 +107,17 @@ public class EquipoServiceTest {
         // Y después que el elemento es el equipo Proyecto P1
         assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto P1");
     }
+
+    @Test
+    public void comprobarAñadirUsuarioEquipo() {
+
+        Usuario usuario = new Usuario("prueba@gmail.com");
+
+        equipoService.añadirUsuarioEquipo(1L, usuario);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+        // THEN
+        assertThat(usuarios).hasSize(2);
+        assertThat(usuarios.get(1).getEmail()).isEqualTo("prueba@gmail.com");
+    }
 }

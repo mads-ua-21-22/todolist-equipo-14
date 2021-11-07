@@ -96,4 +96,21 @@ public class EquipoWebTest {
                 .andExpect(content().string(containsString("EQUIPO1")));
     }
 
+    @Test
+    public void añadirUsuarioEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipoService.añadirUsuarioEquipo(1L, usuario);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("domingo@ua.es")));
+    }
+
 }
