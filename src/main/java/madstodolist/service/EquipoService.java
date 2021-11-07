@@ -51,4 +51,19 @@ public class EquipoService {
         usuarioRepository.save(user);
         return equipo;
     }
+
+    @Transactional
+    public Equipo borrarUsuarioEquipo(Long idEquipo, Long idUser) {
+        Equipo equipo = findById(idEquipo);
+        Usuario user = usuarioRepository.findById(idUser).orElse(null);
+        Set <Usuario> usuarios = new HashSet<Usuario>(equipo.getUsuarios());
+        usuarios.remove(user);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>(user.getEquipos());
+        equipos.remove(equipo);
+        user.setEquipos(equipos);
+        equipoRepository.save(equipo);
+        usuarioRepository.save(user);
+        return equipo;
+    }
 }

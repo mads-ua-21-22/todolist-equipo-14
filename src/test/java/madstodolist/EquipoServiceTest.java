@@ -105,7 +105,7 @@ public class EquipoServiceTest {
     @Test
     public void comprobarBorrarUsuarioEquipo() {
 
-        usuarioService.borrarUsuarioEquipo(1L, 1L);
+        equipoService.borrarUsuarioEquipo(1L, 1L);
         List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
 
 
