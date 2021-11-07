@@ -94,7 +94,7 @@ public class EquipoServiceTest {
     @Test
     public void comprobarAñadirUsuarioEquipo() {
 
-        Equipo equipo = equipoService.añadirUsuarioEquipo(1L, 3L);
+        equipoService.añadirUsuarioEquipo(1L, 3L);
         List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
 
         // THEN
