@@ -8,6 +8,7 @@ import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class EquipoServiceTest {
     }
 
     @Test
+    @Transactional
     public void comprobarAñadirUsuarioEquipo() {
 
         equipoService.añadirUsuarioEquipo(1L, 3L);
@@ -105,6 +107,7 @@ public class EquipoServiceTest {
     }
 
     @Test
+    @Transactional
     public void comprobarBorrarUsuarioEquipo() {
 
         equipoService.borrarUsuarioEquipo(1L, 1L);
@@ -117,6 +120,7 @@ public class EquipoServiceTest {
     }
 
     @Test
+    @Transactional
     public void comprobarCrearEquipoEquipo() {
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(2);
