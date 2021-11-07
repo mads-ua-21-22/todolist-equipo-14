@@ -67,11 +67,11 @@ public class EquipoService {
         return equipo;
     }
 
-//    @Transactional
-//    public Equipo crearEquipo(String nombre) {
-//        Equipo equipo = new Equipo(nombre);
-//        equipoRepository.save(equipo);
-//        return equipo;
-//    }
+    @Transactional
+    public Equipo crearEquipo(String nombre) {
+        Equipo equipo = new Equipo(nombre);
+        equipoRepository.save(equipo);
+        return equipo;
+    }
 
 }

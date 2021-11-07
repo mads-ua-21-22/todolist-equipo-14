@@ -116,12 +116,12 @@ public class EquipoServiceTest {
 
     }
 
-//    @Test
-//    public void comprobarCrearEquipoEquipo() {
-//
-//        equipoService.crearEquipo("PRUEBA");
-//        List<Equipo> equipos = equipoService.findAllOrderedByName();
-//        assertThat(equipos).hasSize(3);
-//
-//    }
+    @Test
+    public void comprobarCrearEquipoEquipo() {
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(2);
+        equipoService.crearEquipo("PRUEBA");
+        equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(3);
+    }
 }
