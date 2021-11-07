@@ -1,39 +1,24 @@
 package madstodolist;
 
 import madstodolist.model.Equipo;
-import madstodolist.model.EquipoRepository;
 import madstodolist.model.Usuario;
-import madstodolist.model.UsuarioRepository;
 import madstodolist.service.EquipoService;
 import madstodolist.service.UsuarioService;
-import madstodolist.service.UsuarioServiceException;
 import org.hibernate.LazyInitializationException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -106,5 +91,41 @@ public class EquipoServiceTest {
         assertThat(usuarios.get(0).getEquipos()).hasSize(1);
         // Y después que el elemento es el equipo Proyecto P1
         assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto P1");
+    }
+
+    @Test
+    @Transactional
+    public void comprobarAñadirUsuarioEquipo() {
+
+        equipoService.añadirUsuarioEquipo(1L, 3L);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+        // THEN
+//        assertThat(usuarios).hasSize(2);
+//        assertThat(usuarios.get(1).getEmail()).isEqualTo("carlos@gmail.com");
+        assertThat(usuarios.contains(usuarioService.findById(3L)));
+    }
+
+    @Test
+    @Transactional
+    public void comprobarBorrarUsuarioEquipo() {
+
+        equipoService.borrarUsuarioEquipo(1L, 1L);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+
+        // THEN
+        assertThat(usuarios).hasSize(0);
+
+    }
+
+    @Test
+    @Transactional
+    public void comprobarCrearEquipoEquipo() {
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(2);
+        equipoService.crearEquipo("PRUEBA");
+        equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(3);
     }
 }

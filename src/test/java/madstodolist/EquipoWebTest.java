@@ -2,30 +2,21 @@ package madstodolist;
 
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.model.Equipo;
-import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
-import madstodolist.model.UsuarioRepository;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import madstodolist.service.EquipoService;
-import madstodolist.service.UsuarioServiceException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.verify;
