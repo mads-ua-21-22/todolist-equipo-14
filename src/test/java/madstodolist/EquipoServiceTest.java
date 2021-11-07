@@ -101,4 +101,16 @@ public class EquipoServiceTest {
         assertThat(usuarios).hasSize(2);
         assertThat(usuarios.get(1).getEmail()).isEqualTo("carlos@gmail.com");
     }
+
+    @Test
+    public void comprobarBorrarUsuarioEquipo() {
+
+        usuarioService.borrarUsuarioEquipo(1L, 1L);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+
+        // THEN
+        assertThat(usuarios).hasSize(0);
+
+    }
 }
