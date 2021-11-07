@@ -66,4 +66,5 @@ public class EquipoService {
         usuarioRepository.save(user);
         return equipo;
     }
+
 }

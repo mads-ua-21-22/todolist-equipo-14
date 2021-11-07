@@ -14,6 +14,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.Matchers.allOf;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -111,6 +112,14 @@ public class EquipoServiceTest {
 
         // THEN
         assertThat(usuarios).hasSize(0);
+
+    }
+
+    public void comprobarCrearEquipoEquipo() {
+
+        equipoService.crearEquipo();
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(3);
 
     }
 }
