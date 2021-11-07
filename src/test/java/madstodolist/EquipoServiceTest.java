@@ -117,7 +117,7 @@ public class EquipoServiceTest {
 
     public void comprobarCrearEquipoEquipo() {
 
-        equipoService.crearEquipo();
+        equipoService.crearEquipo("PRUEBA");
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(3);
 
