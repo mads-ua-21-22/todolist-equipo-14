@@ -79,4 +79,24 @@ public class EquipoController {
         }
 
     }
+
+    @GetMapping("/crearEquipo")
+    public String crearEquipo(Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            model.addAttribute("usuario", usuario);
+
+            return "formNuevoEquipo";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
+
 }
