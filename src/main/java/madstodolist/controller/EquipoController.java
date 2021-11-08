@@ -119,4 +119,24 @@ public class EquipoController {
         }
     }
 
+    @PostMapping("/equipos/{id}")
+    public String addUserEquipo(@PathVariable(value="id") Long idEquipo,
+                                   Model model, @ModelAttribute EquipoData equipoData, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            equipoService.addUsuarioEquipo(idEquipo, usuario.getId());
+            model.addAttribute("usuario", usuario);
+            return "redirect:/equipos/{id}";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
 }

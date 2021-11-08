@@ -32,8 +32,16 @@
         </div>
     </div>
     <div>
-        <button class="btn btn-danger btn-xs" th:if="${usuario.getEquipos().contains(equipo)}" th:text="Abandonar" type="submit"/></a>
-        <button class="btn btn-danger btn-xs" th:unless="${!usuario.getEquipos().contains(equipo) == false}" th:text="Unirse" type="submit"/></a>
+        <div th:if="${usuario.getEquipos().contains(equipo)}">
+            <form method="post" th:action="@{/equipos/{id}(id=${equipo.id})}">
+                <button class="btn btn-danger btn-xs"  th:text="Abandonar" type="submit"/></a>
+            </form>
+        </div>
+        <div th:unless="${!usuario.getEquipos().contains(equipo) == false}">
+            <form method="post" th:action="@{/equipos/{id}(id=${equipo.id})}">
+                <button class="btn btn-danger btn-xs"  th:text="Unirse" type="submit"/></a>
+            </form>
+        </div>
     </div>
 </div>
 <div th:replace="fragments::javascript"/>
