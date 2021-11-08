@@ -31,6 +31,10 @@
             </table>
         </div>
     </div>
+    <div>
+        <button class="btn btn-danger btn-xs" th:if="${usuario.getEquipos().contains(equipo)}" th:text="Abandonar" type="submit"/></a>
+        <button class="btn btn-danger btn-xs" th:unless="${!usuario.getEquipos().contains(equipo) == false}" th:text="Unirse" type="submit"/></a>
+    </div>
 </div>
 <div th:replace="fragments::javascript"/>
 </body>
