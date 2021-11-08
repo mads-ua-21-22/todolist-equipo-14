@@ -7,6 +7,19 @@
 <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
 <div class="container-fluid">
 
+    <h2>Nuevo Equipo</h2>
+
+    <form method="post" th:action="@{/equipos}" th:object="${equipoData}">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="nombre">Nombre del Equipo:</label>
+                <input class="form-control" id="nombre" name="nombre" required th:field="*{nombre}" type="text"/>
+            </div>
+            <button class="btn btn-primary" type="submit">Crear Equipo</button>
+            <a class="btn btn-link" th:href="@{/equipos}">Cancelar</a>
+        </div>
+    </form>
+
 </div>
 
 <div th:replace="fragments::javascript"/>

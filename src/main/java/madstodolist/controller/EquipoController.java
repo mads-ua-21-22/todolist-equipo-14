@@ -99,4 +99,24 @@ public class EquipoController {
 
     }
 
+    @PostMapping("/equipos")
+    public String nuevoEquipo(Model model, @ModelAttribute EquipoData equipoData,
+                              RedirectAttributes flash, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            equipoService.crearEquipo(equipoData.getNombre());
+            flash.addFlashAttribute("mensaje", "Tarea creada correctamente");;
+            model.addAttribute("usuario", usuario);
+            return "listaEquipos";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
 }
