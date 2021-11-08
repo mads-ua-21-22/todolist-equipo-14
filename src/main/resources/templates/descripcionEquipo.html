@@ -39,7 +39,7 @@
         </div>
         <div th:unless="${!usuario.getEquipos().contains(equipo) == false}">
             <form method="post" th:action="@{/equipos/{id}(id=${equipo.id})}">
-                <button class="btn btn-danger btn-xs"  th:text="Unirse" type="submit"/></a>
+                <button class="btn btn-primary btn-xs"  th:text="Unirse" type="submit"/></a>
             </form>
         </div>
     </div>
