@@ -112,7 +112,7 @@ public class EquipoController {
             equipoService.crearEquipo(equipoData.getNombre());
             flash.addFlashAttribute("mensaje", "Tarea creada correctamente");;
             model.addAttribute("usuario", usuario);
-            return "listaEquipos";
+            return "redirect:/equipos";
         }
         else {
             throw new UsuarioNoLogeadoException();
