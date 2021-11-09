@@ -12,10 +12,10 @@
   <form method="post" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
     <div class="col-6">
       <div class="form-group">
-        <label for="nombre">Nombre del Equipo:</label>
+        <label for="nombre">Modificar Equipo: </label>
         <input class="form-control" id="nombre" name="nombre" required  type="text"/>
       </div>
-      <button class="btn btn-primary" type="submit">Crear Equipo</button>
+      <button class="btn btn-primary" type="submit">Modificar</button>
       <a class="btn btn-danger btn-xs" th:href="@{/equipos}">Cancelar</a>
     </div>
   </form>
