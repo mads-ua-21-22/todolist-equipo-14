@@ -166,4 +166,23 @@ public class EquipoWebTest {
         verify(equipoService).crearEquipo("PRUEBA");
     }
 
+    @Test
+    public void postModificarEquipoDevuelveRedirectYModificaEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/editequipos/1")
+                        .param("nombre", "PRUEBA"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).renombrarEquipo(1L,"PRUEBA");
+    }
+
 }

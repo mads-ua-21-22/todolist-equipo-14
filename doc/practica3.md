@@ -115,5 +115,6 @@ HTML más relevante:
 
 Como podemos ver, se trata de un formulario con un método post que utiliza "equipoData" para mandar el nombre al controlador. El campo nombre es obligatorio, en caso de no ponerlo no dejará que se cree el equipo.
 
+### 2. Unirse a un Equipo:
 
 
