@@ -14,7 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -85,6 +87,83 @@ public class EquipoWebTest {
 
         this.mockMvc.perform(get("/equipos/1/"))
                 .andExpect(content().string(containsString("EQUIPO1")));
+    }
+
+    @Test
+    public void getEquipoUnirse() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("Unirse")));
+    }
+
+    @Test
+    public void getEquipoAbandonar() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("Abandonar")));
+    }
+
+    @Test
+    public void getEquipoUsuario() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("domingo@ua.es")));
+    }
+
+    @Test
+    public void postNuevaEquipoDevuelveRedirectYAñadeEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/equipos")
+                        .param("nombre", "PRUEBA"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).crearEquipo("PRUEBA");
     }
 
 }
