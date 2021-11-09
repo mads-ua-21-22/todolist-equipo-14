@@ -100,9 +100,6 @@ public class EquipoServiceTest {
         equipoService.addUsuarioEquipo(1L, 3L);
         List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
 
-        // THEN
-//        assertThat(usuarios).hasSize(2);
-//        assertThat(usuarios.get(1).getEmail()).isEqualTo("carlos@gmail.com");
         assertThat(usuarios.contains(usuarioService.findById(3L)));
     }
 

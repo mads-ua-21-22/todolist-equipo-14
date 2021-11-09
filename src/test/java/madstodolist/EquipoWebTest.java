@@ -186,7 +186,7 @@ public class EquipoWebTest {
     }
 
     @Test
-    public void postEliminarEquipoDevuelveRedirectYModificaEquipo() throws Exception {
+    public void postEliminarEquipoDevuelveRedirectYEliminaEquipo() throws Exception {
         Usuario usuario = new Usuario("domingo@ua.es");
         usuario.setId(1L);
         usuario.setNombre("Usuario");

@@ -393,3 +393,290 @@ HTML:
 ~~~~
 
 Como podemos comprobar simplemente se trata de un formulario en el cual pasamos la ID como parámetro. Otra funcion relevante es el th:if que hará que solo se muestre el botón si nuestro usuario es administrador.
+
+## TESTS:
+
+### 1. comprobarAñadirUsuarioEquipo()
+
+~~~~
+    @Test
+    @Transactional
+    public void comprobarAñadirUsuarioEquipo() {
+
+        equipoService.addUsuarioEquipo(1L, 3L);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+        assertThat(usuarios.contains(usuarioService.findById(3L)));
+    }
+~~~~
+
+Comprueba que el método addUsuarioEquipo() de EquipoService funciona correctamente.
+
+### 2. comprobarBorrarUsuarioEquipo()
+
+~~~~
+    @Test
+    @Transactional
+    public void comprobarBorrarUsuarioEquipo() {
+
+        equipoService.borrarUsuarioEquipo(1L, 1L);
+        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+
+
+        // THEN
+        assertThat(usuarios).hasSize(0);
+
+    }
+~~~~
+
+Comprueba que borrarUsuarioEquipo de EquipoService funciona correctamente.
+
+### 3. comprobarCrearEquipoEquipo()
+
+~~~~
+    @Test
+    @Transactional
+    public void comprobarCrearEquipoEquipo() {
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(2);
+        equipoService.crearEquipo("PRUEBA");
+        equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(3);
+    }
+~~~~
+
+Comprueba que el método crearEquipo de EquipoService funciona correctamente.
+
+### 4. comprobarRenombrarEquipoEquipo()
+
+~~~~
+    @Test
+    @Transactional
+    public void comprobarRenombrarEquipoEquipo() {
+        equipoService.renombrarEquipo(1L,"CAMBIO");
+        assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
+    }
+~~~~
+
+Comprueba que el método renombrarEquipo de EquipoService funciona correctamente.
+
+### 5. comprobarBorrarEquipo()
+
+~~~~
+    @Test
+    @Transactional
+    public void comprobarBorrarEquipo() {
+
+        equipoService.borrarEquipo(1L);
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(1);
+    }
+~~~~
+
+Comprueba que el método borrarEquipo de EquipoService funciona correctamente.
+
+### 6. getListaEquipos()
+
+~~~~
+ @Test
+    public void getListaEquipos() throws Exception {
+        Usuario usuario = new Usuario("Usuario@ua");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        Equipo equipo1 = new Equipo("EQUIPO2");
+        equipo.setId(2L);
+
+        List<Equipo> equipos = new ArrayList<Equipo>();
+        equipos.add(equipo);
+        equipos.add(equipo1);
+
+        when(equipoService.findAllOrderedByName()).thenReturn(equipos);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(get("/equipos"))
+                .andExpect(content().string(allOf(containsString("EQUIPO1"),
+                        containsString("EQUIPO2"))));
+    }
+~~~~
+
+Comprueba que se listan los equipos correctamente en la URL: /equipos.
+
+### 7. getEquipoDevuelveForm()
+
+~~~~
+    @Test
+    public void getEquipoDevuelveForm() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("EQUIPO1")));
+    }
+~~~~
+
+Comprueba que la descripcion de un equipo se muestra correctamente en la URL: /equipos/{id}
+
+### 8. getEquipoUnirse()
+
+~~~~
+    @Test
+    public void getEquipoUnirse() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("Unirse")));
+    }
+~~~~
+
+Comprueba que el botón de unirse se muestra correctamente cuando el usuario no forma parte del equipo.
+
+### 9. getEquipoAbandonar()
+
+~~~~
+    @Test
+    public void getEquipoAbandonar() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("Abandonar")));
+    }
+~~~~
+
+Comprueba que el boton "Abandonar" se muestra correctamente cuando el usuario forma parte del equipo.
+
+### 10. getEquipoUsuario()
+
+~~~~
+    @Test
+    public void getEquipoUsuario() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("domingo@ua.es")));
+    }
+~~~~
+
+Comprueba que cuando un usuario se añade a un equipo este se lista correctamente.
+
+### 11. postNuevaEquipoDevuelveRedirectYAñadeEquipo()
+
+~~~~
+    @Test
+    public void postNuevaEquipoDevuelveRedirectYAñadeEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/equipos")
+                        .param("nombre", "PRUEBA"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).crearEquipo("PRUEBA");
+    }
+~~~~
+
+Comprueba que cuando añadimos un equipo lo hace correctamente y que se nos redirige a "/equipos".
+
+### 12. postModificarEquipoDevuelveRedirectYModificaEquipo()
+
+~~~~
+    @Test
+    public void postModificarEquipoDevuelveRedirectYModificaEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/editequipos/1")
+                        .param("nombre", "PRUEBA"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).renombrarEquipo(1L,"PRUEBA");
+    }
+~~~~
+
+Comprueba que cuando modificamos un equipo lo hace correctamente y se nos redirige a "/equipos".
+
+### 13. postEliminarEquipoDevuelveRedirectYEliminaEquipo()
+
+~~~~
+    @Test
+    public void postEliminarEquipoDevuelveRedirectYEliminaEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/deleteequipos/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).borrarEquipo(1L);
+    }
+~~~~
+
+Comprueba que se elimina un equipo correctamente y que se nos redirige a "/equipos".
+
+
+
+
