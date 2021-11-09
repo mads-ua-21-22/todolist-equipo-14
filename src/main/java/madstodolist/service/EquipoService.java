@@ -38,7 +38,7 @@ public class EquipoService {
     }
 
     @Transactional
-    public Equipo añadirUsuarioEquipo(Long idEquipo, Long idUser) {
+    public Equipo addUsuarioEquipo(Long idEquipo, Long idUser) {
         Equipo equipo = findById(idEquipo);
         Usuario user = usuarioRepository.findById(idUser).orElse(null);
         Set <Usuario> usuarios = new HashSet<Usuario>(equipo.getUsuarios());

@@ -97,7 +97,7 @@ public class EquipoServiceTest {
     @Transactional
     public void comprobarAñadirUsuarioEquipo() {
 
-        equipoService.añadirUsuarioEquipo(1L, 3L);
+        equipoService.addUsuarioEquipo(1L, 3L);
         List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
 
         // THEN

@@ -79,4 +79,84 @@ public class EquipoController {
         }
 
     }
+
+    @GetMapping("/crearEquipo")
+    public String crearEquipo(Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            model.addAttribute("usuario", usuario);
+
+            return "formNuevoEquipo";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
+
+    @PostMapping("/equipos")
+    public String nuevoEquipo(Model model, @ModelAttribute EquipoData equipoData,
+                              RedirectAttributes flash, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            equipoService.crearEquipo(equipoData.getNombre());
+            flash.addFlashAttribute("mensaje", "Tarea creada correctamente");;
+            model.addAttribute("usuario", usuario);
+            return "redirect:/equipos";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
+    @PostMapping("/equipos/{id}")
+    public String addUserEquipo(@PathVariable(value="id") Long idEquipo,
+                                   Model model, @ModelAttribute EquipoData equipoData, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            equipoService.addUsuarioEquipo(idEquipo, usuario.getId());
+            model.addAttribute("usuario", usuario);
+            return "redirect:/equipos/{id}";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
+    @PostMapping("/equiposdel/{id}")
+    public String deleteUserEquipo(@PathVariable(value="id") Long idEquipo,
+                                Model model, @ModelAttribute EquipoData equipoData, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            equipoService.borrarUsuarioEquipo(idEquipo, usuario.getId());
+            model.addAttribute("usuario", usuario);
+            return "redirect:/equipos/{id}";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
 }
