@@ -57,7 +57,7 @@ public class EquipoController {
     }
 
     @GetMapping("/equipos/{id}")
-    public String descripcionUsuario(@PathVariable(value="id") Long idEquipo,
+    public String descripcionEquipo(@PathVariable(value="id") Long idEquipo,
                                      Model model, HttpSession session) {
 
         Long idUsuario = managerUserSession.usuarioLogeado(session);
@@ -92,6 +92,27 @@ public class EquipoController {
             model.addAttribute("usuario", usuario);
 
             return "formNuevoEquipo";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
+
+    @GetMapping("/editarEquipo/{id}")
+    public String editarEquipo(@PathVariable(value="id") Long idEquipo, Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            Equipo equipo = equipoService.findById(idEquipo);
+
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("equipo", equipo);
+
+            return "formEditarEquipo";
         }
         else {
             throw new UsuarioNoLogeadoException();
@@ -152,6 +173,46 @@ public class EquipoController {
             equipoService.borrarUsuarioEquipo(idEquipo, usuario.getId());
             model.addAttribute("usuario", usuario);
             return "redirect:/equipos/{id}";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
+    @PostMapping("/deleteequipos/{id}")
+    public String borrarEquipo(@PathVariable(value="id") Long idEquipo,
+                                   Model model, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            model.addAttribute("usuario", usuario);
+            equipoService.borrarEquipo(idEquipo);
+            return "redirect:/equipos";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
+    @PostMapping("/editequipos/{id}")
+    public String renombrarEquipo(@PathVariable(value="id") Long idEquipo,
+                                  Model model, @ModelAttribute EquipoData equipoData, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            model.addAttribute("usuario", usuario);
+            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre());
+            return "redirect:/equipos";
 
         }
         else {

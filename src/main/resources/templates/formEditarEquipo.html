@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
+<div class="container-fluid">
+
+  <h2>Editar Equipo</h2>
+
+  <form method="post" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="nombre">Modificar Equipo: </label>
+        <input class="form-control" id="nombre" name="nombre" required  type="text"/>
+      </div>
+      <button class="btn btn-primary" type="submit">Modificar</button>
+      <a class="btn btn-danger btn-xs" th:href="@{/equipos}">Cancelar</a>
+    </div>
+  </form>
+
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>
