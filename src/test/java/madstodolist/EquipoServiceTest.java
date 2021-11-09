@@ -142,6 +142,6 @@ public class EquipoServiceTest {
 
         equipoService.borrarEquipo(1L);
         List<Equipo> equipos = equipoService.findAllOrderedByName();
-        assertThat(equipos).hasSize(2);
+        assertThat(equipos).hasSize(1);
     }
 }

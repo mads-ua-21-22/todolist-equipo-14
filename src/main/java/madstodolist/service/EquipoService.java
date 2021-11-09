@@ -82,4 +82,10 @@ public class EquipoService {
         return equipo;
     }
 
+    @Transactional
+    public void borrarEquipo(Long id) {
+        Equipo equipo = equipoRepository.findById(id).orElse(null);
+        equipoRepository.delete(equipo);
+    }
+
 }
