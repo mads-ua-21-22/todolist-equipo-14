@@ -99,6 +99,25 @@ public class EquipoController {
 
     }
 
+    @GetMapping("/editarEquipo")
+    public String editarEquipo(Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            model.addAttribute("usuario", usuario);
+
+            return "formEditarEquipo";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
+
     @PostMapping("/equipos")
     public String nuevoEquipo(Model model, @ModelAttribute EquipoData equipoData,
                               RedirectAttributes flash, HttpSession session) {
@@ -178,5 +197,25 @@ public class EquipoController {
             throw new UsuarioNoLogeadoException();
         }
     }
+
+//    @PostMapping("/editequipos/{id}")
+//    public String renombrarEquipo(@PathVariable(value="id") Long idEquipo,
+//                                  Model model, HttpSession session) {
+//
+//        Long idUsuario = managerUserSession.usuarioLogeado(session);
+//        Usuario usuario = null;
+//
+//        if(idUsuario != null) {
+//            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+//            usuario = usuarioService.findById(idUsuario);
+//            model.addAttribute("usuario", usuario);
+//            equipoService.renombrarEquipo(idEquipo);
+//            return "redirect:/equipos";
+//
+//        }
+//        else {
+//            throw new UsuarioNoLogeadoException();
+//        }
+//    }
 
 }
