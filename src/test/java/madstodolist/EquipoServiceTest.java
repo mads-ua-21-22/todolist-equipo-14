@@ -135,4 +135,13 @@ public class EquipoServiceTest {
         equipoService.renombrarEquipo(1L,"CAMBIO");
         assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
     }
+
+    @Test
+    @Transactional
+    public void comprobarBorrarEquipo() {
+
+        equipoService.borrarEquipo(1L);
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(2);
+    }
 }
