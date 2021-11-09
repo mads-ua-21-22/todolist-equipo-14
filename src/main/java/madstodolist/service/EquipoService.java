@@ -74,4 +74,12 @@ public class EquipoService {
         return equipo;
     }
 
+    @Transactional
+    public Equipo renombrarEquipo(Long id, String nombre) {
+        Equipo equipo = equipoRepository.findById(id).orElse(null);
+        equipo.setNombre(nombre);
+        equipoRepository.save(equipo);
+        return equipo;
+    }
+
 }
