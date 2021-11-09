@@ -159,4 +159,24 @@ public class EquipoController {
         }
     }
 
+    @PostMapping("/deleteequipos/{id}")
+    public String borrarEquipo(@PathVariable(value="id") Long idEquipo,
+                                   Model model, HttpSession session) {
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+            model.addAttribute("usuario", usuario);
+            equipoService.borrarEquipo(idEquipo);
+            return "redirect:/equipos";
+
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+    }
+
 }
