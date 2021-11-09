@@ -50,6 +50,8 @@ public class Equipo implements Serializable {
 
     public String getNombre() { return nombre; }
 
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
     public Set<Usuario> getUsuarios() { return usuarios; }
 
     public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }

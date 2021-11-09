@@ -128,4 +128,20 @@ public class EquipoServiceTest {
         equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(3);
     }
+
+    @Test
+    @Transactional
+    public void comprobarRenombrarEquipoEquipo() {
+        equipoService.renombrarEquipo(1L,"CAMBIO");
+        assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
+    }
+
+    @Test
+    @Transactional
+    public void comprobarBorrarEquipo() {
+
+        equipoService.borrarEquipo(1L);
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(1);
+    }
 }
