@@ -22,7 +22,7 @@
           <td th:text="${equipo.id}"></td>
           <td th:text="${equipo.nombre}"></td>
           <td><a class="btn btn-primary btn-xs" th:href="@{/equipos/{id}(id=${equipo.id})}"/>Ver Equipo</a></td>
-          <td><a class="btn btn-primary" th:href="@{/crearEquipo}" >Modificar Equipo</a></td>
+          <td th:if="${usuario.getAdminApproved()}"><a class="btn btn-primary" th:href="@{/editarEquipo/{id}(id=${equipo.id})}" >Modificar Equipo</a></td>
           <form method="post" th:action="@{/deleteequipos/{id}(id=${equipo.id})}" th:if="${usuario.getAdminApproved()}">
             <td>
               <button class="btn btn-danger btn-xs" th:text="Eliminar" type="submit"/></a>

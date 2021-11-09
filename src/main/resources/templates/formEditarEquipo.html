@@ -9,7 +9,7 @@
 
   <h2>Nuevo Equipo</h2>
 
-  <form method="post" th:action="@{/equipos}" th:object="${equipoData}">
+  <form method="post" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
     <div class="col-6">
       <div class="form-group">
         <label for="nombre">Nombre del Equipo:</label>
