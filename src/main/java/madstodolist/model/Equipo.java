@@ -27,6 +27,7 @@ public class Equipo implements Serializable {
     // atributo 'usuarios'; entonces se genera una query en la
     // BD que devuelve todos los usuarios del equipo y rellena el
     // atributo.
+    private String descripcion;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "equipo_usuario",
@@ -55,6 +56,14 @@ public class Equipo implements Serializable {
     public Set<Usuario> getUsuarios() { return usuarios; }
 
     public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     @Override
     public boolean equals(Object o) {
