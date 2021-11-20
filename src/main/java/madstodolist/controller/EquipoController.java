@@ -211,7 +211,7 @@ public class EquipoController {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
             usuario = usuarioService.findById(idUsuario);
             model.addAttribute("usuario", usuario);
-            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre());
+            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion());
             return "redirect:/equipos";
 
         }

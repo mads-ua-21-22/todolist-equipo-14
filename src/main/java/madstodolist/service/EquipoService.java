@@ -76,9 +76,10 @@ public class EquipoService {
     }
 
     @Transactional
-    public Equipo renombrarEquipo(Long id, String nombre) {
+    public Equipo renombrarEquipo(Long id, String nombre, String descripcion) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);
         equipo.setNombre(nombre);
+        equipo.setDescripcion(descripcion);
         equipoRepository.save(equipo);
         return equipo;
     }

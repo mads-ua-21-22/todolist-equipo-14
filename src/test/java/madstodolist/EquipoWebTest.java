@@ -179,11 +179,12 @@ public class EquipoWebTest {
 
 
         this.mockMvc.perform(post("/editequipos/1")
-                        .param("nombre", "PRUEBA"))
+                        .param("nombre", "PRUEBA")
+                        .param("descripcion", "X"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/equipos"));
 
-        verify(equipoService).renombrarEquipo(1L,"PRUEBA");
+        verify(equipoService).renombrarEquipo(1L,"PRUEBA", "X");
     }
 
     @Test

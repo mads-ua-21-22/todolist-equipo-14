@@ -129,7 +129,7 @@ public class EquipoServiceTest {
     @Test
     @Transactional
     public void comprobarRenombrarEquipoEquipo() {
-        equipoService.renombrarEquipo(1L,"CAMBIO");
+        equipoService.renombrarEquipo(1L,"CAMBIO", "X");
         assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
     }
 
