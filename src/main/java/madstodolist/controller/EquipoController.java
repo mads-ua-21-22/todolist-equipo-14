@@ -130,7 +130,7 @@ public class EquipoController {
         if(idUsuario != null) {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
             usuario = usuarioService.findById(idUsuario);
-            equipoService.crearEquipo(equipoData.getNombre());
+            equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion());
             flash.addFlashAttribute("mensaje", "Tarea creada correctamente");;
             model.addAttribute("usuario", usuario);
             return "redirect:/equipos";

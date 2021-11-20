@@ -68,8 +68,9 @@ public class EquipoService {
     }
 
     @Transactional
-    public Equipo crearEquipo(String nombre) {
+    public Equipo crearEquipo(String nombre, String descripcion) {
         Equipo equipo = new Equipo(nombre);
+        equipo.setDescripcion(descripcion);
         equipoRepository.save(equipo);
         return equipo;
     }
