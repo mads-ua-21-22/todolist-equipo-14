@@ -27,7 +27,7 @@
           <form method="post" th:action="@{/usuarios/{id}(id=${user.id})}">
             <td>
               <button class="btn btn-danger btn-xs" th:if="${user.getAccess()}" th:text="Bloquear" type="submit"/></a>
-              <button class="btn btn-danger btn-xs" th:unless="${user.getAccess()}" th:text="Desbloquear" type="submit"/></a>
+              <button class="btn btn-success btn-xs" th:unless="${user.getAccess()}" th:text="Desbloquear" type="submit"/></a>
             </td>
           </form>
         </tr>
