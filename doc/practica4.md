@@ -277,6 +277,60 @@ Simplemente se ha añadido el campo descripción al form que ya estaba implement
 
 Todos estos cambios se desarrollaron e integraron en la rama develop (siendo esta ahora la principal del proyecto, tras la configuración necesaria), y creamos la nueva versión tal y como se especifica en la práctica y de igual manera que hicimos anteriormente, generamos el esquema de datos de la nueva versión y el script de migración.
 
+###TESTS
+
+Tests implementados/modificados para comprobar la nueva funcionalidad:
+
+1. postNuevaEquipoDevuelveRedirectYAñadeEquipo()
+
+~~~~
+    @Test
+    public void postNuevaEquipoDevuelveRedirectYAñadeEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/equipos")
+                        .param("nombre", "PRUEBA")
+                        .param("descripcion", "X"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).crearEquipo("PRUEBA", "X");
+    }
+~~~~
+
+Simplemente se añade una descripción por parámetro a la hora de crear un equipo y se comprueba.
+
+2. postModificarEquipoDevuelveRedirectYModificaEquipo()
+
+~~~~
+    @Test
+    public void postModificarEquipoDevuelveRedirectYModificaEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/editequipos/1")
+                        .param("nombre", "PRUEBA")
+                        .param("descripcion", "X"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/equipos"));
+
+        verify(equipoService).renombrarEquipo(1L,"PRUEBA", "X");
+    }
+~~~~
+
+Simplemente se añade una descripción por parámetro a la hora de modificar un equipo y se comprueba.
+
 ## 8. Despliegue de la nueva versión y actualización de la BD de producción
 
 El despliegue ha sido realizado por Adil (alu02):
