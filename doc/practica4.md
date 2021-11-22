@@ -279,9 +279,33 @@ Todos estos cambios se desarrollaron e integraron en la rama develop (siendo est
 
 ## 8. Despliegue de la nueva versión y actualización de la BD de producción
 
-Detalles del despliegue de producción:
-Usuario :alu02
-Ubicacion carpeta raiz :schema_final.sql y backup221121.sql
-Docker : https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14
+El despliegue ha sido realizado por Adil (alu02):
+ * En primer lugar nos conectamos al servidor de la universidad con el usuario alu02.
+ * Descargamos la ultima versión de la aplicación (https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14)
+ * Realizamos una copia de seguridad tal y como se ha explicado en el apartado 6 de la práctica.
+ * Clonamos el proyecto de git
+~~~~
+git clone https://github.com/mads-ua-21-22/todolist-equipo-14.git
+~~~~
+ * Movemos el fichero sql/schema-1.2.0-1.3.0.sql a la raíz del servidor.
+ * Migramos la BBDD tal y como se explica en el apartado anterior.
+ * Lanzamos el contenedor de la aplicación con el perfil postgres-prod
+~~~~
+
+~~~~
+
+#IMPORTANTE
+
+Usuario que ha realizado el despliegue: alu02 (Adil Akhazzan).
+
+Backup de la BBDD de producción:  
+ * Nombre: backup221121.sql
+ * Ubicación: Carpeta raíz usuario alu02
+
+Script de migracion de la BBDD:
+ * Nombre: schema_final.sql
+ * Ubicación: Carpeta raíz usuario alu02
+
+Repositorio Docker : https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14
 
 
