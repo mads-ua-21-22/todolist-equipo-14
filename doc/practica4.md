@@ -10,7 +10,7 @@ Repositorio de GitHub:
 - (https://github.com/mads-ua-21-22/todolist-equipo-14.git)
 
 Repositorio de Docker:
-- ()
+- ( https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14)
 
 ## 1. Nuevo flujo de trabajo para los issues
 
@@ -234,10 +234,6 @@ public class EquipoData {
 
 Simplemente se ha añadido el campo descripción al form que ya estaba implementado:
 
-Detalles del despliegue de producción:
-Usuario :alu02
-Ubicacion carpeta raiz :schema_final.sql y backup221121.sql
-Docker : https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14
 
 ~~~~
   <form method="post" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
@@ -283,5 +279,9 @@ Todos estos cambios se desarrollaron e integraron en la rama develop (siendo est
 
 ## 8. Despliegue de la nueva versión y actualización de la BD de producción
 
+Detalles del despliegue de producción:
+Usuario :alu02
+Ubicacion carpeta raiz :schema_final.sql y backup221121.sql
+Docker : https://hub.docker.com/repository/docker/blancozx/mads-todolist-equipo14
 
 
