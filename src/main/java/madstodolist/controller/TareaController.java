@@ -61,7 +61,7 @@ public class TareaController {
      }
 
     @GetMapping("/usuarios/{id}/tareas")
-    public String listadoTareas(@PathVariable(value="id") Long idUsuario, Model model, HttpSession session) {
+    public String listadoTareas(@PathVariable(value="id") Long idUsuario, @RequestParam(required = false) String buscador, Model model, HttpSession session, RedirectAttributes flash) {
 
         managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
 
@@ -69,7 +69,20 @@ public class TareaController {
         if (usuario == null) {
             throw new UsuarioNotFoundException();
         }
-        List<Tarea> tareas = tareaService.allTareasUsuario(idUsuario);
+        List<Tarea> tareas = null;
+        if(buscador != null) {
+
+            tareas = tareaService.buscarTarea(buscador, idUsuario);
+
+            if (tareas.size() == 0) {
+                flash.addFlashAttribute("mensaje", "No se han encontrado resultados");
+                return "redirect:/usuarios/" + idUsuario + "/tareas";
+            }
+        }
+        else{
+            tareas = tareaService.allTareasUsuario(idUsuario);
+        }
+
         model.addAttribute("usuario", usuario);
         model.addAttribute("tareas", tareas);
         return "listaTareas";

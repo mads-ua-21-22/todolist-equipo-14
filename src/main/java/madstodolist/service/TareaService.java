@@ -79,4 +79,13 @@ public class TareaService {
         }
         tareaRepository.delete(tarea);
     }
+    @Transactional(readOnly = true)
+    public List<Tarea> buscarTarea(String nt, Long idUsuario) {
+        Usuario u = usuarioRepository.findById(idUsuario).orElse(null);
+        if (u == null) {
+            throw new UsuarioServiceException("No existe usuario con id " + idUsuario);
+        }
+        List<Tarea> tareas = tareaRepository.buscar(nt, u);
+        return tareas;
+    }
 }
