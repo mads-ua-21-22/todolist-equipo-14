@@ -103,7 +103,7 @@ public class TareaController {
 
         managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
 
-        tareaService.modificaTarea(idTarea, tareaData.getTitulo());
+        tareaService.modificaTarea(idTarea, tareaData.getTitulo(), tareaData.getDescripcion());
         flash.addFlashAttribute("mensaje", "Tarea modificada correctamente");
         return "redirect:/usuarios/" + tarea.getUsuario().getId() + "/tareas";
     }
@@ -125,7 +125,7 @@ public class TareaController {
     }
 
     @GetMapping("/tareas/{id}/descripcion")
-    public String descripcionTarea(@PathVariable(value="id") Long idTarea, @ModelAttribute TareaData tareaData,
+    public String descripcionTarea(@PathVariable(value="id") Long idTarea,
                                  Model model, HttpSession session) {
 
         Tarea tarea = tareaService.findById(idTarea);
@@ -139,7 +139,6 @@ public class TareaController {
 
         model.addAttribute("tarea", tarea);
         model.addAttribute("usuario", usuario);
-        tareaData.setTitulo(tarea.getTitulo());
         return "descripcionTarea";
     }
 }

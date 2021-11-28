@@ -86,13 +86,14 @@ public class TareaServiceTest {
 
         // WHEN
 
-        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula");
+        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA");
         Tarea tareaBD = tareaService.findById(idNuevaTarea);
 
         // THEN
 
         assertThat(tareaModificada.getTitulo()).isEqualTo("Pagar la matrícula");
         assertThat(tareaBD.getTitulo()).isEqualTo("Pagar la matrícula");
+        assertThat(tareaBD.getDescripcion()).isEqualTo("PRUEBA");
     }
 
     @Test
