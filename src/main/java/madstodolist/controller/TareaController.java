@@ -123,5 +123,24 @@ public class TareaController {
         tareaService.borraTarea(idTarea);
         return "";
     }
+
+    @GetMapping("/tareas/{id}/descripcion")
+    public String descripcionTarea(@PathVariable(value="id") Long idTarea, @ModelAttribute TareaData tareaData,
+                                 Model model, HttpSession session) {
+
+        Tarea tarea = tareaService.findById(idTarea);
+        if (tarea == null) {
+            throw new TareaNotFoundException();
+        }
+
+        managerUserSession.comprobarUsuarioLogeado(session, tarea.getUsuario().getId());
+        Long idUsuario = tarea.getUsuario().getId();
+        Usuario usuario = usuarioService.findById(idUsuario);
+
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("usuario", usuario);
+        tareaData.setTitulo(tarea.getTitulo());
+        return "descripcionTarea";
+    }
 }
 
