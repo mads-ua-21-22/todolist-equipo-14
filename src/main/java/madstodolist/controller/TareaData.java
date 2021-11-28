@@ -2,6 +2,7 @@ package madstodolist.controller;
 
 public class TareaData {
     private String titulo;
+    private String descripcion;
 
     public String getTitulo() {
         return titulo;
@@ -9,5 +10,13 @@ public class TareaData {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

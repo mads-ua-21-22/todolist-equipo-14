@@ -29,13 +29,14 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea) {
+    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea, String descripcion) {
         logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
             throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
         }
         Tarea tarea = new Tarea(usuario, tituloTarea);
+        tarea.setDescripcion(descripcion);
         tareaRepository.save(tarea);
         return tarea;
     }
@@ -59,13 +60,14 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea modificaTarea(Long idTarea, String nuevoTitulo) {
+    public Tarea modificaTarea(Long idTarea, String nuevoTitulo, String descripcion) {
         logger.debug("Modificando tarea " + idTarea + " - " + nuevoTitulo);
         Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
         if (tarea == null) {
             throw new TareaServiceException("No existe tarea con id " + idTarea);
         }
         tarea.setTitulo(nuevoTitulo);
+        tarea.setDescripcion(descripcion);
         tareaRepository.save(tarea);
         return tarea;
     }

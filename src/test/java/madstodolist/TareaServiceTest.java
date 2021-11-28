@@ -31,7 +31,7 @@ public class TareaServiceTest {
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
         // WHEN
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS", "XX");
 
         // THEN
 
@@ -81,18 +81,19 @@ public class TareaServiceTest {
         // GIVEN
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo", "XX");
         Long idNuevaTarea = tarea.getId();
 
         // WHEN
 
-        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula");
+        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA");
         Tarea tareaBD = tareaService.findById(idNuevaTarea);
 
         // THEN
 
         assertThat(tareaModificada.getTitulo()).isEqualTo("Pagar la matrícula");
         assertThat(tareaBD.getTitulo()).isEqualTo("Pagar la matrícula");
+        assertThat(tareaBD.getDescripcion()).isEqualTo("PRUEBA");
     }
 
     @Test
@@ -100,7 +101,7 @@ public class TareaServiceTest {
     public void testBorrarTarea() {
         // GIVEN
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS", "XX");
 
         // WHEN
 
