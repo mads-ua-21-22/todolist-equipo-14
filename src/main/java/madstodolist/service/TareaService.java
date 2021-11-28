@@ -29,13 +29,14 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea) {
+    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea, String descripcion) {
         logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
             throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
         }
         Tarea tarea = new Tarea(usuario, tituloTarea);
+        tarea.setDescripcion(descripcion);
         tareaRepository.save(tarea);
         return tarea;
     }
