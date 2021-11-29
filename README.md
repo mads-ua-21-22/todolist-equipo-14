@@ -31,3 +31,7 @@ Una vez lanzada la aplicación puedes abrir un navegador y probar la página de 
 Tablero Trello con las funcionalidades escogidas para ampliar la aplicación:
 
 - [https://trello.com/b/NO2r6D2J/equipo14](https://trello.com/b/NO2r6D2J/equipo14)
+
+Google Docs
+
+- [https://docs.google.com/document/d/1HrpI4h1DRKLBlOUfPzKlrVTUtAg9uYkl7eMurL5jvzg/edit?usp=sharing](https://docs.google.com/document/d/1HrpI4h1DRKLBlOUfPzKlrVTUtAg9uYkl7eMurL5jvzg/edit?usp=sharing)
