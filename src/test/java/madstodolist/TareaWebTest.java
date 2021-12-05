@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -313,5 +314,14 @@ public class TareaWebTest {
                         containsString("Usuario"), containsString("Cerrar Sesión Usuario"))));
 
     }
-
+    @Test
+    public void PerfilUsuario() throws Exception {
+        Usuario usuario = new Usuario("pedro@ua.es");
+        usuario.setNombre("pedro");
+        //usuario.setId(5L);
+        when(usuarioService.findById(any())).thenReturn(usuario);
+        this.mockMvc.perform(get("/perfil"))
+                .andExpect(content().string(allOf(containsString("pedro@ua.es"),
+                        containsString("Perfil"))));
+    }
 }
