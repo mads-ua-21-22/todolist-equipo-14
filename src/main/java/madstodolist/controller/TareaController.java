@@ -102,6 +102,7 @@ public class TareaController {
         model.addAttribute("tarea", tarea);
         tareaData.setTitulo(tarea.getTitulo());
         tareaData.setDescripcion(tarea.getDescripcion());
+        tareaData.setEstado(tarea.getEstado());
         return "formEditarTarea";
     }
 
