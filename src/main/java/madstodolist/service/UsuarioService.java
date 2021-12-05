@@ -92,4 +92,14 @@ public class UsuarioService {
         }
         usuarioRepository.save(usuario);
     }
+
+    @Transactional
+    public Usuario editar_perfil(Usuario usuario) {
+
+        if (usuario.getEmail() == null)
+            throw new UsuarioServiceException("El usuario no tiene email");
+        else if (usuario.getPassword() == null)
+            throw new UsuarioServiceException("El usuario no tiene password");
+        else return usuarioRepository.save(usuario);
+    }
 }
