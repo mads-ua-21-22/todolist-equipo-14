@@ -31,7 +31,7 @@ public class TareaServiceTest {
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
         // WHEN
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS", "XX");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS", "XX", "To Do");
 
         // THEN
 
