@@ -26,7 +26,60 @@
                     </a>
                 </div>
             </div>
-            <table class="table table-striped">
+            <div class='row'>
+                <div class="card border-primary mb-3" style="margin: 5px">
+                    <div class="card-body text-primary float-left">
+                        <h5 class="card-title">To Do</h5>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr th:if="${tarea.getEstado() == 'todo'}" th:each="tarea: ${tareas}">
+                                <td th:text="${tarea.titulo}"></td>
+                                <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+                                    <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
+                                    <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                            th:onclick="'del(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-primary mb-3" style="max-width: 95%; margin: 5px">
+                    <div class="card-body text-primary float-left">
+                        <h5 class="card-title">In Progress</h5>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr th:if="${tarea.getEstado() == 'inprogress'}" th:each="tarea: ${tareas}">
+                                <td th:text="${tarea.titulo}"></td>
+                                <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+                                    <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
+                                    <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                            th:onclick="'del(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-primary mb-3" style="max-width: 95%; margin: 5px">
+                    <div class="card-body text-primary float-left">
+                        <h5 class="card-title">Done</h5>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr th:if="${tarea.getEstado() == 'done'}" th:each="tarea: ${tareas}">
+                                <td th:text="${tarea.titulo}"></td>
+                                <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+                                    <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
+                                    <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                            th:onclick="'del(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<!--            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -45,9 +98,11 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>
-            <p><a class="btn btn-primary" th:href="@{/usuarios/{id}/tareas/nueva(id=${usuario.id})}"> Nueva tarea</a>
-            <a class="btn btn-danger" href="/logout">Salir</a></p>
+            </table>-->
+            <div class="row mt-2" style="margin: 5px" >
+                <p><a class="btn btn-primary" th:href="@{/usuarios/{id}/tareas/nueva(id=${usuario.id})}"> Nueva tarea</a>
+                <a class="btn btn-danger" href="/logout">Salir</a></p>
+            </div>
         </div>
     </div>
     <div class="row mt-2">
