@@ -32,7 +32,7 @@
                         <h5 class="card-title">To Do</h5>
                         <table class="table table-hover">
                             <tbody>
-                            <tr th:if="${tarea.getEstado() == 'todo'}" th:each="tarea: ${tareas}">
+                            <tr th:if="${tarea.getEstado() == 'To Do'}" th:each="tarea: ${tareas}">
                                 <td th:text="${tarea.titulo}"></td>
                                 <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
                                     <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
@@ -49,7 +49,7 @@
                         <h5 class="card-title">In Progress</h5>
                         <table class="table table-hover">
                             <tbody>
-                            <tr th:if="${tarea.getEstado() == 'inprogress'}" th:each="tarea: ${tareas}">
+                            <tr th:if="${tarea.getEstado() == 'In Progress'}" th:each="tarea: ${tareas}">
                                 <td th:text="${tarea.titulo}"></td>
                                 <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
                                     <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
@@ -66,7 +66,7 @@
                         <h5 class="card-title">Done</h5>
                         <table class="table table-hover">
                             <tbody>
-                            <tr th:if="${tarea.getEstado() == 'done'}" th:each="tarea: ${tareas}">
+                            <tr th:if="${tarea.getEstado() == 'Done'}" th:each="tarea: ${tareas}">
                                 <td th:text="${tarea.titulo}"></td>
                                 <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
                                     <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
