@@ -86,7 +86,7 @@ public class TareaServiceTest {
 
         // WHEN
 
-        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA");
+        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA", "todo");
         Tarea tareaBD = tareaService.findById(idNuevaTarea);
 
         // THEN
