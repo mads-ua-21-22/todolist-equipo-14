@@ -94,4 +94,18 @@ public class UserController {
         return "redirect:/usuarios";
 
     }
+
+    @GetMapping("/perfil")
+    public String perfil_usuario(Model model, HttpSession session) {
+
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuariosession);
+
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+        if (usuario == null) {
+            throw new UsuarioNotFoundException();
+        }
+        model.addAttribute("usuario", usuario);
+        return "perfilUsuario";
+    }
 }
