@@ -348,4 +348,17 @@ public class TareaWebTest {
                         containsString("To Do"))));
     }
 
+    @Test
+    public void getListaTareasDevuelveEstados() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+
+        when(usuarioService.findById(1L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/usuarios/1/tareas"))
+                .andExpect(content().string(allOf(containsString("To Do"),
+                        containsString("In Progress"),
+                        containsString("Done"))));
+    }
+
 }
