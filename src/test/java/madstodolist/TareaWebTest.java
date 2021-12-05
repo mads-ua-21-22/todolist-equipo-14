@@ -314,4 +314,25 @@ public class TareaWebTest {
 
     }
 
+    @Test
+    public void editarTareaDevuelveFormEstado() throws Exception {
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tarea.setEstado("To Do");
+
+        when(tareaService.findById(1L)).thenReturn(tarea);
+
+        this.mockMvc.perform(get("/tareas/1/editar"))
+                .andExpect(content().string(allOf(
+                        // Contiene la acción para enviar el post a la URL correcta
+                        containsString("action=\"/tareas/1/editar\""),
+                        // Contiene el texto de la tarea a editar
+                        containsString("Tarea de prueba"),
+                        // Contiene enlace a listar tareas del usuario si se cancela la edición
+                        containsString("href=\"/usuarios/1/tareas\""),
+                        containsString("To Do"))));
+    }
+
 }
