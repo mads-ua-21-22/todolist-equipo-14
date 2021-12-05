@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class='row'>
-                <div class="card border-primary mb-3" style="margin: 5px">
+                <div class="card border-primary mb-3" style="min-width: 32.5%; margin: 5px; margin-left: 15px">
                     <div class="card-body text-primary float-left">
                         <h5 class="card-title">To Do</h5>
                         <table class="table table-hover">
@@ -44,7 +44,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="card border-primary mb-3" style="max-width: 95%; margin: 5px">
+                <div class="card border-primary mb-3" style="min-width: 32.5%; margin: 5px">
                     <div class="card-body text-primary float-left">
                         <h5 class="card-title">In Progress</h5>
                         <table class="table table-hover">
@@ -61,7 +61,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="card border-primary mb-3" style="max-width: 95%; margin: 5px">
+                <div class="card border-primary mb-3" style="min-width: 32.5%; margin: 5px">
                     <div class="card-body text-primary float-left">
                         <h5 class="card-title">Done</h5>
                         <table class="table table-hover">
@@ -99,7 +99,7 @@
                 </tr>
                 </tbody>
             </table>-->
-            <div class="row mt-2" style="margin: 5px" >
+            <div class="row" style="margin-left: 1px" >
                 <p><a class="btn btn-primary" th:href="@{/usuarios/{id}/tareas/nueva(id=${usuario.id})}"> Nueva tarea</a>
                 <a class="btn btn-danger" href="/logout">Salir</a></p>
             </div>
