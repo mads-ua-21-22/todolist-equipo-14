@@ -68,6 +68,7 @@ public class TareaService {
         }
         tarea.setTitulo(nuevoTitulo);
         tarea.setDescripcion(descripcion);
+        tarea.setEstado(estado);
         tareaRepository.save(tarea);
         return tarea;
     }
