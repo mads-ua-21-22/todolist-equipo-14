@@ -335,4 +335,16 @@ public class TareaWebTest {
                         containsString("To Do"))));
     }
 
+    @Test
+    public void getNuevaTareaDevuelveFormEstado() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+
+        when(usuarioService.findById(1L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/usuarios/1/tareas/nueva"))
+                .andExpect(content().string(allOf(containsString("action=\"/usuarios/1/tareas/nueva\""),
+                        containsString("To Do"))));
+    }
+
 }
