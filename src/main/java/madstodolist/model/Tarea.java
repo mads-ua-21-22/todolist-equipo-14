@@ -19,6 +19,8 @@ public class Tarea implements Serializable {
 
     private String descripcion;
 
+    private String estado;
+
     @NotNull
     // Relación muchos-a-uno entre tareas y usuario
     @ManyToOne
@@ -69,6 +71,10 @@ public class Tarea implements Serializable {
     public String getDescripcion() { return descripcion; }
 
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public String getEstado() { return estado; }
+
+    public void setEstado(String estado) { this.estado = estado; }
 
     @Override
     public boolean equals(Object o) {

@@ -114,14 +114,15 @@ public class TareaWebTest {
 
         this.mockMvc.perform(post("/usuarios/1/tareas/nueva")
                 .param("titulo", "Estudiar examen MADS")
-                .param("descripcion", "XX"))
+                .param("descripcion", "XX")
+                .param("estado", "To Do"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/usuarios/1/tareas"));
 
         // Verificamos que se ha llamado al método para
         // añadir una tarea con los parámetros correctos
 
-        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS", "XX");
+        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS", "XX", "To Do");
     }
 
     @Test
@@ -312,6 +313,52 @@ public class TareaWebTest {
                 .andExpect(content().string(allOf(containsString("Tareas"),
                         containsString("Usuario"), containsString("Cerrar Sesión Usuario"))));
 
+    }
+
+    @Test
+    public void editarTareaDevuelveFormEstado() throws Exception {
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tarea.setEstado("To Do");
+
+        when(tareaService.findById(1L)).thenReturn(tarea);
+
+        this.mockMvc.perform(get("/tareas/1/editar"))
+                .andExpect(content().string(allOf(
+                        // Contiene la acción para enviar el post a la URL correcta
+                        containsString("action=\"/tareas/1/editar\""),
+                        // Contiene el texto de la tarea a editar
+                        containsString("Tarea de prueba"),
+                        // Contiene enlace a listar tareas del usuario si se cancela la edición
+                        containsString("href=\"/usuarios/1/tareas\""),
+                        containsString("To Do"))));
+    }
+
+    @Test
+    public void getNuevaTareaDevuelveFormEstado() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+
+        when(usuarioService.findById(1L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/usuarios/1/tareas/nueva"))
+                .andExpect(content().string(allOf(containsString("action=\"/usuarios/1/tareas/nueva\""),
+                        containsString("To Do"))));
+    }
+
+    @Test
+    public void getListaTareasDevuelveEstados() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+
+        when(usuarioService.findById(1L)).thenReturn(usuario);
+
+        this.mockMvc.perform(get("/usuarios/1/tareas"))
+                .andExpect(content().string(allOf(containsString("To Do"),
+                        containsString("In Progress"),
+                        containsString("Done"))));
     }
 
 }
