@@ -81,7 +81,7 @@ public class TareaServiceTest {
         // GIVEN
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo", "XX");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo", "XX", "To Do");
         Long idNuevaTarea = tarea.getId();
 
         // WHEN
