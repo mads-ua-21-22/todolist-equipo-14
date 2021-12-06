@@ -182,4 +182,22 @@ public class UsuarioServiceTest {
         Usuario usuario = usuarioService.findByEmail("user@ua");
         assertThat(usuario.getAdminApproved()).isFalse();
     }
+
+    @Test
+    @Transactional
+    public void editar_perfil() {
+        // GIVEN
+
+        Usuario usuario = usuarioService.findByEmail("user@ua");
+
+        assertThat(usuario.getNombre()).isEqualTo("Usuario Ejemplo");
+        usuario.setNombre("Pedro");
+
+        usuario = usuarioService.editar_perfil(usuario);
+
+        assertThat(usuario.getNombre()).isEqualTo("Pedro");
+        // THEN
+
+
+    }
 }

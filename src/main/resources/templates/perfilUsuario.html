@@ -20,6 +20,7 @@
                 <h5 class="card-title">Fecha Nacimiento: </h5>
                 <p class="card-text" th:text="${usuario.fechaNacimiento}"></p>
             </div>
+           <a class="btn btn-primary" th:href="@{/perfil/editar}" >Editar Perfil</a>
         </div>
     </div>
 <div th:replace="fragments::javascript"/>

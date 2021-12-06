@@ -1,6 +1,7 @@
 package madstodolist;
 
 import madstodolist.authentication.ManagerUserSession;
+import madstodolist.model.Equipo;
 import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
 import madstodolist.model.UsuarioRepository;
@@ -372,6 +373,25 @@ public class TareaWebTest {
         this.mockMvc.perform(get("/perfil"))
                 .andExpect(content().string(allOf(containsString("pedro@ua.es"),
                         containsString("Perfil"))));
+    }
+
+    @Test
+    public void postModificarPerfil() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+
+
+        this.mockMvc.perform(post("/perfil")
+                        .param("nombre", "Pedro")
+                        .param("password", "123"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/perfil"));
+
+        verify(usuarioService).editar_perfil(usuario);
     }
 
 }

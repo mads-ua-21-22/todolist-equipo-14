@@ -12,10 +12,12 @@ import madstodolist.service.UsuarioServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -108,4 +110,34 @@ public class UserController {
         model.addAttribute("usuario", usuario);
         return "perfilUsuario";
     }
+    @PostMapping("/perfil")
+    public String editar_perfil(@Valid RegistroData registroData, BindingResult result, Model model, HttpSession session) {
+
+        if (result.hasErrors()) {
+            return "formEditarPerfil";
+        }
+
+        if (usuarioService.findByEmail(registroData.geteMail()) != null) {
+            model.addAttribute("registroData", registroData);
+            model.addAttribute("error", "El usuario " + registroData.geteMail() + " ya existe");
+            return "formEditarPerfil";
+        }
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+
+        usuario.setPassword(registroData.getPassword());
+        usuario.setFechaNacimiento(registroData.getFechaNacimiento());
+        usuario.setNombre(registroData.getNombre());
+        usuario.setAdminApproved(registroData.getAdminApproved());
+
+        usuarioService.editar_perfil(usuario);
+        return "redirect:/perfil";
+    }
+    @GetMapping("/perfil/editar")
+    public String editar_perfilForm(Model model) {
+
+        model.addAttribute("registroData", new RegistroData());
+        return "formEditarPerfil";
+    }
+
 }
