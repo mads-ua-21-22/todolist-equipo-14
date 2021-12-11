@@ -101,7 +101,7 @@ public class LoginController {
         usuario.setAdminApproved(registroData.getAdminApproved());
 
         Usuario usuarioGuardado = usuarioService.registrar(usuario);
-        String uploadDir = "./user-images/" + usuarioGuardado.getId();
+        String uploadDir = "./src/main/resources/static/user-images/";
         Path uploadPath = Paths.get(uploadDir);
 
         if(!Files.exists(uploadPath)) {
