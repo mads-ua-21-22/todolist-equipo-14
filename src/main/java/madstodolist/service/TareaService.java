@@ -29,7 +29,7 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea, String descripcion, String estado) {
+    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea, String descripcion, String estado,String prioridad) {
         logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
@@ -38,6 +38,7 @@ public class TareaService {
         Tarea tarea = new Tarea(usuario, tituloTarea);
         tarea.setDescripcion(descripcion);
         tarea.setEstado(estado);
+        tarea.setPrioridad(prioridad);
         tareaRepository.save(tarea);
         return tarea;
     }
