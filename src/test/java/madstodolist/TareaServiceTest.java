@@ -107,7 +107,7 @@ public class TareaServiceTest {
     public void testBorrarTarea() {
         // GIVEN
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS", "XX", "To Do","Media");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS", "XX", "To Do","red");
 
         // WHEN
 
