@@ -62,7 +62,7 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea modificaTarea(Long idTarea, String nuevoTitulo, String descripcion, String estado) {
+    public Tarea modificaTarea(Long idTarea, String nuevoTitulo, String descripcion, String estado,String prioridad) {
         logger.debug("Modificando tarea " + idTarea + " - " + nuevoTitulo);
         Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
         if (tarea == null) {
@@ -71,6 +71,7 @@ public class TareaService {
         tarea.setTitulo(nuevoTitulo);
         tarea.setDescripcion(descripcion);
         tarea.setEstado(estado);
+        tarea.setPrioridad(prioridad);
         tareaRepository.save(tarea);
         return tarea;
     }

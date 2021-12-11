@@ -69,7 +69,7 @@
                         <h5 class="card-title">Done</h5>
                         <table class="table table-hover">
                             <tbody>
-                            <tr th:if="${tarea.getEstado() == 'Done'}"  th:style="'background:'+@{${tarea.getPrioridad()}}" th:each="tarea: ${tareas}">
+                            <tr th:if="${tarea.getEstado() == 'Done'}"  th:each="tarea: ${tareas}">
                                 <td th:text="${tarea.titulo}"></td>
                                 <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
                                     <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
