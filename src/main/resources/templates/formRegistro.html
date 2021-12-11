@@ -50,6 +50,12 @@
                             <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" th:field="*{imagen}" />
                         </div>
 
+                        <div>
+                            <p>
+                                <img width="70px" height="90px" id="thumbnail" alt="Img Preview">
+                            </p>
+                        </div>
+
                         <div th:if="${adminApproved == 0}" class="form-check">
                             <input class="form-check-input" type="checkbox" value="TRUE" id="adminApproved" th:field="*{adminApproved}"/>
                             <label class="form-check-label" for="adminApproved">
@@ -81,6 +87,25 @@
 </div>
 
 <div th:replace="fragments::javascript"/>
+
+<script>
+    $(document).ready(function () {
+     $('#imagen').change(function() {
+         showImageThumbnail(this)
+     });
+    });
+
+    function showImageThumbnail(imagen) {
+        file = imagen.files[0];
+        reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#thumbnail').attr('src', e.target.result)
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
 
 </body>
 </html>
