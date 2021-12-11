@@ -38,6 +38,9 @@ public class Usuario implements Serializable {
     @Column(columnDefinition="boolean default 'TRUE'")
     private boolean access = true;
 
+    @Column(nullable = true, length = 64)
+    private String image;
+
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
     // toda su lista de tareas
@@ -126,6 +129,10 @@ public class Usuario implements Serializable {
     public Set<Equipo> getEquipos() { return equipos; }
 
     public void setEquipos(Set<Equipo> equipos) { this.equipos = equipos; }
+
+    public String getImage() { return image; }
+
+    public void setImage(String image) { this.image = image; }
 
     @Override
     public boolean equals(Object o) {
