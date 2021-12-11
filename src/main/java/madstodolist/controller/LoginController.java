@@ -92,27 +92,32 @@ public class LoginController {
             return "formRegistro";
         }
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
         Usuario usuario = new Usuario(registroData.geteMail());
-        usuario.setImage(fileName);
+
         usuario.setPassword(registroData.getPassword());
         usuario.setFechaNacimiento(registroData.getFechaNacimiento());
         usuario.setNombre(registroData.getNombre());
         usuario.setAdminApproved(registroData.getAdminApproved());
 
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        usuario.setImage(fileName);
+
         Usuario usuarioGuardado = usuarioService.registrar(usuario);
-        String uploadDir = "./src/main/resources/static/user-images/";
+        String uploadDir = "./src/main/resources/static/user-images";
         Path uploadPath = Paths.get(uploadDir);
 
         if(!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
 
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Could not save the uploaded file: " + fileName);
+        if(fileName != "") {
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new IOException("Could not save the uploaded file: " + fileName);
+            }
         }
         return "redirect:/login";
    }
