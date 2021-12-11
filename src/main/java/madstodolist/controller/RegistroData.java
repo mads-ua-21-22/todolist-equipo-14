@@ -14,6 +14,7 @@ public class RegistroData {
     private Date fechaNacimiento;
     private boolean adminApproved;
     private boolean access;
+    private String imagen;
 
     public String geteMail() {
         return eMail;
@@ -54,4 +55,8 @@ public class RegistroData {
     public boolean getAccess() { return access; }
 
     public void setAccess(boolean adminApproved) { this.access = access; }
+
+    public String getImagen() { return imagen; }
+
+    public void setImagen(String imagen) { this.imagen = imagen; }
 }
