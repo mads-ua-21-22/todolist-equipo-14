@@ -29,11 +29,25 @@ public class Tarea implements Serializable {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "equipo_id")
+    private Equipo equipo = null;
+
     // Constructor vacío necesario para JPA/Hibernate.
     // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
     // usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar
     // de ser privado.
     private Tarea() {}
+    //constructor para tareas de equipo
+    public Tarea(Equipo equipo, String titulo, Usuario usuario) {
+        this.equipo = equipo;
+        this.usuario = usuario;
+        this.titulo = titulo;
+        if(equipo != null){
+            equipo.getTareas().add(this);
+        }
+        usuario.getTareas().add(this);
+    }
 
     // Al crear una tarea la asociamos automáticamente a un
     // usuario. Actualizamos por tanto la lista de tareas del
