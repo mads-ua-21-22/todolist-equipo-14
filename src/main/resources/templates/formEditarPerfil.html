@@ -31,6 +31,11 @@
                                    th:field="*{nombre}"/>
                         </div>
                         <div class="form-group">
+                            <label for="nombre">Email</label>
+                            <input id="email" class="form-control" name="email" placeholder="Email" type="text"
+                                   th:field="*{eMail}"/>
+                        </div>
+                        <div class="form-group">
                             <label for="password">Contraseña</label>
                             <input id="password" class="form-control" name="password" placeholder="Contraseña"
                                    type="password" th:field="*{password}" required/>
@@ -47,8 +52,12 @@
                             <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" />
                         </div>
 
+                        <label>Imagen Actual:</label>
+                        <img th:src="@{${'/user-images/' + usuario.getImage()}}" width="80px" height="100px">
+                        <br>
                         <div>
                             <p>
+                                <label>Nueva Imagen:</label>
                                 <img width="70px" height="90px" id="thumbnail" alt="Img Preview">
                             </p>
                         </div>
