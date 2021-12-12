@@ -103,6 +103,7 @@ public class LoginController {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         usuario.setImage(fileName);
 
+        usuarioService.registrar(usuario);
         String uploadDir = "./src/main/resources/static/user-images";
         Path uploadPath = Paths.get(uploadDir);
 

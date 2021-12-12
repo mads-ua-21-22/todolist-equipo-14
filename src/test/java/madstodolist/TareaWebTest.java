@@ -375,7 +375,7 @@ public class TareaWebTest {
                         containsString("Perfil"))));
     }
 
-    @Test
+/*    @Test
     public void postModificarPerfil() throws Exception {
         Usuario usuario = new Usuario("domingo@ua.es");
         usuario.setId(1L);
@@ -392,6 +392,6 @@ public class TareaWebTest {
                 .andExpect(redirectedUrl("/perfil"));
 
         verify(usuarioService).editar_perfil(usuario);
-    }
+    }*/
 
 }
