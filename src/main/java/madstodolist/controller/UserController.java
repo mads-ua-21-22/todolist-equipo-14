@@ -131,11 +131,20 @@ public class UserController {
         usuario.setAdminApproved(registroData.getAdminApproved());
 
         usuarioService.editar_perfil(usuario);
+        model.addAttribute("usuario", usuario);
         return "redirect:/perfil";
     }
     @GetMapping("/perfil/editar")
-    public String editar_perfilForm(Model model) {
+    public String editar_perfilForm(Model model, HttpSession session) {
 
+        Long idUsuariosession = managerUserSession.usuarioLogeado(session);
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuariosession);
+
+        Usuario usuario = usuarioService.findById(idUsuariosession);
+        if (usuario == null) {
+            throw new UsuarioNotFoundException();
+        }
+        model.addAttribute("usuario", usuario);
         model.addAttribute("registroData", new RegistroData());
         return "formEditarPerfil";
     }
