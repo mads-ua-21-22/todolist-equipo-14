@@ -33,6 +33,28 @@
             <p th:text="${equipo.descripcion}"></p>
         </div>
     </div>
+    <div align="center" th:marginheight="5px" >
+        <div th:each="tarea: ${equipo.getTareas()}">
+            <p>
+            <li>
+                <div class="title-wrapper">
+                    <div th:if="${tarea.getUsuario().equals(usuarioLogeado)}">
+                        <a th:text="${tarea.titulo}" style="color: magenta"></a>
+                    </div>
+                    <div th:if="${!tarea.getUsuario().equals(usuarioLogeado)}">
+                        <a th:text="${tarea.titulo}"></a>
+                    </div>
+                    <div><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+
+                        <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                th:onclick="'delTarea(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                    </div>
+                </div>
+            </li>
+            </p>
+
+        </div>
+    </div>
     <div>
         <div th:if="${usuario.getEquipos().contains(equipo)}">
             <form method="post" th:action="@{/equiposdel/{id}(id=${equipo.id})}">
