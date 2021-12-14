@@ -219,5 +219,21 @@ public class EquipoController {
             throw new UsuarioNoLogeadoException();
         }
     }
+    @GetMapping("/equipos/{id}/tareas/nueva/{idUsuario}")
+    public String formNuevaTareaEquipo(@PathVariable(value="id") Long idEquipo, @PathVariable(value="idUsuario") Long idUsuario,
+                                       @ModelAttribute TareaData tareaData, Model model,
+                                       HttpSession session) {
+
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("equipo", equipo);
+        model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
+        model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
+        return "formNuevaTareaEquipo";
+    }
 
 }
