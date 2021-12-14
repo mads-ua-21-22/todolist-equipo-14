@@ -33,7 +33,7 @@
             <p th:text="${equipo.descripcion}"></p>
         </div>
     </div>
-    <div align="center" th:marginheight="5px" >
+    <div >
         <div th:each="tarea: ${equipo.getTareas()}">
             <p>
             <li>
@@ -54,6 +54,9 @@
             </p>
 
         </div>
+
+        <a th:if="${equipo.getUsuarios().contains(usuario) && equipo.getTareas().isEmpty()}"  >Este equipo todavía no tiene tareas</a>
+        <a th:if="${equipo.getUsuarios().contains(usuario)}" class="btn btn-primary" th:href="@{/equipos/{id}/tareas/nueva/{idUsuario}(id=${equipo.id}, idUsuario=${usuario.id})}">Nueva tarea</a>
     </div>
     <div>
         <div th:if="${usuario.getEquipos().contains(equipo)}">
