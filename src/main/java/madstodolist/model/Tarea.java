@@ -43,6 +43,7 @@ public class Tarea implements Serializable {
         this.equipo = equipo;
         this.usuario = usuario;
         this.titulo = titulo;
+        this.estado = "To Do";
         if(equipo != null){
             equipo.getTareas().add(this);
         }
