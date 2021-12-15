@@ -108,7 +108,8 @@ public class EquipoController {
     }
 
     @GetMapping("/editarEquipo/{id}")
-    public String editarEquipo(@PathVariable(value="id") Long idEquipo, Model model, HttpSession session) {
+    public String editarEquipo(@PathVariable(value="id") Long idEquipo, Model model,
+                               HttpSession session, @ModelAttribute EquipoData equipoData) {
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
 
@@ -119,6 +120,8 @@ public class EquipoController {
 
             model.addAttribute("usuario", usuario);
             model.addAttribute("equipo", equipo);
+            equipoData.setDescripcion(equipo.getDescripcion());
+            equipoData.setNombre(equipo.getNombre());
 
             return "formEditarEquipo";
         }
