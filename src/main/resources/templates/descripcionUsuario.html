@@ -13,6 +13,8 @@
             <div class="card-body text-primary">
                 <h5 class="card-title">ID Usuario: </h5>
                 <p class="card-text" th:text="${usuariodesc.id}"></p>
+                <img th:src="@{${'/user-images/' + usuariodesc.getImage()}}" width="120px" height="160px" style="border-radius: 15px;">
+                <br>
                 <h5 class="card-title">Nombre Usuario: </h5>
                 <p class="card-text" th:text="${usuariodesc.nombre}"></p>
                 <h5 class="card-title">Email Usuario: </h5>

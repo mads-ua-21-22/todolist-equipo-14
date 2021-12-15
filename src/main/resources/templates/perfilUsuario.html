@@ -11,6 +11,8 @@
         <div class="card border-primary mb-3" style="max-width: 95%;">
             <h1>Perfil</h1>
             <div class="card-body text-primary">
+                <img th:src="@{${'/user-images/' + usuario.getImage()}}" width="120px" height="160px" style="border-radius: 15px;">
+                <br>
                 <h5 class="card-title">ID Usuario: </h5>
                 <p class="card-text" th:text="${usuario.id}"></p>
                 <h5 class="card-title">Nombre Usuario: </h5>
