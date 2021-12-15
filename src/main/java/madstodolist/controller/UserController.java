@@ -144,13 +144,13 @@ public class UserController {
         usuario.setAdminApproved(registroData.getAdminApproved());
         usuario.setEmail(registroData.geteMail());
 
-        usuarioService.editar_perfil(usuario);
+
         model.addAttribute("usuario", usuario);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         usuario.setImage(fileName);
 
-        String uploadDir = "./src/main/resources/static/user-images";
+        String uploadDir = "./user-images";
         Path uploadPath = Paths.get(uploadDir);
 
         if(!Files.exists(uploadPath)) {
@@ -164,6 +164,8 @@ public class UserController {
             } catch (IOException e) {
                 throw new IOException("Could not save the uploaded file: " + fileName);
             }
+            usuario.setImage(fileName);
+            usuarioService.editar_perfil(usuario);
         }
         return "redirect:/perfil";
     }

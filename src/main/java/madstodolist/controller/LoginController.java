@@ -104,7 +104,7 @@ public class LoginController {
         usuario.setImage(fileName);
 
         usuarioService.registrar(usuario);
-        String uploadDir = "./src/main/resources/static/user-images";
+        String uploadDir = "./user-images";
         Path uploadPath = Paths.get(uploadDir);
 
         if(!Files.exists(uploadPath)) {
