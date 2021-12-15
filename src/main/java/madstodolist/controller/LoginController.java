@@ -101,9 +101,7 @@ public class LoginController {
         usuario.setAdminApproved(registroData.getAdminApproved());
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        usuario.setImage(fileName);
 
-        usuarioService.registrar(usuario);
         String uploadDir = "./user-images";
         Path uploadPath = Paths.get(uploadDir);
 
@@ -112,13 +110,19 @@ public class LoginController {
         }
 
         if(!fileName.equals("")) {
+            usuario.setImage(fileName);
+            usuarioService.registrar(usuario);
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new IOException("Could not save the uploaded file: " + fileName);
             }
+        } else {
+            usuario.setImage("img.png");
+            usuarioService.registrar(usuario);
         }
+
         return "redirect:/login";
    }
 

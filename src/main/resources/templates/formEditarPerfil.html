@@ -53,15 +53,12 @@
                         </div>
 
                         <label>Imagen Actual:</label>
-                        <img th:src="@{${'/user-images/' + usuario.getImage()}}" width="80px" height="100px">
-                        <br>
                         <div>
                             <p>
-                                <label>Nueva Imagen:</label>
-                                <img width="70px" height="90px" id="thumbnail" alt="Img Preview">
+                                <img width="70px" height="90px" id="thumbnail" alt="Img Preview" th:src="@{${'/user-images/' + usuario.getImage()}}">
                             </p>
                         </div>
-                        
+
                         <br>
 
                         <button type="submit" class="btn btn-primary">Enviar</button>

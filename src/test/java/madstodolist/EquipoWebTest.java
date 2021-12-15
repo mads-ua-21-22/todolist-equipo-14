@@ -229,8 +229,7 @@ public class EquipoWebTest {
         this.mockMvc.perform(get("/editarEquipo/1"))
                 .andExpect(content().string(allOf(containsString("EQUIPO1"),
                         containsString("PRUEBA"),
-                        containsString("Imagen Actual"),
-                        containsString("Imagen Modificada"))));
+                        containsString("Imagen Actual"))));
     }
 
 }
