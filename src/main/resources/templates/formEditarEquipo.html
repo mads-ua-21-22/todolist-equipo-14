@@ -23,6 +23,10 @@
         <label for="imagen">Imagen de Equipo:</label>
         <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" />
       </div>
+      <label>Imagen Actual:</label>
+      <img th:src="@{${'/user-images/team-images/' + equipo.getImage()}}" width="80px" height="100px">
+      <br>
+      <label>Imagen Modificada:</label>
       <div>
         <p>
           <img width="70px" height="90px" id="thumbnail" alt="Img Preview">

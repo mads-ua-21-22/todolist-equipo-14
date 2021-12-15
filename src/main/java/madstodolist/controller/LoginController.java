@@ -111,7 +111,7 @@ public class LoginController {
             Files.createDirectories(uploadPath);
         }
 
-        if(fileName != "") {
+        if(!fileName.equals("")) {
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
