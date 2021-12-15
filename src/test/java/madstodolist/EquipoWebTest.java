@@ -166,9 +166,9 @@ public class EquipoWebTest {
                 .andExpect(redirectedUrl("/equipos"));
 
         verify(equipoService).crearEquipo("PRUEBA", "X","XX");
-    }*/
+    }
 
- /*   @Test
+    @Test
     public void postModificarEquipoDevuelveRedirectYModificaEquipo() throws Exception {
         Usuario usuario = new Usuario("domingo@ua.es");
         usuario.setId(1L);
