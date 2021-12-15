@@ -138,7 +138,6 @@ public class EquipoServiceTest {
     @Test
     @Transactional
     public void comprobarBorrarEquipo() {
-
         equipoService.borrarEquipo(1L);
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(1);

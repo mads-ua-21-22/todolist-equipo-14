@@ -186,7 +186,8 @@ public class EquipoWebTest {
                 .andExpect(redirectedUrl("/equipos"));
 
         verify(equipoService).renombrarEquipo(1L,"PRUEBA", "X", fileName);
-    }*/
+    }
+    */
 
     @Test
     public void postEliminarEquipoDevuelveRedirectYEliminaEquipo() throws Exception {
