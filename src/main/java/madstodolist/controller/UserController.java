@@ -165,8 +165,9 @@ public class UserController {
                 throw new IOException("Could not save the uploaded file: " + fileName);
             }
             usuario.setImage(fileName);
-            usuarioService.editar_perfil(usuario);
         }
+
+        usuarioService.editar_perfil(usuario);
         return "redirect:/perfil";
     }
     @GetMapping("/perfil/editar")
