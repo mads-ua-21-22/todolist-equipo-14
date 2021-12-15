@@ -207,4 +207,30 @@ public class EquipoWebTest {
         verify(equipoService).borrarEquipo(1L);
     }
 
+    @Test
+    public void getEditarEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setDescripcion("PRUEBA");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/editarEquipo/1"))
+                .andExpect(content().string(allOf(containsString("EQUIPO1"),
+                        containsString("PRUEBA"),
+                        containsString("Imagen Actual"),
+                        containsString("Imagen Modificada"))));
+    }
+
 }
