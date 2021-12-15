@@ -11,6 +11,8 @@
     <div class="card border-primary mb-3" style="max-width: 95%;">
         <div class="card-body text-primary">
             <h5 class="card-title" th:text="${equipo.nombre}"></h5>
+            <img th:src="@{${'/user-images/team-images/' + equipo.getImage()}}" width="120px" height="160px">
+            <br>
             <br>
             <h6 class="card-subtitle mb-2">Integrantes: </h6>
             <table class="table table-striped" >

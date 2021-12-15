@@ -228,7 +228,8 @@ public class EquipoController {
 
     @PostMapping("/editequipos/{id}")
     public String renombrarEquipo(@PathVariable(value="id") Long idEquipo,
-                                  Model model, @ModelAttribute EquipoData equipoData, HttpSession session) {
+                                  Model model, @ModelAttribute EquipoData equipoData, HttpSession session,
+            @RequestParam("imagen") MultipartFile multipartFile) throws IOException {
 
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
@@ -237,7 +238,25 @@ public class EquipoController {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
             usuario = usuarioService.findById(idUsuario);
             model.addAttribute("usuario", usuario);
-            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion());
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            String uploadDir = "./user-images/team-images";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if(!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            if(fileName != "") {
+                try (InputStream inputStream = multipartFile.getInputStream()) {
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    throw new IOException("Could not save the uploaded file: " + fileName);
+                }
+            }
+
+            usuarioService.editar_perfil(usuario);
+            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             return "redirect:/equipos";
 
         }

@@ -9,7 +9,7 @@
 
   <h2>Editar Equipo</h2>
 
-  <form method="post" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
+  <form method="post" enctype="multipart/form-data" th:action="@{/editequipos/{id}(id=${equipo.id})}" th:object="${equipoData}">
     <div class="col-6">
       <div class="form-group">
         <label for="nombre">Nombre Equipo: </label>
@@ -19,6 +19,15 @@
         <label for="descripcion">Modificar Descripción: </label>
         <input class="form-control" id="descripcion" name="descripcion" required  type="text"/>
       </div>
+      <div class="form-group">
+        <label for="imagen">Imagen de Equipo:</label>
+        <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" />
+      </div>
+      <div>
+        <p>
+          <img width="70px" height="90px" id="thumbnail" alt="Img Preview">
+        </p>
+      </div>
       <button class="btn btn-primary" type="submit">Modificar</button>
       <a class="btn btn-danger btn-xs" th:href="@{/equipos}">Cancelar</a>
     </div>
@@ -27,6 +36,25 @@
 </div>
 
 <div th:replace="fragments::javascript"/>
+
+<script>
+  $(document).ready(function () {
+    $('#imagen').change(function() {
+      showImageThumbnail(this)
+    });
+  });
+
+  function showImageThumbnail(imagen) {
+    file = imagen.files[0];
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#thumbnail').attr('src', e.target.result)
+    };
+
+    reader.readAsDataURL(file);
+  }
+</script>
 
 </body>
 </html>
