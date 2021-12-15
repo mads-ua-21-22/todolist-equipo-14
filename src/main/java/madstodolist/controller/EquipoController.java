@@ -158,8 +158,8 @@ public class EquipoController {
                 } catch (IOException e) {
                     throw new IOException("Could not save the uploaded file: " + fileName);
                 }
+                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             }
-            equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
             return "redirect:/equipos";
@@ -256,10 +256,8 @@ public class EquipoController {
                 } catch (IOException e) {
                     throw new IOException("Could not save the uploaded file: " + fileName);
                 }
+                equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             }
-
-            usuarioService.editar_perfil(usuario);
-            equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             return "redirect:/equipos";
 
         }
