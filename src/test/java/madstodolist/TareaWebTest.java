@@ -117,14 +117,15 @@ public class TareaWebTest {
         this.mockMvc.perform(post("/usuarios/1/tareas/nueva")
                 .param("titulo", "Estudiar examen MADS")
                 .param("descripcion", "XX")
-                .param("estado", "To Do"))
+                .param("estado", "To Do")
+                .param("prioridad", "Media"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/usuarios/1/tareas"));
 
         // Verificamos que se ha llamado al método para
         // añadir una tarea con los parámetros correctos
 
-        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS", "XX", "To Do");
+        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS", "XX", "To Do","Media");
     }
 
     @Test

@@ -31,7 +31,7 @@ public class TareaServiceTest {
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
         // WHEN
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS", "XX", "To Do");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS", "XX", "To Do","red");
 
         // THEN
 
@@ -81,12 +81,12 @@ public class TareaServiceTest {
         // GIVEN
         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo", "XX", "To Do");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo", "XX", "To Do","green");
         Long idNuevaTarea = tarea.getId();
 
         // WHEN
 
-        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA", "To Do");
+        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula", "PRUEBA", "To Do","red");
         Tarea tareaBD = tareaService.findById(idNuevaTarea);
 
         // THEN
@@ -96,7 +96,10 @@ public class TareaServiceTest {
         assertThat(tareaModificada.getDescripcion()).isEqualTo("PRUEBA");
         assertThat(tareaBD.getDescripcion()).isEqualTo("PRUEBA");
         assertThat(tareaModificada.getEstado()).isEqualTo("To Do");
+        assertThat(tareaModificada.getPrioridad()).isEqualTo("red");
         assertThat(tareaBD.getEstado()).isEqualTo("To Do");
+        assertThat(tareaBD.getPrioridad()).isEqualTo("red");
+
     }
 
     @Test
@@ -104,7 +107,7 @@ public class TareaServiceTest {
     public void testBorrarTarea() {
         // GIVEN
 
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS", "XX", "To Do");
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS", "XX", "To Do","red");
 
         // WHEN
 
