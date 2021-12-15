@@ -129,8 +129,10 @@ public class EquipoServiceTest {
     @Test
     @Transactional
     public void comprobarRenombrarEquipoEquipo() {
-        equipoService.renombrarEquipo(1L,"CAMBIO", "X", "XX");
-        assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
+        equipoService.renombrarEquipo(1L,"EQUIPO 1", "Somos el equipo 1", "Equipo1.png");
+        assertThat(equipoService.findById(1l).getNombre().equals("EQUIPO 1"));
+        assertThat(equipoService.findById(1l).getDescripcion().equals("Somos el equipo 1"));
+        assertThat(equipoService.findById(1l).getImage().equals("Equipo1.png"));
     }
 
     @Test
