@@ -243,14 +243,15 @@ public class EquipoController {
         Usuario usuario = usuarioService.findById(idUsuario);
         Equipo equipo = equipoService.findById(idEquipo);
         String nombretarea = tareaData.getTitulo();
+        String descripcionTarea = tareaData.getDescripcion();
 
 
-        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario);
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea);
         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
         model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
-        return "redirect:/equipos";
+        return "redirect:/equipos/" + idEquipo;
     }
 
 }

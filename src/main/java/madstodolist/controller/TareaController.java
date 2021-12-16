@@ -5,6 +5,7 @@ import madstodolist.controller.exception.TareaNotFoundException;
 import madstodolist.controller.exception.UsuarioNotFoundException;
 import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
+import madstodolist.service.EquipoService;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class TareaController {
 
     @Autowired
     ManagerUserSession managerUserSession;
+
+    @Autowired
+    EquipoService equipoService;
 
 
     @GetMapping("/usuarios/{id}/tareas/nueva")
@@ -120,6 +124,10 @@ public class TareaController {
 
         tareaService.modificaTarea(idTarea, tareaData.getTitulo(), tareaData.getDescripcion(), tareaData.getEstado());
         flash.addFlashAttribute("mensaje", "Tarea modificada correctamente");
+        if(tarea.getEquipo() != null){
+
+            return "redirect:/equipos/" + tarea.getEquipo().getId();
+        }
         return "redirect:/usuarios/" + tarea.getUsuario().getId() + "/tareas";
     }
 

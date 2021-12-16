@@ -39,11 +39,12 @@ public class Tarea implements Serializable {
     // de ser privado.
     private Tarea() {}
     //constructor para tareas de equipo
-    public Tarea(Equipo equipo, String titulo, Usuario usuario) {
+    public Tarea(Equipo equipo, String titulo, Usuario usuario, String descripcion) {
         this.equipo = equipo;
         this.usuario = usuario;
         this.titulo = titulo;
         this.estado = "To Do";
+        this.descripcion = descripcion;
         if(equipo != null){
             equipo.getTareas().add(this);
         }
