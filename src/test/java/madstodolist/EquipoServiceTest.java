@@ -121,7 +121,7 @@ public class EquipoServiceTest {
     public void comprobarCrearEquipoEquipo() {
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(2);
-        equipoService.crearEquipo("PRUEBA", "X");
+        equipoService.crearEquipo("PRUEBA", "descripcion de prueba", "img.png");
         equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(3);
     }
@@ -129,14 +129,15 @@ public class EquipoServiceTest {
     @Test
     @Transactional
     public void comprobarRenombrarEquipoEquipo() {
-        equipoService.renombrarEquipo(1L,"CAMBIO", "X");
-        assertThat(equipoService.findById(1l).getNombre().equals("CAMBIO"));
+        equipoService.renombrarEquipo(1L,"EQUIPO 1", "Somos el equipo 1", "Equipo1.png");
+        assertThat(equipoService.findById(1l).getNombre().equals("EQUIPO 1"));
+        assertThat(equipoService.findById(1l).getDescripcion().equals("Somos el equipo 1"));
+        assertThat(equipoService.findById(1l).getImage().equals("Equipo1.png"));
     }
 
     @Test
     @Transactional
     public void comprobarBorrarEquipo() {
-
         equipoService.borrarEquipo(1L);
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(1);

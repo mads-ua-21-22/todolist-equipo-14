@@ -4,7 +4,7 @@ public class TareaData {
     private String titulo;
     private String descripcion;
     private String estado;
-
+    private String prioridad;
     public String getTitulo() {
         return titulo;
     }
@@ -24,4 +24,11 @@ public class TareaData {
     public String getEstado() { return estado; }
 
     public void setEstado(String estado) { this.estado = estado; }
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
+    }
 }

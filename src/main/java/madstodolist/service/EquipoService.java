@@ -70,18 +70,20 @@ public class EquipoService {
     }
 
     @Transactional
-    public Equipo crearEquipo(String nombre, String descripcion) {
+    public Equipo crearEquipo(String nombre, String descripcion, String filename) {
         Equipo equipo = new Equipo(nombre);
         equipo.setDescripcion(descripcion);
+        equipo.setImage(filename);
         equipoRepository.save(equipo);
         return equipo;
     }
 
     @Transactional
-    public Equipo renombrarEquipo(Long id, String nombre, String descripcion) {
+    public Equipo renombrarEquipo(Long id, String nombre, String descripcion, String fileName) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);
         equipo.setNombre(nombre);
         equipo.setDescripcion(descripcion);
+        equipo.setImage(fileName);
         equipoRepository.save(equipo);
         return equipo;
     }

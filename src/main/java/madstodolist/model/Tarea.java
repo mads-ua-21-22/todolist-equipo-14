@@ -21,6 +21,8 @@ public class Tarea implements Serializable {
 
     private String estado;
 
+    private String prioridad;
+
     @NotNull
     // Relación muchos-a-uno entre tareas y usuario
     @ManyToOne
@@ -74,6 +76,13 @@ public class Tarea implements Serializable {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 
     public Usuario getUsuario() {

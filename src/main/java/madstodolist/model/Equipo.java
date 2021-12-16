@@ -29,6 +29,9 @@ public class Equipo implements Serializable {
     // atributo.
     private String descripcion;
 
+    @Column(nullable = true, length = 64)
+    private String image;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "equipo_usuario",
             joinColumns = { @JoinColumn(name = "fk_equipo") },
@@ -73,6 +76,10 @@ public class Equipo implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public String getImage() {return image;}
+
+    public void setImage(String image) {this.image = image;}
 
     @Override
     public boolean equals(Object o) {
