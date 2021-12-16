@@ -34,8 +34,6 @@ public class EquipoController {
     @Autowired
     UsuarioService usuarioService;
 
-    @Autowired
-    TareaService tareaService;
 
     @Autowired
     ManagerUserSession managerUserSession;
@@ -264,6 +262,42 @@ public class EquipoController {
         else {
             throw new UsuarioNoLogeadoException();
         }
+    }
+    @GetMapping("/equipos/{id}/tareas/nueva/{idUsuario}")
+    public String formNuevaTareaEquipo(@PathVariable(value="id") Long idEquipo, @PathVariable(value="idUsuario") Long idUsuario,
+                                       @ModelAttribute TareaData tareaData, Model model,
+                                       HttpSession session) {
+
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("equipo", equipo);
+        model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
+        model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
+        return "formNuevaTareaEquipo";
+    }
+
+    @PostMapping("/equipos/{id}/tareas/nueva/{idUsuario}")
+    public String nuevaTareaEquipo(@PathVariable(value="id") Long idEquipo, @PathVariable(value="idUsuario") Long idUsuario,
+                                   @ModelAttribute TareaData tareaData, Model model,
+                                   RedirectAttributes flash, HttpSession session) {
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+        String nombretarea = tareaData.getTitulo();
+        String descripcionTarea = tareaData.getDescripcion();
+
+
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea);
+        flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
+        model.addAttribute("equipo", equipo);
+        model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
+        model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
+        return "redirect:/equipos/" + idEquipo;
     }
 
 }

@@ -8,11 +8,16 @@
 <body>
 <br>
 <div align="center" th:marginheight="5px" >
+    <h5 class="card-title" th:text="${equipo.nombre}"></h5>
     <div class="card border-primary mb-3" style="max-width: 95%;">
         <div class="card-body text-primary">
-            <h5 class="card-title" th:text="${equipo.nombre}"></h5>
+
+
+
+            <h5 class="card-title" >Informacion del equipo</h5>
             <img th:src="@{${'/user-images/team-images/' + equipo.getImage()}}" width="120px" height="160px" style="border-radius: 15px;">
             <br>
+
             <br>
             <h6 class="card-subtitle mb-2">Integrantes: </h6>
             <table class="table table-striped" >
@@ -35,6 +40,38 @@
             <p th:text="${equipo.descripcion}"></p>
         </div>
     </div>
+    <div >
+        <div class="card border-primary mb-3" style="max-width: 95%;">
+            <div class="card-body text-primary">
+                <h5 class="card-title" >Tareas del Equipo</h5>
+                <table class="table table-striped" >
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  th:each="tarea: ${equipo.getTareas()}">
+                        <td th:text="${tarea.getTitulo()}"></td>
+                        <td th:text="${tarea.getDescripcion()}"></td>
+                        <td th:if="${equipo.getUsuarios().contains(usuario)}"><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+
+                            <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                    th:onclick="'delTarea(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a th:if="${equipo.getUsuarios().contains(usuario) && equipo.getTareas().isEmpty()}"  >Este equipo todavía no tiene tareas</a>
+
+            </div>
+        </div>
+
+
+        <a th:if="${equipo.getUsuarios().contains(usuario)}" class="btn btn-primary" th:href="@{/equipos/{id}/tareas/nueva/{idUsuario}(id=${equipo.id}, idUsuario=${usuario.id})}">Nueva tarea</a>
+    </div>
     <div>
         <div th:if="${usuario.getEquipos().contains(equipo)}">
             <form method="post" th:action="@{/equiposdel/{id}(id=${equipo.id})}">
@@ -49,5 +86,19 @@
     </div>
 </div>
 <div th:replace="fragments::javascript"/>
+<script type="text/javascript">
+    function delTarea(urlBorrar) {
+        if (confirm('¿Estás seguro/a de que quieres borrar la tarea?')) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function (results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

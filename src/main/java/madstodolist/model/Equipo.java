@@ -38,6 +38,15 @@ public class Equipo implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
     Set<Usuario> usuarios = new HashSet<>();
 
+    //Tareas de Equipo
+    @OneToMany(mappedBy = "equipo", fetch = FetchType.EAGER)
+    Set<Tarea> tareas = new HashSet<>();
+    public Set<Tarea> getTareas() {
+        return tareas;
+    }
+    public void setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+    }
     private Equipo() {}
 
     public Equipo(String nombre) {
