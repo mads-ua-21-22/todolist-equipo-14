@@ -80,5 +80,19 @@
     </div>
 </div>
 <div th:replace="fragments::javascript"/>
+<script type="text/javascript">
+    function delTarea(urlBorrar) {
+        if (confirm('¿Estás seguro/a de que quieres borrar la tarea?')) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function (results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
