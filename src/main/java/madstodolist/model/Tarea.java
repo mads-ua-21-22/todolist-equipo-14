@@ -91,6 +91,14 @@ public class Tarea implements Serializable {
 
     public void setEstado(String estado) { this.estado = estado; }
 
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
