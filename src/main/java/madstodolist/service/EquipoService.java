@@ -15,9 +15,10 @@ public class EquipoService {
     private TareaRepository tareaRepository;
 
     @Autowired
-    public EquipoService(UsuarioRepository usuarioRepository, EquipoRepository equipoRepository) {
+    public EquipoService(UsuarioRepository usuarioRepository, EquipoRepository equipoRepository, TareaRepository tareaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.equipoRepository = equipoRepository;
+        this.tareaRepository = tareaRepository;
     }
 
     @Transactional(readOnly = true)
