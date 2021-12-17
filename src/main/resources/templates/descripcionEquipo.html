@@ -49,18 +49,13 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripcion</th>
-                        <th>Accion</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     <tr  th:each="tarea: ${equipo.getTareas()}">
                         <td th:text="${tarea.getTitulo()}"></td>
                         <td th:text="${tarea.getDescripcion()}"></td>
-                        <td th:if="${equipo.getUsuarios().contains(usuario)}">><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
-
-                            <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
-                                    th:onclick="'delTarea(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
-                        </td>
                     </tr>
                     </tbody>
                 </table>

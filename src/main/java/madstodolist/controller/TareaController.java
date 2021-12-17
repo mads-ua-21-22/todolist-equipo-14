@@ -127,7 +127,7 @@ public class TareaController {
         flash.addFlashAttribute("mensaje", "Tarea modificada correctamente");
         if(tarea.getEquipo() != null){
 
-            return "redirect:/equipos/" + tarea.getEquipo().getId();
+            return "redirect:/equipo-tareas/" + tarea.getEquipo().getId();
         }
         return "redirect:/usuarios/" + tarea.getUsuario().getId() + "/tareas";
     }
@@ -163,6 +163,7 @@ public class TareaController {
 
         model.addAttribute("tarea", tarea);
         model.addAttribute("usuario", usuario);
+
         return "descripcionTarea";
     }
 }
