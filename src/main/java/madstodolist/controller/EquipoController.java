@@ -300,4 +300,24 @@ public class EquipoController {
         return "redirect:/equipos/" + idEquipo;
     }
 
+    @GetMapping("/equipos")
+    public String equipos(Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            List <Equipo> equipos = equipoService.findAllOrderedByName();
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("equipos", equipos);
+
+            return "listaEquipos";
+        }
+        else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
 }
