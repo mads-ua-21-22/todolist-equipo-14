@@ -300,7 +300,7 @@ public class EquipoController {
         return "redirect:/equipos/" + idEquipo;
     }
 
-    @GetMapping("/equipos-tareas/{id}")
+    @GetMapping("/equipo-tareas/{id}")
     public String tareas_de_equipos(@PathVariable(value="id") Long idEquipo,Model model, HttpSession session) {
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
@@ -314,7 +314,7 @@ public class EquipoController {
             model.addAttribute("usuario", usuario);
             model.addAttribute("equipo", equipo);
             model.addAttribute("tareas",equipo.getTareas());
-            return "listarTareasEquipos";
+            return "listaTareasEquipos";
 
         } else {
             throw new UsuarioNoLogeadoException();
