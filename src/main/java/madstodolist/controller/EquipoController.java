@@ -292,7 +292,7 @@ public class EquipoController {
         String descripcionTarea = tareaData.getDescripcion();
 
 
-        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea);
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea,tareaData.getEstado(),tareaData.getPrioridad());
         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
