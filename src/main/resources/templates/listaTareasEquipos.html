@@ -36,7 +36,7 @@
                             <tr th:if="${tarea.getEstado() == 'To Do'}"  th:each="tarea: ${tareas} ">
                                 <td th:style="'background:'+@{${tarea.getPrioridad()}}+'; border-radius:10px; '"> </td>
                                 <td th:text="${tarea.titulo}"></td>
-                                <td><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+                                <td>><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
                                     <a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/descripcion(id=${tarea.id})}"/>Detalles</a>
                                     <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
                                             th:onclick="'del(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
