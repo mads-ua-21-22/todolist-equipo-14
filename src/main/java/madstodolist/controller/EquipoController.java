@@ -300,8 +300,8 @@ public class EquipoController {
         return "redirect:/equipos/" + idEquipo;
     }
 
-    @GetMapping("/equipos")
-    public String equipos(Model model, HttpSession session) {
+    @GetMapping("/equipos-tareas/{id}")
+    public String tareas_de_equipos(@PathVariable(value="id") Long idEquipo,Model model, HttpSession session) {
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
 
@@ -309,13 +309,14 @@ public class EquipoController {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
             usuario = usuarioService.findById(idUsuario);
 
-            List <Equipo> equipos = equipoService.findAllOrderedByName();
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("equipos", equipos);
+            Equipo equipo = equipoService.findById(idEquipo);
 
-            return "listaEquipos";
-        }
-        else {
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("equipo", equipo);
+            model.addAttribute("tareas",equipo.getTareas());
+            return "listarTareasEquipos";
+
+        } else {
             throw new UsuarioNoLogeadoException();
         }
 
