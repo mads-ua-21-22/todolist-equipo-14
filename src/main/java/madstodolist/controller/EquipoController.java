@@ -297,7 +297,7 @@ public class EquipoController {
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
         model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
-        return "redirect:/equipos/" + idEquipo;
+        return "redirect:/equipo-tareas/" + idEquipo;
     }
 
     @GetMapping("/equipo-tareas/{id}")

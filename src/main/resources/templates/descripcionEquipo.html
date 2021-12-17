@@ -63,9 +63,6 @@
 
             </div>
         </div>
-
-
-        <a th:if="${equipo.getUsuarios().contains(usuario)}" class="btn btn-primary" th:href="@{/equipos/{id}/tareas/nueva/{idUsuario}(id=${equipo.id}, idUsuario=${usuario.id})}">Nueva tarea</a>
     </div>
     <div>
         <div th:if="${usuario.getEquipos().contains(equipo)}">
