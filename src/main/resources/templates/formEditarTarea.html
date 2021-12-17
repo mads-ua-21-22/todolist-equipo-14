@@ -36,7 +36,8 @@
             </select>
         </div>
         <button class="btn btn-primary" type="submit">Modificar tarea</button>
-        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${tarea.usuario.id})}">Cancelar</a>
+        <a  th:if="${tarea.getEquipo==null}" class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${tarea.usuario.id})}">Cancelar</a>
+        <a  th:if="${tarea.getEquipo!=null}" class="btn btn-link" th:href="@{/equipo-tareas/{id}(id=${tarea.getEquipo().getId()})}">Cancelar</a>
         </div>
     </form>
 </div>
