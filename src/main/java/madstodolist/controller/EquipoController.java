@@ -138,6 +138,7 @@ public class EquipoController {
 
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
+        Equipo equipo = null;
 
         if(idUsuario != null) {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
@@ -158,7 +159,9 @@ public class EquipoController {
                 } catch (IOException e) {
                     throw new IOException("Could not save the uploaded file: " + fileName);
                 }
-                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName, usuario.getId());
+                equipo = equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName, usuario.getId());
+                equipoService.addUsuarioEquipo(equipo.getId(), idUsuario);
+
             }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
@@ -291,10 +294,12 @@ public class EquipoController {
         Usuario usuario = usuarioService.findById(idUsuario);
         Equipo equipo = equipoService.findById(idEquipo);
         String nombretarea = tareaData.getTitulo();
+        Usuario usuarioAsignado = usuarioService.findById(tareaData.getUsuario());
         String descripcionTarea = tareaData.getDescripcion();
 
 
-        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea);
+
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea, usuarioAsignado);
         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));

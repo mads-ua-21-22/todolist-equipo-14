@@ -5,6 +5,17 @@ public class TareaData {
     private String descripcion;
     private String estado;
     private String prioridad;
+    private Long usuario;
+
+    public Long getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Long usuario) {
+        this.usuario = usuario;
+    }
+
+
     public String getTitulo() {
         return titulo;
     }

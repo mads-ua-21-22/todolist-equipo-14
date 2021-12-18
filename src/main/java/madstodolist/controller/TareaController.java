@@ -101,7 +101,7 @@ public class TareaController {
             throw new TareaNotFoundException();
         }
 
-        managerUserSession.comprobarUsuarioLogeado(session, tarea.getUsuario().getId());
+
 
         model.addAttribute("tarea", tarea);
         tareaData.setTitulo(tarea.getTitulo());
@@ -142,7 +142,7 @@ public class TareaController {
             throw new TareaNotFoundException();
         }
 
-        managerUserSession.comprobarUsuarioLogeado(session, tarea.getUsuario().getId());
+
 
         tareaService.borraTarea(idTarea);
         return "";
