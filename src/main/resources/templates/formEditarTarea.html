@@ -4,7 +4,7 @@
 <head th:replace="fragments :: head (titulo='Login')"></head>
 
 <body>
-<nav th:replace="fragments :: Menu (${tarea.getUsuario().getNombre()}, @{/usuarios/{id}/tareas(id=${tarea.getUsuario().getId()})}, ${tarea.getUsuario().getAdminApproved()})"></nav>
+<nav th:replace="fragments :: Menu (${usuario.getNombre()}, @{/usuarios/{id}/tareas(id=${usuario.getId()})}, ${usuario.getAdminApproved()})"></nav>
 <div class="container-fluid">
 
     <h2 th:text="'Modificación de la tarea ' + ${tarea.getId()}"></h2>
@@ -35,8 +35,16 @@
                 <option value="red">Alta</option>
             </select>
         </div>
+            <div th:if="${equipo != null && equipo.getIdAdmin() == usuario.getId()}" class="form-group">
+                <select class="form-control" id="usuario" name="usuario">
+                    <option value="0">Todos</option>
+                    <option th:each="user : ${equipo.getUsuarios()}"
+                            th:value="${user.getId()}"
+                            th:text="${user.getNombre()}"></option>
+                </select>
+            </div>
         <button class="btn btn-primary" type="submit">Modificar tarea</button>
-        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${tarea.usuario.id})}">Cancelar</a>
+        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${usuario.getId()})}">Cancelar</a>
         </div>
     </form>
 </div>

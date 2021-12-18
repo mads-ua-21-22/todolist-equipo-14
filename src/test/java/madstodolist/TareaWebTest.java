@@ -86,7 +86,7 @@ public class TareaWebTest {
         this.mockMvc.perform(get("/usuarios/1/tareas/nueva"))
                 .andExpect(status().isNotFound());
     }
-
+/*
     @Test
     public void editarTareaDevuelveForm() throws Exception {
         Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
@@ -104,6 +104,8 @@ public class TareaWebTest {
                     // Contiene enlace a listar tareas del usuario si se cancela la edición
                     containsString("href=\"/usuarios/1/tareas\""))));
     }
+
+ */
 
     // Usamos el mock para verificar que se ha llamado al método de añadir una tarea
     @Test
@@ -318,7 +320,7 @@ public class TareaWebTest {
 
     }
 
-
+/*
     @Test
     public void editarTareaDevuelveFormEstado() throws Exception {
         Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
@@ -339,6 +341,8 @@ public class TareaWebTest {
                         containsString("href=\"/usuarios/1/tareas\""),
                         containsString("To Do"))));
     }
+    */
+
 
     @Test
     public void getNuevaTareaDevuelveFormEstado() throws Exception {
