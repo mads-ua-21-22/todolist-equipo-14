@@ -158,6 +158,9 @@ public class EquipoController {
                 }
                 equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             }
+            else{
+                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), "img.png");
+            }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
             return "redirect:/equipos";
@@ -292,12 +295,33 @@ public class EquipoController {
         String descripcionTarea = tareaData.getDescripcion();
 
 
-        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea);
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea,tareaData.getEstado(),tareaData.getPrioridad());
         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
         model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
-        return "redirect:/equipos/" + idEquipo;
+        return "redirect:/equipo-tareas/" + idEquipo;
     }
 
+    @GetMapping("/equipo-tareas/{id}")
+    public String tareas_de_equipos(@PathVariable(value="id") Long idEquipo,Model model, HttpSession session) {
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
+        Usuario usuario = null;
+
+        if(idUsuario != null) {
+            managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+            usuario = usuarioService.findById(idUsuario);
+
+            Equipo equipo = equipoService.findById(idEquipo);
+
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("equipo", equipo);
+            model.addAttribute("tareas",equipo.getTareas());
+            return "listaTareasEquipos";
+
+        } else {
+            throw new UsuarioNoLogeadoException();
+        }
+
+    }
 }
