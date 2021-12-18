@@ -109,5 +109,19 @@ public class EquipoService {
         tareaRepository.save(tarea);
         return tarea;
     }
+    @Transactional
+    public void hacerAdminEquipo(Long idEquipo, Long idUsuario){
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        Equipo equipo = equipoRepository.findById(idEquipo).orElse(null);
+
+        if(usuario == null) {
+            throw new EquipoServiceException("Usuario " + idUsuario + " no existe");
+        }
+
+        if(equipo == null){
+            throw new EquipoServiceException("No existe el equipo con id " + idEquipo);
+        }
+        equipo.setIdAdmin(idUsuario);
+    }
 
 }

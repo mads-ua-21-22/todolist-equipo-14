@@ -2,6 +2,7 @@ package madstodolist.controller;
 
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.authentication.UsuarioNoLogeadoException;
+import madstodolist.controller.exception.EquipoNotFoundException;
 import madstodolist.controller.exception.UsuarioNotFoundException;
 import madstodolist.model.Equipo;
 import madstodolist.model.Tarea;
@@ -77,6 +78,7 @@ public class EquipoController {
 
             model.addAttribute("usuario", usuario);
             model.addAttribute("equipo", equipo);
+            model.addAttribute("idUsuarioLogeado", idUsuario);
 
             return "descripcionEquipo";
 
@@ -298,6 +300,24 @@ public class EquipoController {
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
         model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
         return "redirect:/equipos/" + idEquipo;
+    }
+
+    @PostMapping("/equipos/{idEquipo}/admin/{idUsuario}")
+    public String hacerAdminEquipo(@PathVariable(value="idUsuario") Long idUsuario, @PathVariable(value="idEquipo") Long idEquipo, @ModelAttribute EquipoData equipoData, Model model, RedirectAttributes flash, HttpSession session) {
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+        if(equipo == null) {
+            throw new EquipoNotFoundException();
+        }
+
+        if(usuario == null) {
+            throw new EquipoNotFoundException();
+        }
+        equipoService.hacerAdminEquipo(idEquipo, idUsuario);
+        flash.addFlashAttribute("mensaje", "Administrador actualizado correctamente");
+        return "redirect:/equipos/{idEquipo}";
+
     }
 
 }
