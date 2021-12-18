@@ -31,8 +31,10 @@
                 <tbody>
                 <tr th:each="user: ${equipo.getUsuarios()}">
                     <td th:text="${user.id}"></td>
-                    <td th:text="${user.nombre}"></td>
+                    <td th:if="${equipo.getIdAdmin()==user.getId()}" style="color:red" th:text="${user.nombre}"></td>
+                    <td th:if="${equipo.getIdAdmin()!=user.getId()}"  th:text="${user.nombre}"></td>
                     <td th:text="${user.email}"></td>
+                    <td th:if="${equipo.getIdAdmin()==user.getId()}"> ADMIN</td>
                 </tr>
                 </tbody>
             </table>

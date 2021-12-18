@@ -121,7 +121,8 @@ public class EquipoServiceTest {
     public void comprobarCrearEquipoEquipo() {
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(2);
-        equipoService.crearEquipo("PRUEBA", "descripcion de prueba", "img.png");
+        Usuario usuario = usuarioService.findById(1L);
+        equipoService.crearEquipo("PRUEBA", "descripcion de prueba", "img.png", usuario.getId() );
         equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(3);
     }

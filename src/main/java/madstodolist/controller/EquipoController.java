@@ -156,7 +156,7 @@ public class EquipoController {
                 } catch (IOException e) {
                     throw new IOException("Could not save the uploaded file: " + fileName);
                 }
-                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
+                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName, usuario.getId());
             }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
