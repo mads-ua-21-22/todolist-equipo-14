@@ -82,7 +82,7 @@
         <a th:if="${equipo.getUsuarios().contains(usuario)}" class="btn btn-primary" th:href="@{/equipos/{id}/tareas/nueva/{idUsuario}(id=${equipo.id}, idUsuario=${usuario.id})}">Nueva tarea</a>
     </div>
     <div>
-        <div th:if="${usuario.getEquipos().contains(equipo)}">
+        <div th:if="${usuario.getEquipos().contains(equipo) && equipo.getIdAdmin()!=usuario.getId()}">
             <form method="post" th:action="@{/equiposdel/{id}(id=${equipo.id})}">
                 <button class="btn btn-danger btn-xs"  th:text="Abandonar" type="submit"/></a>
             </form>
