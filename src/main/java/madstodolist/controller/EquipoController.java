@@ -158,6 +158,9 @@ public class EquipoController {
                 }
                 equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             }
+            else{
+                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), "img.png");
+            }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
             return "redirect:/equipos";
