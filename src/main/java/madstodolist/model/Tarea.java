@@ -23,7 +23,7 @@ public class Tarea implements Serializable {
 
     private String prioridad;
 
-    @NotNull
+
     // Relación muchos-a-uno entre tareas y usuario
     @ManyToOne
     // Nombre de la columna en la BD que guarda físicamente

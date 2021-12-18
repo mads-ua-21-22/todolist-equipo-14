@@ -57,6 +57,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripcion</th>
+                        <th>Asignada a</th>
                         <th>Accion</th>
                     </tr>
                     </thead>
@@ -64,6 +65,8 @@
                     <tr  th:each="tarea: ${equipo.getTareas()}">
                         <td th:text="${tarea.getTitulo()}"></td>
                         <td th:text="${tarea.getDescripcion()}"></td>
+                        <td th:if="${tarea.getUsuario() == null}">Todos los miembros</td>
+                        <td th:if="${tarea.getUsuario() != null}" th:text="${tarea.getUsuario().getNombre()}"></td>
                         <td th:if="${equipo.getUsuarios().contains(usuario)}"><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
 
 

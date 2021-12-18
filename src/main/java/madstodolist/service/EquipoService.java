@@ -95,9 +95,10 @@ public class EquipoService {
         equipoRepository.delete(equipo);
     }
     @Transactional
-    public Tarea nuevaTareaEquipo(Long idEquipo, String tituloTarea, Long idUsuario, String descripcion){
+    public Tarea nuevaTareaEquipo(Long idEquipo, String tituloTarea, Long idUsuario, String descripcion, Usuario UsuarioAsignado){
         Equipo equipo = equipoRepository.findById(idEquipo).orElse(null);
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+
         if(equipo == null){
             throw new EquipoServiceException("Equipo" + idEquipo + " no existe al crear tarea " + tituloTarea);
         }
@@ -105,7 +106,7 @@ public class EquipoService {
             throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
         }
         Tarea tarea = new Tarea(equipo, tituloTarea, usuario, descripcion);
-
+        tarea.setUsuario(UsuarioAsignado);
         tareaRepository.save(tarea);
         return tarea;
     }
