@@ -147,7 +147,7 @@ public class TareaController {
         flash.addFlashAttribute("mensaje", "Tarea modificada correctamente");
         if(tarea.getEquipo() != null){
 
-            return "redirect:/equipos/" + tarea.getEquipo().getId();
+            return "redirect:/equipo-tareas/" + tarea.getEquipo().getId();
         }
         return "redirect:/usuarios/" + tarea.getUsuario().getId() + "/tareas";
     }
@@ -177,12 +177,13 @@ public class TareaController {
             throw new TareaNotFoundException();
         }
 
-        managerUserSession.comprobarUsuarioLogeado(session, tarea.getUsuario().getId());
-        Long idUsuario = tarea.getUsuario().getId();
+
+        Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = usuarioService.findById(idUsuario);
 
         model.addAttribute("tarea", tarea);
         model.addAttribute("usuario", usuario);
+
         return "descripcionTarea";
     }
 }

@@ -150,6 +150,30 @@ public class EquipoWebTest {
                 .andExpect(content().string(containsString("domingo@ua.es")));
     }
 
+    @Test
+    public void getTareasEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+        Tarea tarea = new Tarea(equipo,"Limpiar Casa",usuario,"Limpieza rapida");
+        tarea.setPrioridad("Baja");
+        tarea.setEstado("To Do");
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipo-tareas/1/"))
+                .andExpect(content().string(containsString("Limpiar Casa")));
+    }
 /*    @Test
     public void postNuevaEquipoDevuelveRedirectYAñadeEquipo() throws Exception {
         Usuario usuario = new Usuario("domingo@ua.es");

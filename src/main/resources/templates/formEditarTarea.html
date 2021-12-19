@@ -19,7 +19,7 @@
             <label for="descripcion">Descripción de la tarea:</label>
             <input class="form-control" id="descripcion" name="titulo" th:field="*{descripcion}" type="text"/>
         </div>
-        <div  th:if="${tarea.getEquipo() == null}" class="form-group">
+        <div  class="form-group">
             <label for="estado">Estado de la tarea:</label>
             <select class="form-control" id="estado" name="estado" required th:field="*{estado}" type="text">
                 <option value="To Do">To Do</option>
@@ -27,7 +27,7 @@
                 <option value="Done">Done</option>
             </select>
         </div>
-        <div th:if="${tarea.getEquipo() == null}" class="form-group">
+        <div  class="form-group">
             <label for="prioridad">Prioridad de la tarea:</label>
             <select class="form-control" id="prioridad" name="prioridad" required th:field="*{prioridad}" type="text">
                 <option value="springgreen">Baja</option>
@@ -44,7 +44,10 @@
                 </select>
             </div>
         <button class="btn btn-primary" type="submit">Modificar tarea</button>
-        <a class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${usuario.getId()})}">Cancelar</a>
+
+        <a  th:if="${tarea.getEquipo==null}" class="btn btn-link" th:href="@{/usuarios/{id}/tareas(id=${tarea.usuario.id})}">Cancelar</a>
+        <a  th:if="${tarea.getEquipo!=null}" class="btn btn-link" th:href="@{/equipo-tareas/{id}(id=${tarea.getEquipo().getId()})}">Cancelar</a>
+
         </div>
     </form>
 </div>
