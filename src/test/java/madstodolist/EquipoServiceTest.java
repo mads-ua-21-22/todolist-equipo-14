@@ -174,4 +174,15 @@ public class EquipoServiceTest {
 
         assertThat(equipo.getTareas().contains(tarea));
     }
+    @Test
+    @Transactional
+    public void comprobarCrearEquipoUserAdmin() {
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(2);
+        Usuario usuario = usuarioService.findById(1L);
+        Equipo equipo = equipoService.crearEquipo("PRUEBA", "descripcion de prueba", "img.png", usuario.getId() );
+        equipos = equipoService.findAllOrderedByName();
+        assertThat(equipos).hasSize(3);
+        assertThat(equipo.getIdadmin().equals(usuario));
+    }
 }
