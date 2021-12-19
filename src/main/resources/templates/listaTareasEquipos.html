@@ -81,7 +81,7 @@
 
             <div class="row" style="margin-left: 1px" >
                 <p><a class="btn btn-primary"th:href="@{/equipos/{id}/tareas/nueva/{idUsuario}(id=${equipo.id}, idUsuario=${usuario.id})}"> Nueva tarea</a>
-                <a class="btn btn-danger" href="/logout">Salir</a></p>
+                    <a class="btn btn-primary btn-xs" th:href="@{/equipos/{id}(id=${equipo.id})}"/>Ver Equipo</a></p>
             </div>
         </div>
     </div>

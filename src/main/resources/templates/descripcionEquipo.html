@@ -79,7 +79,10 @@
                     </tbody>
                 </table>
                 <a th:if="${equipo.getUsuarios().contains(usuario) && equipo.getTareas().isEmpty()}"  >Este equipo todavía no tiene tareas</a>
-
+                <br>
+                <br>
+                <a th:if="${equipo.getUsuarios().contains(usuario) && equipo.getTareas().isEmpty()}" class="btn btn-primary btn-xs" th:href="@{/equipo-tareas/{id}(id=${equipo.id})}">Añadir Tareas</a>
+                <a th:if="${equipo.getUsuarios().contains(usuario) && !equipo.getTareas().isEmpty()}" class="btn btn-primary btn-xs" th:href="@{/equipo-tareas/{id}(id=${equipo.id})}">Tablero de Tareas</a>
             </div>
         </div>
     </div>
