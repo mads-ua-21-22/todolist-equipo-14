@@ -256,5 +256,58 @@ public class EquipoWebTest {
                         containsString("PRUEBA"),
                         containsString("Imagen Actual"))));
     }
+    @Test
+    public void getEquipoAdmin() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("ADMIN")));
+    }
+    @Test
+    public void getEquipoTareas() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        Set<Tarea> tareas = new HashSet<Tarea>();
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tareas.add(tarea);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        equipo.setTareas(tareas);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(allOf(containsString("Tareas del Equipo"),
+                        containsString("Tarea de prueba"))));
+    }
 
 }

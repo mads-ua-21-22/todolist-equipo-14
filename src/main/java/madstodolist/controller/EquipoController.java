@@ -2,6 +2,7 @@ package madstodolist.controller;
 
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.authentication.UsuarioNoLogeadoException;
+import madstodolist.controller.exception.EquipoNotFoundException;
 import madstodolist.controller.exception.UsuarioNotFoundException;
 import madstodolist.model.Equipo;
 import madstodolist.model.Tarea;
@@ -77,6 +78,7 @@ public class EquipoController {
 
             model.addAttribute("usuario", usuario);
             model.addAttribute("equipo", equipo);
+            model.addAttribute("idUsuarioLogeado", idUsuario);
 
             return "descripcionEquipo";
 
@@ -136,6 +138,7 @@ public class EquipoController {
 
         Long idUsuario = managerUserSession.usuarioLogeado(session);
         Usuario usuario = null;
+        Equipo equipo = null;
 
         if(idUsuario != null) {
             managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
@@ -156,10 +159,12 @@ public class EquipoController {
                 } catch (IOException e) {
                     throw new IOException("Could not save the uploaded file: " + fileName);
                 }
-                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName);
+                equipo = equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName, usuario.getId());
+                equipoService.addUsuarioEquipo(equipo.getId(), idUsuario);
+
             }
             else{
-                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), "img.png");
+                equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), "img.png", idUsuario);
             }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
             model.addAttribute("usuario", usuario);
@@ -292,16 +297,44 @@ public class EquipoController {
         Usuario usuario = usuarioService.findById(idUsuario);
         Equipo equipo = equipoService.findById(idEquipo);
         String nombretarea = tareaData.getTitulo();
+        Usuario usuarioAsignado = null;
+        if (tareaData.getUsuario() != null) {
+            usuarioAsignado = usuarioService.findById(tareaData.getUsuario());
+
+        }
+
         String descripcionTarea = tareaData.getDescripcion();
 
 
-        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea,tareaData.getEstado(),tareaData.getPrioridad());
+
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea, usuarioAsignado, tareaData.getEstado(),tareaData.getPrioridad());
+
         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
         model.addAttribute("equipo", equipo);
         model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
         model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
         return "redirect:/equipo-tareas/" + idEquipo;
     }
+
+
+    @PostMapping("/equipos/{idEquipo}/admin/{idUsuario}")
+    public String hacerAdminEquipo(@PathVariable(value="idUsuario") Long idUsuario, @PathVariable(value="idEquipo") Long idEquipo, @ModelAttribute EquipoData equipoData, Model model, RedirectAttributes flash, HttpSession session) {
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+        if(equipo == null) {
+            throw new EquipoNotFoundException();
+        }
+
+        if(usuario == null) {
+            throw new EquipoNotFoundException();
+        }
+        equipoService.hacerAdminEquipo(idEquipo, idUsuario);
+        flash.addFlashAttribute("mensaje", "Administrador actualizado correctamente");
+        return "redirect:/equipos/{idEquipo}";
+
+    }
+
 
     @GetMapping("/equipo-tareas/{id}")
     public String tareas_de_equipos(@PathVariable(value="id") Long idEquipo,Model model, HttpSession session) {
@@ -324,4 +357,5 @@ public class EquipoController {
         }
 
     }
+
 }

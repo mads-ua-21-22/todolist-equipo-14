@@ -19,6 +19,7 @@ public class Equipo implements Serializable {
     private Long id;
     @NotNull
     private String nombre;
+    private Long idadmin;
     // Declaramos el tipo de recuperación como LAZY.
     // No haría falta porque es el tipo por defecto en una
     // relación a muchos.
@@ -65,7 +66,23 @@ public class Equipo implements Serializable {
 
     public void setNombre(String nombre) { this.nombre = nombre; }
 
+    public Long getIdAdmin(){
+        return idadmin;
+    }
+
+    public void setIdAdmin(Long idAdmin){
+        this.idadmin = idAdmin;
+    }
+
     public Set<Usuario> getUsuarios() { return usuarios; }
+
+    public Long getIdadmin() {
+        return idadmin;
+    }
+
+    public void setIdadmin(Long idadmin) {
+        this.idadmin = idadmin;
+    }
 
     public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }
 

@@ -26,13 +26,21 @@
                     <th>Id</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th> Accion</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user: ${equipo.getUsuarios()}">
                     <td th:text="${user.id}"></td>
-                    <td th:text="${user.nombre}"></td>
+                    <td th:if="${equipo.getIdAdmin()==user.getId()}" style="color:red" th:text="${user.nombre}"></td>
+                    <td th:if="${equipo.getIdAdmin()!=user.getId()}"  th:text="${user.nombre}"></td>
                     <td th:text="${user.email}"></td>
+                    <td th:if="${equipo.getIdAdmin()==user.getId()}"> ADMIN</td>
+                    <td th:if="${equipo.getIdAdmin()!=user.getId() && idUsuarioLogeado==equipo.getIdAdmin()}">
+                        <form method="post" th:action="@{/equipos/{idEquipo}/admin/{idUsuario}(idUsuario=${user.id}, idEquipo=${equipo.id})}" th:object="${equipoData}">
+                            <button class="btn btn-outline-primary">Hacer admin</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -50,12 +58,23 @@
                         <th>Nombre</th>
                         <th>Descripcion</th>
 
+                        <th>Asignada a</th>
+                        <th>Accion</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     <tr  th:each="tarea: ${equipo.getTareas()}">
                         <td th:text="${tarea.getTitulo()}"></td>
                         <td th:text="${tarea.getDescripcion()}"></td>
+                        <td th:if="${tarea.getUsuario() == null}">Todos los miembros</td>
+                        <td th:if="${tarea.getUsuario() != null}" th:text="${tarea.getUsuario().getNombre()}"></td>
+                        <td th:if="${equipo.getUsuarios().contains(usuario)}"><a class="btn btn-primary btn-xs" th:href="@{/tareas/{id}/editar(id=${tarea.id})}"/>editar</a>
+
+
+                            <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
+                                    th:onclick="'delTarea(\'/tareas/' + ${tarea.id} + '\')'">borrar</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -65,7 +84,7 @@
         </div>
     </div>
     <div>
-        <div th:if="${usuario.getEquipos().contains(equipo)}">
+        <div th:if="${usuario.getEquipos().contains(equipo) && equipo.getIdAdmin()!=usuario.getId()}">
             <form method="post" th:action="@{/equiposdel/{id}(id=${equipo.id})}">
                 <button class="btn btn-danger btn-xs"  th:text="Abandonar" type="submit"/></a>
             </form>
