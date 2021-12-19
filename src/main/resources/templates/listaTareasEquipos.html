@@ -15,6 +15,10 @@
             <h2 th:text="'Listado de tareas de ' + ${equipo.nombre}"></h2>
         </div>
     </div>
+    <div style="margin-top: 5px">
+        <label th:text="'Prioridad:'" style="font-weight: bold; font-size: 25px"></label> <label style="background: springgreen; color: black; border-radius: 10px; font-size: 20px">Baja</label>
+        <label style="background: yellow; color: black; border-radius: 10px; font-size: 20px">Media</label> <label style="background: red; color: white; border-radius: 10px; font-size: 20px">Alta</label>
+    </div>
 
     <div class="row mt-3">
         <div class="col">

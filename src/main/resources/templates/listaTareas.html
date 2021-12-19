@@ -26,7 +26,12 @@
                         <button style="max-width: 80px;" class="btn btn-outline-primary" id="boton_buscar" th:onclick="'buscarTarea(' + ${usuario.id} + ')'">Buscar</button>
                     </a>
                 </div>
+                <div style="margin-top: 5px; margin-left: 50px">
+                    <label th:text="'Prioridad:'" style="font-weight: bold; font-size: 25px"></label> <label style="background: springgreen; color: black; border-radius: 10px; font-size: 20px">Baja</label>
+                    <label style="background: yellow; color: black; border-radius: 10px; font-size: 20px">Media</label> <label style="background: red; color: white; border-radius: 10px; font-size: 20px">Alta</label>
+                </div>
             </div>
+
             <div class='row'>
                 <div class="card border-primary mb-3" style="width: 32.5%; margin: 5px; margin-left: 15px">
                     <div class="card-body text-primary float-left">
