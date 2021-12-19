@@ -76,6 +76,14 @@ public class Equipo implements Serializable {
 
     public Set<Usuario> getUsuarios() { return usuarios; }
 
+    public Long getIdadmin() {
+        return idadmin;
+    }
+
+    public void setIdadmin(Long idadmin) {
+        this.idadmin = idadmin;
+    }
+
     public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }
 
     public String getDescripcion() {

@@ -320,16 +320,19 @@ public class TareaWebTest {
 
     }
 
-/*
+
     @Test
     public void editarTareaDevuelveFormEstado() throws Exception {
         Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
         tarea.setId(1L);
         tarea.getUsuario().setId(1L);
         tarea.setDescripcion("Descripción de prueba");
         tarea.setEstado("To Do");
 
         when(tareaService.findById(1L)).thenReturn(tarea);
+        when(usuarioService.findById(0L)).thenReturn(usuario);
 
         this.mockMvc.perform(get("/tareas/1/editar"))
                 .andExpect(content().string(allOf(
@@ -341,7 +344,7 @@ public class TareaWebTest {
                         containsString("href=\"/usuarios/1/tareas\""),
                         containsString("To Do"))));
     }
-    */
+
 
 
     @Test
