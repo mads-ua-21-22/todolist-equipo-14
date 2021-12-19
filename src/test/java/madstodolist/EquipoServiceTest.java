@@ -1,6 +1,7 @@
 package madstodolist;
 
 import madstodolist.model.Equipo;
+import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
 import madstodolist.service.EquipoService;
 import madstodolist.service.UsuarioService;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -142,5 +145,33 @@ public class EquipoServiceTest {
         equipoService.borrarEquipo(1L);
         List<Equipo> equipos = equipoService.findAllOrderedByName();
         assertThat(equipos).hasSize(1);
+    }
+    @Test
+    @Transactional
+    public void comprobarAñadirTareaEquipo() {
+
+        Usuario usuario = new Usuario("domingo@ua.es");
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        Set<Tarea> tareas = new HashSet<Tarea>();
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tareas.add(tarea);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        equipo.setTareas(tareas);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        assertThat(equipo.getTareas().contains(tarea));
     }
 }
