@@ -265,6 +265,9 @@ public class EquipoController {
                 }
                 equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion(), fileName);
             }
+            else {
+                equipoService.renombrarEquipo(idEquipo, equipoData.getNombre(), equipoData.getDescripcion(), equipoService.findById(idEquipo).getImage());
+            }
             return "redirect:/equipos";
 
         }
