@@ -37,6 +37,7 @@
                 </select>
             </div>
             <div th:if="${equipo.getIdAdmin() == usuario.getId()}" class="form-group">
+                <label >Asignar:</label>
                 <select class="form-control" id="usuario" name="usuario">
                     <option value="0">Todos</option>
                     <option th:each="user : ${equipo.getUsuarios()}"

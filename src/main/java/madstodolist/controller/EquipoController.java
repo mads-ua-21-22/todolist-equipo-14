@@ -164,7 +164,7 @@ public class EquipoController {
 
             }
             else{
-                equipo = equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), fileName, usuario.getId());
+                equipo = equipoService.crearEquipo(equipoData.getNombre(), equipoData.getDescripcion(), "img.png", usuario.getId());
                 equipoService.addUsuarioEquipo(equipo.getId(), idUsuario);
             }
             flash.addFlashAttribute("mensaje", "Equipo creado correctamente");;
