@@ -148,7 +148,7 @@ public class UserController {
         model.addAttribute("usuario", usuario);
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        usuario.setImage(fileName);
+        //usuario.setImage(fileName);
 
         String uploadDir = "./user-images";
         Path uploadPath = Paths.get(uploadDir);
@@ -164,9 +164,11 @@ public class UserController {
             } catch (IOException e) {
                 throw new IOException("Could not save the uploaded file: " + fileName);
             }
-            usuarioService.editar_perfil(usuario);
             usuario.setImage(fileName);
+
+
         }
+        usuarioService.editar_perfil(usuario);
         return "redirect:/perfil";
     }
     @GetMapping("/perfil/editar")
