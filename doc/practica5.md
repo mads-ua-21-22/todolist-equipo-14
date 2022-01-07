@@ -472,10 +472,139 @@ Los test realizados para la imágenes tuvieron que ser comentados, ya que daban 
         verify(equipoService).crearEquipo("PRUEBA", "X","XX");
     }
 ~~~~
+## 4. Buscador de tareas.
 
+![img_50.png](img_50.png)
+![img_51.png](img_51.png)
 
+Esta funcionalidad consiste en que el usuario puede buscar
+cualquiera de sus tareas que tenga asignadas mediante un buscador. El usuario
+podrá buscar la tarea/as escribiendo el nombre de la tarea.
 
+Para llevar a cabo esta funcionalidad hemos añadido el método
+‘buscarTarea’ en TareaService . java que lo único que hace es recoger el
+nombre a buscar que ha introducido el usuario y el propio usuario
 
+~~~~
+@Transactional(readOnly = true)
+    public List<Tarea> buscarTarea(String nt, Long idUsuario) {
+        Usuario u = usuarioRepository.findById(idUsuario).orElse(null);
+        if (u == null) {
+            throw new UsuarioServiceException("No existe usuario con id " + idUsuario);
+        }
+        List<Tarea> tareas = tareaRepository.buscar(nt, u);
+        return tareas;
+    }
+~~~~
+
+En TareaRepository.java hemos añadido una sentencia select que nos
+permite recoger de la base de datos cualquier dato que contenga el nombre
+que ha escrito el usuario.
+
+~~~~
+public interface TareaRepository extends CrudRepository<Tarea, Long> {
+    @Query("select t from Tarea t where t.usuario = ?2 and upper(t.titulo) like concat('%', upper(?1), '%')")
+    List<Tarea> buscar(String s, Usuario u);
+}
+~~~~
+
+Además en TareaController.java en su GetMapping correspondiente una
+condición que comprueba si el usuario ha escrito algo en el buscador cuando
+se accede a esa página (ya que tenemos que diferenciar si el usuario quiere
+buscar algo o simplemente quiere ver todas sus tareas).
+~~~~
+@GetMapping("/usuarios/{id}/tareas")
+    public String listadoTareas(@PathVariable(value="id") Long idUsuario, @RequestParam(required = false) String buscador, Model model, HttpSession session, RedirectAttributes flash) {
+
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        if (usuario == null) {
+            throw new UsuarioNotFoundException();
+        }
+        List<Tarea> tareas = null;
+        if(buscador != null) {
+
+            tareas = tareaService.buscarTarea(buscador, idUsuario);
+
+            if (tareas.size() == 0) {
+                flash.addFlashAttribute("mensaje", "No se han encontrado resultados");
+                return "redirect:/usuarios/" + idUsuario + "/tareas";
+            }
+        }
+        else{
+            tareas = tareaService.allTareasUsuario(idUsuario);
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("tareas", tareas);
+        return "listaTareas";
+    }
+~~~~
+Por último en listaTareas.html hemos añadido un script en el que procesa lo
+que el usuario registrado ha escrito y además el nombre que le queremos
+pasar al controller
+~~~~
+function buscarTarea(idUsuario) {
+        var buscador = $("#buscar").get(0).value;
+        var a = document.getElementById("busqueda");
+        var url = "/usuarios/" + idUsuario + "/tareas";
+        if(buscador !== ""){
+            url = url + "?buscador=" + encodeURIComponent(buscador);
+        }
+        a.setAttribute('href', url);
+    }
+~~~~
+
+## 5. Poder añadir tareas al equipo.
+![img_54.png](img_54.png)
+
+Respecto a la versión anterior, esta nueva funcionalidad es algo
+diferente, ya que nos permite añadir tareas a un equipo al cual pertenezcamos.
+También podremos visualizar las tareas del equipo actualmente. Anteriormente, el
+usuario visualizaba las tareas individuales en su apartado de tareas, estas nuevas
+tareas de equipo aparecerán en otro apartado ligado al equipo, en ningún caso se
+mezclan las tareas individuales de un usuario con las tareas de los equipos a los que
+pertenece.
+
+Técnicamente empezaremos explicando que hemos incluido en la clase
+Equipo.java y Tarea.java un Set de tareas y de equipos respectivamente.
+Son relaciones de tipo EAGER uno a muchos, ya que un equipo puede tener
+muchas tareas pero una tarea solo puede pertenecer a un equipo.
+
+~~~~
+//Tareas de Equipo
+    @OneToMany(mappedBy = "equipo", fetch = FetchType.EAGER)
+    Set<Tarea> tareas = new HashSet<>();
+~~~~
+
+~~~~
+@ManyToOne
+    @JoinColumn(name = "equipo_id")
+    private Equipo equipo = null;
+~~~~
+
+Para diferenciar entre las tareas de usuarios, implementamos un constructor
+nuevo que incluye el Equipo, el cual llamaremos cuando queramos crear una
+tarea de equipo.
+~~~~
+ //constructor para tareas de equipo
+    public Tarea(Equipo equipo, String titulo, Usuario usuario, String descripcion) {
+        this.equipo = equipo;
+        this.usuario = usuario;
+        this.titulo = titulo;
+        this.estado = "To Do";
+        this.descripcion = descripcion;
+        if(equipo != null){
+            equipo.getTareas().add(this);
+        }
+        usuario.getTareas().add(this);
+    }
+~~~~
+
+Siempre que pertenezcamos al equipo tendremos un botón para añadir una
+nueva tarea, que nos llevará a un formulario para rellenar los datos de dicha
+tarea.
 
 
 
