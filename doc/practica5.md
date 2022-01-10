@@ -35,6 +35,54 @@ El pull request siempre debía ser aceptado por, como mínimo, uno de los demás
 
 Cuando la rama había sido mergeada, la tarjeta de trello se movía a "En prueba", además se copiaba en enlace de merge a develop en dicha tarjeta, y otro miembro del grupo distinto al desarrollador de la funcionalidad se encargaría de comprobar el funcionamiento de esta haciendo PULL de la rama develop y probando la funcionalidad desarrollada. En caso de encontrar algún fallo se debía crear de nuevo un ISSUE con su respectiva rama para arreglar los errores. Cuando la funcionalidad estaba terminada y completamente funcional, la tarjeta de trello se pasaba a "Terminadas".
 
+##Progresión Semanal (Trello y Github Proyect)
+
+En la primera semana se seleccionaron las funcionalidades como hemos mencionado anteriormente, el tablero de Github estaba vacio, por lo que no se realizó captura:
+
+![img_28.png](img_28.png)
+
+En la segunda semana tuvimos un problema con las imágenes que fueron sobreescritas por unas capturas realizadas el mismo día, pero se puede ver la actividad gracias al historial de github:
+
+![img_61.png](img_61.png) ![img_62.png](img_62.png) ![img_63.png](img_63.png)![img_64.png](img_64.png)
+
+En la tercera semana, el avance fue el siguiente (en algún momento, seguramente con un "miss clic", alguno de nosotros movió la columna "en marcha" delante de "en prueba", nos hemos dado cuenta al hacer la documentación):
+
+![img_65.png](img_65.png) ![img_66.png](img_66.png) (07/12/21)
+
+En la cuarta semana (13/12/21):
+
+![img_67.png](img_67.png)![img_68.png](img_68.png)
+
+Y por último, en la semana final, los tableros estaban completos:
+
+![img_69.png](img_69.png)![img_70.png](img_70.png)
+
+###Métrica sobre el desarrollo
+
+Tomaremos como métrica el número de pull request semanales:
+
+- En la primera semana se realizaron 2 PR: 
+  
+![img_71.png](img_71.png) ![img_72.png](img_72.png)
+
+- En la segunda semana, se realizaron 3 PR:
+
+![img_73.png](img_73.png) ![img_74.png](img_74.png) ![img_75.png](img_75.png)
+
+- En la semana número 3, sólo se realizó un PR, durante esa semana se realizaron las dos funcionalidades más duras, que duraron 2 semanas:
+
+![img_76.png](img_76.png)
+
+- En la última semana (y los días extra hasta la presentación) se realizaron PR:
+
+![img_77.png](img_77.png) ![img_78.png](img_78.png) ![img_79.png](img_79.png) ![img_80.png](img_80.png)
+
+Gráfica:
+
+![img_81.png](img_81.png)
+
+##PAIR PROGRAMMING
+
 Cabe mencionar, que algunas funcionalidades fueron realizadas mediante "Pair Programming". Se realizaron 3 sesiones, que como mínimo debían ser de unos 20 minutos pero se alargaron hasta las 2 horas.
 
 Las funcionalidades realizadas con pair programming fueron:
@@ -1245,7 +1293,7 @@ En este deste s ecomprueba que se ha añadido
 
 ~~~~
 
-## 11. igración de la base de datos
+## 11. Migración de la base de datos
 
 Para la migración de la base da datos se ha creado el siguiente script con los nuevos atributos faltantes
 de la base de datos , en la carpeta sql. El script se ejecutó correctamente en el servidor docker  menos la última linea. Lo cual
@@ -1266,3 +1314,9 @@ add column  prioridad character varying(64)
 
 alter table tareas alter column usuario_id drop not null;
 ~~~~
+
+#Retrospectiva
+
+Como grupo, todos estamos de acuerdo en que el trabajo en equipo ha sido un experiencia muy positiva. Todos hemos aprendido los unos de los otros y no hemos tenido problemas a la hora de repartirnos el trabajo o de ayudar a un compañero en caso de que lo necesitase. 
+
+Respecto a la práctica, nos ha servido para acercarnos un poco a un proyecto profesional, siguiendo metodologías que hasta ahora desconocíamos pero que seguro nos servirán en un futuro.
