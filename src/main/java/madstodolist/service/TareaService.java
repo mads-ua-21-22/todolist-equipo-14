@@ -29,13 +29,16 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea) {
+    public Tarea nuevaTareaUsuario(Long idUsuario, String tituloTarea, String descripcion, String estado,String prioridad) {
         logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
             throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
         }
         Tarea tarea = new Tarea(usuario, tituloTarea);
+        tarea.setDescripcion(descripcion);
+        tarea.setEstado(estado);
+        tarea.setPrioridad(prioridad);
         tareaRepository.save(tarea);
         return tarea;
     }
@@ -59,13 +62,19 @@ public class TareaService {
     }
 
     @Transactional
-    public Tarea modificaTarea(Long idTarea, String nuevoTitulo) {
+    public Tarea modificaTarea(Long idTarea, String nuevoTitulo, String descripcion, String estado,String prioridad, Usuario usuario) {
         logger.debug("Modificando tarea " + idTarea + " - " + nuevoTitulo);
         Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
         if (tarea == null) {
             throw new TareaServiceException("No existe tarea con id " + idTarea);
         }
         tarea.setTitulo(nuevoTitulo);
+        tarea.setDescripcion(descripcion);
+        tarea.setEstado(estado);
+        tarea.setPrioridad(prioridad);
+        if(tarea.getEquipo()!=null){
+            tarea.setUsuario(usuario);
+        }
         tareaRepository.save(tarea);
         return tarea;
     }
@@ -78,5 +87,14 @@ public class TareaService {
             throw new TareaServiceException("No existe tarea con id " + idTarea);
         }
         tareaRepository.delete(tarea);
+    }
+    @Transactional(readOnly = true)
+    public List<Tarea> buscarTarea(String nt, Long idUsuario) {
+        Usuario u = usuarioRepository.findById(idUsuario).orElse(null);
+        if (u == null) {
+            throw new UsuarioServiceException("No existe usuario con id " + idUsuario);
+        }
+        List<Tarea> tareas = tareaRepository.buscar(nt, u);
+        return tareas;
     }
 }

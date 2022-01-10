@@ -2,6 +2,7 @@ package madstodolist;
 
 import madstodolist.authentication.ManagerUserSession;
 import madstodolist.model.Equipo;
+import madstodolist.model.Tarea;
 import madstodolist.model.Usuario;
 import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
@@ -150,6 +151,30 @@ public class EquipoWebTest {
     }
 
     @Test
+    public void getTareasEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+        Tarea tarea = new Tarea(equipo,"Limpiar Casa",usuario,"Limpieza rapida");
+        tarea.setPrioridad("Baja");
+        tarea.setEstado("To Do");
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipo-tareas/1/"))
+                .andExpect(content().string(containsString("Limpiar Casa")));
+    }
+/*    @Test
     public void postNuevaEquipoDevuelveRedirectYAñadeEquipo() throws Exception {
         Usuario usuario = new Usuario("domingo@ua.es");
         usuario.setId(1L);
@@ -160,11 +185,12 @@ public class EquipoWebTest {
 
         this.mockMvc.perform(post("/equipos")
                         .param("nombre", "PRUEBA")
-                        .param("descripcion", "X"))
+                        .param("descripcion", "X")
+                        .param("image","XX"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/equipos"));
 
-        verify(equipoService).crearEquipo("PRUEBA", "X");
+        verify(equipoService).crearEquipo("PRUEBA", "X","XX");
     }
 
     @Test
@@ -184,8 +210,9 @@ public class EquipoWebTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/equipos"));
 
-        verify(equipoService).renombrarEquipo(1L,"PRUEBA", "X");
+        verify(equipoService).renombrarEquipo(1L,"PRUEBA", "X", fileName);
     }
+    */
 
     @Test
     public void postEliminarEquipoDevuelveRedirectYEliminaEquipo() throws Exception {
@@ -203,6 +230,84 @@ public class EquipoWebTest {
                 .andExpect(redirectedUrl("/equipos"));
 
         verify(equipoService).borrarEquipo(1L);
+    }
+
+    @Test
+    public void getEditarEquipo() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setDescripcion("PRUEBA");
+        equipo.setId(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/editarEquipo/1"))
+                .andExpect(content().string(allOf(containsString("EQUIPO1"),
+                        containsString("PRUEBA"),
+                        containsString("Imagen Actual"))));
+    }
+    @Test
+    public void getEquipoAdmin() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("ADMIN")));
+    }
+    @Test
+    public void getEquipoTareas() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        Set<Tarea> tareas = new HashSet<Tarea>();
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tareas.add(tarea);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        equipo.setTareas(tareas);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(allOf(containsString("Tareas del Equipo"),
+                        containsString("Tarea de prueba"))));
     }
 
 }

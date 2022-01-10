@@ -20,7 +20,7 @@
 
     <div class="row justify-content-center">
         <div class="col-6">
-            <form method="post" th:action="@{/registro}" th:object="${registroData}">
+            <form method="post" enctype="multipart/form-data" th:action="@{/registro}" th:object="${registroData}">
                 <div class="row justify-content-center">
                     <div class="col-6">
                         <div class="form-group">
@@ -43,6 +43,17 @@
                             <label for="fechaNacimiento">Fecha de nacimiento</label>
                             <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
                                    placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagen">Imagen de perfil</label>
+                            <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" />
+                        </div>
+
+                        <div >
+                            <p>
+                                <img width="70px" height="90px" id="thumbnail" alt="Img Preview" src="./user-images/img.png">
+                            </p>
                         </div>
 
                         <div th:if="${adminApproved == 0}" class="form-check">
@@ -76,6 +87,25 @@
 </div>
 
 <div th:replace="fragments::javascript"/>
+
+<script>
+    $(document).ready(function () {
+     $('#imagen').change(function() {
+         showImageThumbnail(this)
+     });
+    });
+
+    function showImageThumbnail(imagen) {
+        file = imagen.files[0];
+        reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#thumbnail').attr('src', e.target.result)
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
 
 </body>
 </html>

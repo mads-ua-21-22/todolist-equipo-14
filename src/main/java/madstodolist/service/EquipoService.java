@@ -12,11 +12,13 @@ public class EquipoService {
 
     private EquipoRepository equipoRepository;
     private UsuarioRepository usuarioRepository;
+    private TareaRepository tareaRepository;
 
     @Autowired
-    public EquipoService(UsuarioRepository usuarioRepository, EquipoRepository equipoRepository) {
+    public EquipoService(UsuarioRepository usuarioRepository, EquipoRepository equipoRepository, TareaRepository tareaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.equipoRepository = equipoRepository;
+        this.tareaRepository = tareaRepository;
     }
 
     @Transactional(readOnly = true)
@@ -68,18 +70,21 @@ public class EquipoService {
     }
 
     @Transactional
-    public Equipo crearEquipo(String nombre, String descripcion) {
+    public Equipo crearEquipo(String nombre, String descripcion, String filename, Long idUsuarioAdmin) {
         Equipo equipo = new Equipo(nombre);
         equipo.setDescripcion(descripcion);
+        equipo.setImage(filename);
+        equipo.setIdAdmin(idUsuarioAdmin);
         equipoRepository.save(equipo);
         return equipo;
     }
 
     @Transactional
-    public Equipo renombrarEquipo(Long id, String nombre, String descripcion) {
+    public Equipo renombrarEquipo(Long id, String nombre, String descripcion, String fileName) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);
         equipo.setNombre(nombre);
         equipo.setDescripcion(descripcion);
+        equipo.setImage(fileName);
         equipoRepository.save(equipo);
         return equipo;
     }
@@ -88,6 +93,44 @@ public class EquipoService {
     public void borrarEquipo(Long id) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);
         equipoRepository.delete(equipo);
+    }
+    @Transactional
+
+    public Tarea nuevaTareaEquipo(Long idEquipo, String tituloTarea, Long idUsuario, String descripcion, Usuario UsuarioAsignado,String estado, String  prioridad){
+
+        Equipo equipo = equipoRepository.findById(idEquipo).orElse(null);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+
+        if(equipo == null){
+            throw new EquipoServiceException("Equipo" + idEquipo + " no existe al crear tarea " + tituloTarea);
+        }
+        if (usuario == null) {
+            throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
+        }
+        Tarea tarea = new Tarea(equipo, tituloTarea, usuario, descripcion);
+
+        tarea.setUsuario(UsuarioAsignado);
+
+        tarea.setEstado(estado);
+        tarea.setPrioridad(prioridad);
+
+
+        tareaRepository.save(tarea);
+        return tarea;
+    }
+    @Transactional
+    public void hacerAdminEquipo(Long idEquipo, Long idUsuario){
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        Equipo equipo = equipoRepository.findById(idEquipo).orElse(null);
+
+        if(usuario == null) {
+            throw new EquipoServiceException("Usuario " + idUsuario + " no existe");
+        }
+
+        if(equipo == null){
+            throw new EquipoServiceException("No existe el equipo con id " + idEquipo);
+        }
+        equipo.setIdAdmin(idUsuario);
     }
 
 }

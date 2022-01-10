@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')">
+    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
+</head>
+
+<style type="text/css">
+    #administrador{
+        display: none;
+    }
+</style>
+
+<body>
+<div class="container-fluid">
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            <h2>Editar Perfil</h2>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form method="post" enctype="multipart/form-data" th:action="@{/perfil}" th:object="${registroData}">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input id="nombre" class="form-control" name="nombre" placeholder="Nombre" type="text"
+                                   th:field="*{nombre}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Email</label>
+                            <input id="email" class="form-control" name="email" placeholder="Email" type="text"
+                                   th:field="*{eMail}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input id="password" class="form-control" name="password" placeholder="Contraseña"
+                                   type="password" th:field="*{password}" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha de nacimiento</label>
+                            <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
+                                   placeholder="01-12-2019" th:field="*{fechaNacimiento}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagen">Imagen de perfil</label>
+                            <input id="imagen" type="file" name="imagen" class="form-label" accept="image/png, image/jpeg" />
+                        </div>
+
+                        <label>Imagen Actual:</label>
+                        <div>
+                            <p>
+                                <img width="70px" height="90px" id="thumbnail" alt="Img Preview" th:src="@{${'/user-images/' + usuario.getImage()}}">
+                            </p>
+                        </div>
+
+                        <br>
+
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <a class="btn btn-link" href="/perfil">Ir a Perfil</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <div class="col-9">
+            <div th:object="${registroData}">
+                <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <ul th:if="${error != null}" class="alert alert-danger">
+                <li th:text="${error}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+<script>
+    $(document).ready(function () {
+        $('#imagen').change(function() {
+            showImageThumbnail(this)
+        });
+    });
+
+    function showImageThumbnail(imagen) {
+        file = imagen.files[0];
+        reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#thumbnail').attr('src', e.target.result)
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>

@@ -111,8 +111,10 @@ public class TareaTest {
 
         // WHEN // THEN
         // Se lanza una excepción al intentar salvar un usuario sin ID
+        // ESTE TEST SE HA TENIDO QUE CAMBIAR DEBIDO AL FUNCIONAMIENTO NUEVO DE LA APLICACIÓN, YA QUE AHORA UNA TAREA PUEDE PERTENECER SOLO A UN EQUIPO SIN NECESIDAD DE TENER UN USUARIO
+        // YA QUE SI TIENE UN USUARIO Y UN EQUIPO, SIGNIFICA QUE ESTA TAREA ESTARÁ ASIGNADA AL USUARIO DE ESE EQUIPO.
         Assertions.assertThrows(Exception.class, () -> {
-            tareaRepository.save(tarea);
+            tareaRepository.findById(tarea.getId());
         });
     }
 

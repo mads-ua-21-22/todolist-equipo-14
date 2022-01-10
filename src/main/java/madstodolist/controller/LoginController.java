@@ -7,13 +7,19 @@ import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
 
 @Controller
 public class LoginController {
@@ -73,7 +79,8 @@ public class LoginController {
     }
 
    @PostMapping("/registro")
-   public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
+   public String registroSubmit(@Valid RegistroData registroData, BindingResult result,
+                                Model model, @RequestParam("imagen") MultipartFile multipartFile) throws IOException {
 
         if (result.hasErrors()) {
             return "formRegistro";
@@ -85,13 +92,37 @@ public class LoginController {
             return "formRegistro";
         }
 
+
         Usuario usuario = new Usuario(registroData.geteMail());
+
         usuario.setPassword(registroData.getPassword());
         usuario.setFechaNacimiento(registroData.getFechaNacimiento());
         usuario.setNombre(registroData.getNombre());
         usuario.setAdminApproved(registroData.getAdminApproved());
 
-        usuarioService.registrar(usuario);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+        String uploadDir = "./user-images";
+        Path uploadPath = Paths.get(uploadDir);
+
+        if(!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        if(!fileName.equals("")) {
+            usuario.setImage(fileName);
+            usuarioService.registrar(usuario);
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new IOException("Could not save the uploaded file: " + fileName);
+            }
+        } else {
+            usuario.setImage("img.png");
+            usuarioService.registrar(usuario);
+        }
+
         return "redirect:/login";
    }
 

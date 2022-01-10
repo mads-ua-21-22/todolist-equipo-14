@@ -19,6 +19,7 @@ public class Equipo implements Serializable {
     private Long id;
     @NotNull
     private String nombre;
+    private Long idadmin;
     // Declaramos el tipo de recuperación como LAZY.
     // No haría falta porque es el tipo por defecto en una
     // relación a muchos.
@@ -29,12 +30,24 @@ public class Equipo implements Serializable {
     // atributo.
     private String descripcion;
 
+    @Column(nullable = true, length = 64)
+    private String image;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "equipo_usuario",
             joinColumns = { @JoinColumn(name = "fk_equipo") },
             inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
     Set<Usuario> usuarios = new HashSet<>();
 
+    //Tareas de Equipo
+    @OneToMany(mappedBy = "equipo", fetch = FetchType.EAGER)
+    Set<Tarea> tareas = new HashSet<>();
+    public Set<Tarea> getTareas() {
+        return tareas;
+    }
+    public void setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+    }
     private Equipo() {}
 
     public Equipo(String nombre) {
@@ -53,7 +66,23 @@ public class Equipo implements Serializable {
 
     public void setNombre(String nombre) { this.nombre = nombre; }
 
+    public Long getIdAdmin(){
+        return idadmin;
+    }
+
+    public void setIdAdmin(Long idAdmin){
+        this.idadmin = idAdmin;
+    }
+
     public Set<Usuario> getUsuarios() { return usuarios; }
+
+    public Long getIdadmin() {
+        return idadmin;
+    }
+
+    public void setIdadmin(Long idadmin) {
+        this.idadmin = idadmin;
+    }
 
     public void setUsuarios(Set<Usuario> usuarios) { this.usuarios = usuarios; }
 
@@ -64,6 +93,10 @@ public class Equipo implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public String getImage() {return image;}
+
+    public void setImage(String image) {this.image = image;}
 
     @Override
     public boolean equals(Object o) {

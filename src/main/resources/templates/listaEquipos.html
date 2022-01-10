@@ -14,16 +14,19 @@
         <thead>
         <tr>
           <th>Id</th>
+          <th>Imagen</th>
           <th>Nombre</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="equipo: ${equipos}">
           <td th:text="${equipo.id}"></td>
+          <td><img th:src="@{${'/user-images/team-images/' + equipo.getImage()}}" width="30" height="40" style="border-radius: 20px;" ></td>
           <td th:text="${equipo.nombre}"></td>
           <td><a class="btn btn-primary btn-xs" th:href="@{/equipos/{id}(id=${equipo.id})}"/>Ver Equipo</a></td>
-          <td th:if="${usuario.getAdminApproved()}"><a class="btn btn-primary" th:href="@{/editarEquipo/{id}(id=${equipo.id})}" >Modificar Equipo</a></td>
-          <form method="post" th:action="@{/deleteequipos/{id}(id=${equipo.id})}" th:if="${usuario.getAdminApproved()}">
+          <td th:if="${usuario.getEquipos().contains(equipo)}"><a  class="btn btn-primary btn-xs" th:href="@{/equipo-tareas/{id}(id=${equipo.id})}">Tablero de Tareas</a> </td>
+          <td th:if="${usuario.getAdminApproved() || equipo.getIdAdmin() == usuario.getId()}"><a class="btn btn-primary" th:href="@{/editarEquipo/{id}(id=${equipo.id})}" >Modificar Equipo</a></td>
+          <form method="post" th:action="@{/deleteequipos/{id}(id=${equipo.id})}" th:if="${usuario.getAdminApproved() || equipo.getIdAdmin() == usuario.getId()}">
             <td>
               <button class="btn btn-danger btn-xs" th:text="Eliminar" type="submit"/></a>
             </td>

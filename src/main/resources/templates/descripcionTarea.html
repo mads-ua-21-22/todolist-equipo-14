@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')">
+    <nav th:replace="fragments :: Menu (${usuario.nombre}, @{/usuarios/{id}/tareas(id=${usuario.id})}, ${usuario.getAdminApproved()})"></nav>
+</head>
+
+<body>
+<br>
+<div align="center" th:marginheight="5px" >
+    <div class="card border-primary mb-3" style="max-width: 95%;">
+        <div class="card-body text-primary">
+            <h4 style="color: black">DESCRIPCION DE LA TAREA</h4>
+            <h5 class="card-title" th:text="${tarea.titulo}"></h5>
+            <br>
+            <h6 class="card-subtitle mb-2" style="color: black">Descripción: </h6>
+            <p th:text="${tarea.descripcion}"></p>
+            <h6 th:if="${tarea.getEquipo()!=null}" class="card-subtitle mb-2" style="color: black">Equipo asignado: </h6>
+            <p th:if="${tarea.getEquipo()!=null}"  th:text="${tarea.getEquipo().getNombre()}"></p>
+            <h6 th:if="${tarea.getEquipo()!=null && tarea.getUsuario()!= null && tarea.getUsuario().getId()==usuario.getId()}" class="card-subtitle mb-2">Tienes que realizar esta tarea </h6>
+            <h6 th:if="${tarea.getEquipo()!=null && tarea.getUsuario()!= null && tarea.getUsuario().getId()!=usuario.getId()}" class="card-subtitle mb-2">Esta tarea está asignada al usuario</h6>
+            <p th:if="${tarea.getEquipo()!=null && tarea.getUsuario()!= null  && tarea.getUsuario().getId()!=usuario.getId()}"  th:text="${tarea.getUsuario().getNombre()}"></p>
+            <h6 th:if="${tarea.getEquipo()!=null && tarea.getUsuario() == null}" class="card-subtitle mb-2">Esta tarea debe realizarla cualquier miembro del equipo</h6>
+
+
+        </div>
+    </div>
+</div>
+<div th:replace="fragments::javascript"/>
+</body>
+</html>
