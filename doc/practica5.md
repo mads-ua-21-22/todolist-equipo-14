@@ -606,6 +606,151 @@ Siempre que pertenezcamos al equipo tendremos un botón para añadir una
 nueva tarea, que nos llevará a un formulario para rellenar los datos de dicha
 tarea.
 
+~~~~
+@PostMapping("/equipos/{id}/tareas/nueva/{idUsuario}")
+    public String nuevaTareaEquipo(@PathVariable(value="id") Long idEquipo, @PathVariable(value="idUsuario") Long idUsuario,
+                                   @ModelAttribute TareaData tareaData, Model model,
+                                   RedirectAttributes flash, HttpSession session) {
+        managerUserSession.comprobarUsuarioLogeado(session, idUsuario);
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        Equipo equipo = equipoService.findById(idEquipo);
+        String nombretarea = tareaData.getTitulo();
+        Usuario usuarioAsignado = null;
+        if (tareaData.getUsuario() != null) {
+            usuarioAsignado = usuarioService.findById(tareaData.getUsuario());
+
+        }
+
+        String descripcionTarea = tareaData.getDescripcion();
 
 
 
+        equipoService.nuevaTareaEquipo(idEquipo, nombretarea, idUsuario, descripcionTarea, usuarioAsignado, tareaData.getEstado(),tareaData.getPrioridad());
+
+        flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
+        model.addAttribute("equipo", equipo);
+        model.addAttribute("usuarioLogeado", session.getAttribute("usuarioLogeado"));
+        model.addAttribute("idUsuarioLogeado", session.getAttribute("idUsuarioLogeado"));
+        return "redirect:/equipo-tareas/" + idEquipo;
+        
+ ~~~~
+ 
+
+### Test realizados para comprobar la funcionalidad
+Algunos de los test que hemos realizado para comprobar la funcionalidad
+
+~~~~
+@Test
+    public void getEquipoTareas() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        Tarea tarea = new Tarea(new Usuario("domingo@ua.es"), "Tarea de prueba");
+        Set<Tarea> tareas = new HashSet<Tarea>();
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+        tarea.setId(1L);
+        tarea.getUsuario().setId(1L);
+        tarea.setDescripcion("Descripción de prueba");
+        tareas.add(tarea);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        equipo.setTareas(tareas);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(allOf(containsString("Tareas del Equipo"),
+                        containsString("Tarea de prueba"))));
+    }
+~~~~
+## 6. Definir creador/administrador del equipo, con privilegios distintos de los demás.
+![img_56.png](img_56.png)
+Esta funcionalidad es muy útil para controlar el equipo,
+tanto para elegir el administrador como para asignar tareas. Debemos tener en
+cuenta que si somos administradores no podremos salirnos del equipo, pero
+tenemos la opción de hacer administrador a cualquier miembro que queramos. La
+responsabilidad para asignar tareas recae en esta figura.
+
+○ Para añadir esta funcionalidad, en primer lugar añadimos el atributo
+administrador en la clase Equipo.java , el cual es de tipo Long, que
+corresponde al id del usuario que es administrador. En un principio, el usuario que crea el equipo es el administrador.
+~~~~
+    @Transactional
+    public Equipo crearEquipo(String nombre, String descripcion, String filename, Long idUsuarioAdmin) {
+        Equipo equipo = new Equipo(nombre);
+        equipo.setDescripcion(descripcion);
+        equipo.setImage(filename);
+        equipo.setIdAdmin(idUsuarioAdmin);
+        equipoRepository.save(equipo);
+        return equipo;
+    }
+ ~~~~
+ 
+ Para la funcionalidad de cambiar el administrador, es necesario crear un
+nuevo método en EquipoService.java que se ocupe de cambiar el
+administrador, simplemente llamando al setIdAdmin().
+
+~~~~
+  @Transactional
+    public void hacerAdminEquipo(Long idEquipo, Long idUsuario){
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        Equipo equipo = equipoRepository.findById(idEquipo).orElse(null);
+
+        if(usuario == null) {
+            throw new EquipoServiceException("Usuario " + idUsuario + " no existe");
+        }
+
+        if(equipo == null){
+            throw new EquipoServiceException("No existe el equipo con id " + idEquipo);
+        }
+        equipo.setIdAdmin(idUsuario);
+    }
+~~~~
+Para la asignación de tareas, hemos implementado un método asignarTarea
+en la clase TareaService.java que simplemente llama al setUsuario( ) de
+tarea si se cumplen las condiciones previas, es decir, que existan tanto dicho
+usuario, equipo y tarea. ¿Si le hemos asignado una tarea a un usuario, esta
+no saldrá en su agenda de tareas individuales? Así es, pero para solucionarlo
+indicamos la condición de que si el equipo de dicha tarea es igual a NULL
+muestre dicha tarea, en caso de ser distinto, no lo mostrará, solucionando así
+el problema.
+
+Para asignar a alguien una tarea, el administrador del equipo la podrá activar tanto cuando crea una tarea, como cuando la quiere editar. Tan solo tiene que seleccionar el ususario a quien asignarle la tarea del listado de todos los usuarios del equipo.
+
+### Test realizados para comprobar la funcionalidad
+Algunos de los test que hemos realizado para comprobar la funcionalidad
+
+~~~~
+    @Test
+    public void getEquipoAdmin() throws Exception {
+        Usuario usuario = new Usuario("domingo@ua.es");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        Set<Usuario> usuarios = new HashSet<Usuario>();
+        usuarios.add(usuario);
+
+        Equipo equipo = new Equipo("EQUIPO1");
+        equipo.setId(1L);
+        equipo.setIdadmin(1L);
+        equipo.setUsuarios(usuarios);
+        Set <Equipo> equipos = new HashSet<Equipo>();
+        equipos.add(equipo);
+        usuario.setEquipos(equipos);
+
+        when(usuarioService.findById(0L)).thenReturn(usuario);
+        when(equipoService.findById(1L)).thenReturn(equipo);
+
+        this.mockMvc.perform(get("/equipos/1/"))
+                .andExpect(content().string(containsString("ADMIN")));
+    }
+~~~~
